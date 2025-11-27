@@ -29,7 +29,7 @@ export const projects: Project[] = [
     featured: true,
     image: '/projects/gyst.svg',
     links: {
-      github: 'https://github.com/afonsocaboz/gyst'
+      github: 'https://github.com/CodeZobac/Gyst'
     }
   },
   {
@@ -60,8 +60,8 @@ export const projects: Project[] = [
     featured: true,
     image: '/projects/bottleneck-ninja.svg',
     links: {
-      github: 'https://github.com/afonsocaboz/bottleneck-ninja',
-      demo: 'https://bottleneck-ninja.vercel.app'
+      github: 'https://github.com/CodeZobac/Bottleneck-Ninja',
+      demo: 'https://www.youtube.com/watch?v=6EOx2NbDzYA'
     }
   },
   {
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     featured: true,
     image: '/projects/etic-hub.svg',
     links: {
-      live: 'https://etic-hub.vercel.app'
+      demo: 'https://www.youtube.com/watch?v=Qhf_GBtLPK0'
     }
   },
   {
@@ -122,7 +122,8 @@ export const projects: Project[] = [
     featured: true,
     image: '/projects/cybercompass.svg',
     links: {
-      github: 'https://github.com/afonsocaboz/cybercompass'
+      github: 'https://github.com/CodeZobac/CyberCompass',
+      demo: 'https://www.youtube.com/watch?v=gWwg4kaK80A'
     }
   },
   {
@@ -152,7 +153,7 @@ export const projects: Project[] = [
     featured: true,
     image: '/projects/goalkeeper-finder.svg',
     links: {
-      github: 'https://github.com/afonsocaboz/goalkeeper-finder'
+      github: 'https://github.com/CodeZobac/Scuzzy-goalkeeper'
     }
   },
   {
@@ -181,7 +182,7 @@ export const projects: Project[] = [
     featured: true,
     image: '/projects/global-search-launcher.svg',
     links: {
-      github: 'https://github.com/afonsocaboz/global-search-launcher'
+      github: 'https://github.com/CodeZobac/better.finder'
     }
   },
   {
@@ -244,7 +245,7 @@ export const projects: Project[] = [
     featured: false,
     image: '/projects/restaurant-manager.svg',
     links: {
-      github: 'https://github.com/afonsocaboz/restaurant-manager'
+      github: 'https://github.com/CodeZobac/RestaurantManager'
     }
   }
 ];
