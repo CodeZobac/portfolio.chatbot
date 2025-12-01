@@ -28,7 +28,7 @@ const PromptInput = React.forwardRef<HTMLFormElement, PromptInputProps>(
                 ref={ref}
                 onSubmit={handleSubmit}
                 className={cn(
-                    "relative flex flex-col gap-2 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900",
+                    "relative flex flex-col gap-2 rounded-lg border border-zinc-800 bg-zinc-900 p-4 shadow-sm",
                     className
                 )}
                 {...props}
@@ -50,7 +50,7 @@ const PromptInputTextarea = React.forwardRef<
             name="text"
             rows={1}
             className={cn(
-                "w-full resize-none bg-transparent text-sm outline-none placeholder:text-zinc-500 dark:placeholder:text-zinc-400",
+                "w-full resize-none bg-transparent text-sm outline-none placeholder:text-zinc-400",
                 className
             )}
             {...props}
@@ -103,8 +103,8 @@ const PromptInputButton = React.forwardRef<
             className={cn(
                 "inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 disabled:pointer-events-none disabled:opacity-50",
                 variant === "outline"
-                    ? "border border-zinc-200 bg-transparent hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
-                    : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200",
+                    ? "border border-zinc-800 bg-transparent hover:bg-zinc-800"
+                    : "bg-zinc-100 text-zinc-900 hover:bg-zinc-200",
                 className
             )}
             {...props}
@@ -127,7 +127,7 @@ const PromptInputSubmit = React.forwardRef<
             ref={ref}
             type="submit"
             className={cn(
-                "inline-flex h-8 w-8 items-center justify-center rounded-md bg-zinc-900 text-sm font-medium text-white transition-colors hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200",
+                "inline-flex h-8 w-8 items-center justify-center rounded-md bg-zinc-100 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 disabled:pointer-events-none disabled:opacity-50",
                 className
             )}
             {...props}
@@ -146,7 +146,7 @@ const PromptInputSelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
-            "flex h-8 items-center justify-between gap-2 rounded-md border border-zinc-200 bg-transparent px-3 py-2 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-400 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:placeholder:text-zinc-400",
+            "flex h-8 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-transparent px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400 disabled:cursor-not-allowed disabled:opacity-50",
             className
         )}
         {...props}
@@ -167,7 +167,7 @@ const PromptInputSelectContent = React.forwardRef<
         <SelectPrimitive.Content
             ref={ref}
             className={cn(
-                "relative z-50 min-w-[8rem] overflow-hidden rounded-md border border-zinc-200 bg-white text-zinc-950 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50",
+                "relative z-50 min-w-[8rem] overflow-hidden rounded-md border border-zinc-800 bg-zinc-900 text-zinc-50 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
                 position === "popper" &&
                 "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
                 className
@@ -196,7 +196,7 @@ const PromptInputSelectItem = React.forwardRef<
     <SelectPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-zinc-100 focus:text-zinc-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-zinc-800 dark:focus:text-zinc-50",
+            "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-zinc-800 focus:text-zinc-50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
             className
         )}
         {...props}

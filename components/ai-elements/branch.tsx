@@ -117,7 +117,7 @@ const BranchNext = React.forwardRef<
             onClick={() => setBranch(Math.min(count - 1, branch + 1))}
             disabled={branch === count - 1}
             className={cn(
-                "p-1 hover:text-zinc-900 disabled:opacity-50 dark:hover:text-zinc-100",
+                "p-1 hover:text-zinc-100 disabled:opacity-50",
                 className
             )}
             {...props}

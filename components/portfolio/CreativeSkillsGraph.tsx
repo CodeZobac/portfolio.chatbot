@@ -161,15 +161,15 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="pointer-events-none absolute z-10 rounded-lg bg-white/90 px-3 py-2 shadow-xl backdrop-blur-md dark:bg-zinc-900/90"
+                    className="pointer-events-none absolute z-10 rounded-lg bg-zinc-900/90 px-3 py-2 shadow-xl backdrop-blur-md"
                     style={{
                         left: hoveredNode.x,
                         top: hoveredNode.y - 40,
                         transform: 'translate(-50%, -100%)'
                     }}
                 >
-                    <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">{hoveredNode.name}</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">{hoveredNode.proficiency}% Proficiency</p>
+                    <p className="text-sm font-bold text-indigo-400">{hoveredNode.name}</p>
+                    <p className="text-xs text-zinc-400">{hoveredNode.proficiency}% Proficiency</p>
                 </motion.div>
             )}
 
@@ -185,14 +185,14 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="pointer-events-none absolute z-10 rounded-lg bg-white/90 px-2 py-1 shadow-xl backdrop-blur-md dark:bg-zinc-900/90"
+                    className="pointer-events-none absolute z-10 rounded-lg bg-zinc-900/90 px-2 py-1 shadow-xl backdrop-blur-md"
                     style={{
                         left: hoveredNode.x,
                         top: hoveredNode.y + 20, // Below the node
                         transform: 'translate(-50%, 0)'
                     }}
                 >
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">{hoveredNode.proficiency}%</p>
+                    <p className="text-xs text-zinc-400">{hoveredNode.proficiency}%</p>
                 </motion.div>
             )}
 

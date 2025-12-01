@@ -8,11 +8,11 @@ export default function ResumeCard({ data }: ResumeCardProps) {
   const { url } = data;
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-800">
+    <div className="rounded-lg border border-zinc-800 bg-zinc-800 p-6 shadow-sm">
       <div className="flex items-center gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-900">
           <svg
-            className="h-6 w-6 text-blue-600 dark:text-blue-400"
+            className="h-6 w-6 text-blue-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -26,10 +26,10 @@ export default function ResumeCard({ data }: ResumeCardProps) {
           </svg>
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+          <h3 className="text-lg font-semibold text-zinc-50">
             Resume Available
           </h3>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-zinc-400">
             Download my full resume as a PDF
           </p>
         </div>

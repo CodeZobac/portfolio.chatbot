@@ -51,7 +51,7 @@ const MessageResponse = React.forwardRef<
     return (
         <div
             ref={ref}
-            className={cn("prose dark:prose-invert max-w-none", className)}
+            className={cn("prose prose-invert max-w-none", className)}
             {...props}
         >
             {typeof children === "string" ? (

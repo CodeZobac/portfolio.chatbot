@@ -26,7 +26,7 @@ export default function SkillsCard({ data }: SkillsCardProps) {
           Skills
         </h3>
         {category && category !== 'all' && (
-          <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+          <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-400 border border-indigo-500/20">
             {categoryLabels[category]}
           </span>
         )}

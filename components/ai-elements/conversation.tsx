@@ -82,7 +82,7 @@ const ConversationScrollButton = React.forwardRef<
             ref={ref}
             onClick={scrollToBottom}
             className={cn(
-                "absolute bottom-4 right-4 rounded-full bg-zinc-900 p-2 text-white shadow-lg transition-opacity hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200",
+                "absolute bottom-4 right-4 rounded-full bg-zinc-100 p-2 text-zinc-900 shadow-lg transition-opacity hover:bg-zinc-200",
                 className
             )}
             {...props}

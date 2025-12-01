@@ -23,7 +23,7 @@ const Sources = React.forwardRef<
         <SourcesContext.Provider value={{ isOpen, setIsOpen }}>
             <div
                 ref={ref}
-                className={cn("my-2 mb-4 border-l-2 border-zinc-200 pl-4 dark:border-zinc-800", className)}
+                className={cn("my-2 mb-4 border-l-2 border-zinc-800 pl-4", className)}
                 {...props}
             >
                 {children}
@@ -47,12 +47,12 @@ const SourcesTrigger = React.forwardRef<HTMLButtonElement, SourcesTriggerProps>(
                 ref={ref}
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                    "group flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200",
+                    "group flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-zinc-200",
                     className
                 )}
                 {...props}
             >
-                <div className="rounded-md bg-zinc-100 p-1 transition-colors group-hover:bg-zinc-200 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
+                <div className="rounded-md bg-zinc-800 p-1 transition-colors group-hover:bg-zinc-700">
                     <ExternalLink className="h-3.5 w-3.5" />
                 </div>
                 <span className="font-medium">{count} source{count !== 1 ? 's' : ''}</span>
@@ -109,13 +109,13 @@ const Source = React.forwardRef<HTMLAnchorElement, SourceProps>(
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                    "group flex items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 p-3 text-sm transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:bg-zinc-800",
+                    "group flex items-center gap-2 rounded-md border border-zinc-800 bg-zinc-900/50 p-3 text-sm transition-colors hover:bg-zinc-800",
                     className
                 )}
                 {...props}
             >
-                <ExternalLink className="h-4 w-4 flex-shrink-0 text-zinc-500 dark:text-zinc-400" />
-                <span className="flex-1 truncate font-medium text-zinc-900 dark:text-zinc-100">
+                <ExternalLink className="h-4 w-4 flex-shrink-0 text-zinc-400" />
+                <span className="flex-1 truncate font-medium text-zinc-100">
                     {title}
                 </span>
             </a>

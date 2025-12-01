@@ -117,7 +117,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <script
           type="application/ld+json"

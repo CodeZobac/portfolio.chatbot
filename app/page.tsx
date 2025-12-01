@@ -48,13 +48,13 @@ export default function Home() {
             <h1 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-cyan-500">
               Afonso Caboz
             </h1>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-zinc-400">
               Full-Stack Solutions Architect
             </p>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Online</span>
+            <span className="text-xs font-medium text-zinc-400">Online</span>
           </div>
         </div>
       </header>
@@ -85,10 +85,10 @@ export default function Home() {
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center space-y-6 py-8 text-center animate-slideIn">
                 <div className="space-y-2 px-4 max-w-lg">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-white">
                     How can I help you today?
                   </h2>
-                  <p className="text-zinc-600 dark:text-zinc-400">
+                  <p className="text-zinc-400">
                     Explore my professional journey, technical skills, and portfolio projects through this interactive chat.
                   </p>
                 </div>
@@ -101,7 +101,7 @@ export default function Home() {
                     <button
                       key={text}
                       onClick={() => sendMessage({ text })}
-                      className="w-full rounded-xl bg-white/5 p-4 text-left text-sm text-zinc-600 shadow-sm transition-all hover:bg-white/10 hover:text-zinc-900 hover:shadow-md dark:bg-white/5 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-zinc-100 border border-white/5 hover:border-indigo-500/30 group relative overflow-hidden"
+                      className="w-full rounded-xl bg-white/5 p-4 text-left text-sm text-zinc-400 shadow-sm transition-all hover:bg-white/10 hover:text-zinc-100 hover:shadow-md border border-white/5 hover:border-indigo-500/30 group relative overflow-hidden"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 opacity-0 transition-opacity group-hover:opacity-100" />
                       <span className="relative z-10">{text}</span>
@@ -132,7 +132,7 @@ export default function Home() {
                           className={
                             message.role === 'user'
                               ? 'bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-2xl rounded-tr-sm shadow-md border border-indigo-500/20'
-                              : 'bg-zinc-100/80 dark:bg-zinc-800/70 backdrop-blur-md border border-zinc-200/50 dark:border-white/10 text-zinc-800 dark:text-zinc-100 rounded-2xl rounded-tl-sm shadow-sm'
+                              : 'bg-zinc-800/70 backdrop-blur-md border border-white/10 text-zinc-100 rounded-2xl rounded-tl-sm shadow-sm'
                           }
                         >
                           {message.role === 'user' ? (
@@ -159,7 +159,7 @@ export default function Home() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-4 w-4 bg-indigo-500"></span>
                               </div>
-                              <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+                              <span className="text-sm font-medium text-zinc-300">
                                 Generating {part.type.replace('tool-', '')}...
                               </span>
                             </div>
@@ -201,7 +201,7 @@ export default function Home() {
                       if (part.state === 'output-error' && 'errorText' in part) {
                         return (
                           <div key={partIndex} className="flex justify-start">
-                            <div className="rounded-xl border border-red-200 bg-red-50/90 p-4 text-sm text-red-800 backdrop-blur-sm dark:border-red-900/50 dark:bg-red-950/50 dark:text-red-200">
+                            <div className="rounded-xl border border-red-900/50 bg-red-950/50 p-4 text-sm text-red-200 backdrop-blur-sm">
                               <p className="font-medium">Error</p>
                               <p className="mt-1 text-xs opacity-90">{part.errorText}</p>
                             </div>
@@ -245,7 +245,7 @@ export default function Home() {
                 }}
                 className="relative flex items-center"
               >
-                <div className="absolute inset-0 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl shadow-2xl ring-1 ring-black/5 dark:ring-white/10" />
+                <div className="absolute inset-0 rounded-full bg-zinc-900/80 backdrop-blur-xl shadow-2xl ring-1 ring-white/10" />
 
                 <input
                   type="text"
@@ -253,7 +253,7 @@ export default function Home() {
                   onChange={(e) => setInput(e.target.value)}
                   disabled={isLoading}
                   placeholder="Ask me anything..."
-                  className="relative w-full bg-transparent px-6 py-4 text-base text-zinc-900 placeholder-zinc-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-zinc-100 dark:placeholder-zinc-400"
+                  className="relative w-full bg-transparent px-6 py-4 text-base text-zinc-100 placeholder-zinc-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
 
                 <div className="relative pr-2">

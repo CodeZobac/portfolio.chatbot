@@ -55,8 +55,8 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
       </motion.div>
 
       {/* Experience Section */}
-      <motion.div variants={item} className="rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+      <motion.div variants={item} className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg">
+        <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-zinc-50">
           <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
@@ -71,10 +71,10 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
               transition={{ delay: 0.6 + idx * 0.1 }}
               className="border-l-4 border-blue-600 pl-4"
             >
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">{exp.title}</h3>
-              <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{exp.company}</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">{exp.period} • {exp.location}</p>
-              <ul className="mt-2 space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+              <h3 className="text-lg font-semibold text-zinc-50">{exp.title}</h3>
+              <p className="text-sm font-medium text-blue-400">{exp.company}</p>
+              <p className="text-sm text-zinc-400">{exp.period} • {exp.location}</p>
+              <ul className="mt-2 space-y-1 text-sm text-zinc-300">
                 {exp.achievements.slice(0, 3).map((achievement, i) => (
                   <li key={i} className="flex gap-2">
                     <span className="text-blue-600">•</span>
@@ -88,8 +88,8 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
       </motion.div>
 
       {/* Education Section */}
-      <motion.div variants={item} className="rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+      <motion.div variants={item} className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg">
+        <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-zinc-50">
           <svg className="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -102,13 +102,13 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">{education.degree}</h3>
-          <p className="text-sm font-medium text-purple-600 dark:text-purple-400">{education.institution}</p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">{education.graduationYear} • {education.location}</p>
+          <h3 className="text-lg font-semibold text-zinc-50">{education.degree}</h3>
+          <p className="text-sm font-medium text-purple-400">{education.institution}</p>
+          <p className="text-sm text-zinc-400">{education.graduationYear} • {education.location}</p>
           {education.certifications && education.certifications.length > 0 && (
             <div className="mt-3">
-              <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Certifications:</p>
-              <ul className="mt-1 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm font-medium text-zinc-300">Certifications:</p>
+              <ul className="mt-1 space-y-1 text-sm text-zinc-400">
                 {education.certifications.map((cert, i) => (
                   <li key={i} className="flex gap-2">
                     <span className="text-purple-600">✓</span>
@@ -123,9 +123,9 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
 
 
       {/* Skills Section */}
-      <motion.div variants={item} className="rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+      <motion.div variants={item} className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+          <h2 className="flex items-center gap-2 text-2xl font-bold text-zinc-50">
             <svg className="h-6 w-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
             </svg>
@@ -135,14 +135,14 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
             {onSendMessage && (
               <button
                 onClick={() => onSendMessage('Tell me more about your skills')}
-                className="rounded-full bg-pink-100 px-3 py-1 text-xs font-medium text-pink-600 transition-colors hover:bg-pink-200 dark:bg-pink-900/30 dark:text-pink-400 dark:hover:bg-pink-900/50"
+                className="rounded-full bg-pink-900/30 px-3 py-1 text-xs font-medium text-pink-400 transition-colors hover:bg-pink-900/50"
               >
                 Ask AI
               </button>
             )}
             <button
               onClick={() => setShowLabels(!showLabels)}
-              className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+              className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-700"
             >
               {showLabels ? 'Hide Names' : 'Show Names'}
             </button>
@@ -152,9 +152,9 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
       </motion.div>
 
       {/* Featured Projects Section */}
-      <motion.div variants={item} className="rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+      <motion.div variants={item} className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+          <h2 className="flex items-center gap-2 text-2xl font-bold text-zinc-50">
             <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
@@ -163,7 +163,7 @@ export default function CVCard({ data, onModalOpen, onSendMessage }: CVCardProps
           {onSendMessage && (
             <button
               onClick={() => onSendMessage('Show me all your projects')}
-              className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-600 transition-colors hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"
+              className="rounded-full bg-green-900/30 px-3 py-1 text-xs font-medium text-green-400 transition-colors hover:bg-green-900/50"
             >
               Show All
             </button>

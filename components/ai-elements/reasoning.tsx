@@ -26,7 +26,7 @@ const Reasoning = React.forwardRef<HTMLDivElement, ReasoningProps>(
             <ReasoningContext.Provider value={{ isOpen, setIsOpen }}>
                 <div
                     ref={ref}
-                    className={cn("my-2 mb-4 border-l-2 border-zinc-200 pl-4 dark:border-zinc-800", className)}
+                    className={cn("my-2 mb-4 border-l-2 border-zinc-800 pl-4", className)}
                     {...props}
                 >
                     {children}
@@ -48,12 +48,12 @@ const ReasoningTrigger = React.forwardRef<
             ref={ref}
             onClick={() => setIsOpen(!isOpen)}
             className={cn(
-                "group flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200",
+                "group flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-zinc-200",
                 className
             )}
             {...props}
         >
-            <div className="rounded-md bg-zinc-100 p-1 transition-colors group-hover:bg-zinc-200 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
+            <div className="rounded-md bg-zinc-800 p-1 transition-colors group-hover:bg-zinc-700">
                 <Brain className="h-3.5 w-3.5" />
             </div>
             <span className="font-medium">Reasoning process</span>
@@ -85,7 +85,7 @@ const ReasoningContent = React.forwardRef<
                     <div
                         ref={ref}
                         className={cn(
-                            "mt-2 rounded-md border border-zinc-100 bg-zinc-50 p-3 font-mono text-sm leading-relaxed text-zinc-600 dark:border-zinc-800/50 dark:bg-zinc-900/50 dark:text-zinc-400",
+                            "mt-2 rounded-md border border-zinc-800/50 bg-zinc-900/50 p-3 font-mono text-sm leading-relaxed text-zinc-400",
                             className
                         )}
                         {...props}

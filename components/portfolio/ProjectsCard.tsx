@@ -20,7 +20,7 @@ export default function ProjectsCard({ data, onModalOpen }: ProjectsCardProps) {
           Projects
         </h3>
         {(category !== 'all' || featured) && (
-          <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+          <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-400 border border-indigo-500/20">
             {featured ? 'Featured' : category}
           </span>
         )}

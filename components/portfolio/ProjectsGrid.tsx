@@ -13,13 +13,13 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
   const { projects, category, featured } = data;
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-4 sm:p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-800">
+    <div className="rounded-lg border border-zinc-800 bg-zinc-800 p-4 sm:p-6 shadow-sm">
       <div className="mb-3 sm:mb-4 flex items-center justify-between flex-wrap gap-2">
-        <h3 className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+        <h3 className="text-base sm:text-lg font-semibold text-zinc-50">
           Projects
         </h3>
         {(category !== 'all' || featured) && (
-          <span className="rounded-full bg-blue-100 px-2 sm:px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+          <span className="rounded-full bg-blue-900 px-2 sm:px-3 py-1 text-xs font-medium text-blue-300">
             {featured ? 'Featured' : category}
           </span>
         )}
@@ -28,10 +28,10 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
         {projects.map((project) => (
           <div
             key={project.id}
-            className="group rounded-lg border border-zinc-200 overflow-hidden transition-all hover:border-blue-500 hover:shadow-md dark:border-zinc-700 dark:hover:border-blue-500"
+            className="group rounded-lg border border-zinc-700 overflow-hidden transition-all hover:border-blue-500 hover:shadow-md"
           >
             {/* Project Image */}
-            <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+            <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-zinc-900">
               <Image
                 src={project.image}
                 alt={`${project.name} - ${project.tagline}`}
@@ -48,14 +48,14 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
             {/* Project Content */}
             <div className="p-3 sm:p-4">
               <div className="mb-2">
-                <h4 className="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                <h4 className="text-sm sm:text-base font-semibold text-zinc-50">
                   {project.name}
                 </h4>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="text-xs sm:text-sm text-zinc-400">
                   {project.tagline}
                 </p>
               </div>
-              <p className="mb-2 sm:mb-3 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 line-clamp-3">
+              <p className="mb-2 sm:mb-3 text-xs sm:text-sm text-zinc-300 line-clamp-3">
                 {project.description}
               </p>
               
@@ -64,13 +64,13 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
                 {project.techStack.slice(0, 4).map((tech, idx) => (
                   <span
                     key={idx}
-                    className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300"
+                    className="rounded-full bg-zinc-700 px-2 py-0.5 text-xs text-zinc-300"
                   >
                     {tech}
                   </span>
                 ))}
                 {project.techStack.length > 4 && (
-                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
+                  <span className="rounded-full bg-zinc-700 px-2 py-0.5 text-xs text-zinc-300">
                     +{project.techStack.length - 4}
                   </span>
                 )}
@@ -78,13 +78,13 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
               
               {/* Project Links */}
               {project.links && (
-                <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-700">
+                <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-700">
                   {project.links.live && (
                     <a
                       href={project.links.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-blue-600 hover:underline active:text-blue-800 dark:text-blue-400 dark:active:text-blue-300 transition-colors min-h-[44px] flex items-center"
+                      className="text-xs text-blue-400 hover:underline active:text-blue-300 transition-colors min-h-[44px] flex items-center"
                     >
                       Live Demo →
                     </a>
@@ -94,7 +94,7 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
                       href={project.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-blue-600 hover:underline active:text-blue-800 dark:text-blue-400 dark:active:text-blue-300 transition-colors min-h-[44px] flex items-center"
+                      className="text-xs text-blue-400 hover:underline active:text-blue-300 transition-colors min-h-[44px] flex items-center"
                     >
                       GitHub →
                     </a>
@@ -104,7 +104,7 @@ export default function ProjectsGrid({ data }: ProjectsGridProps) {
                       href={project.links.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-blue-600 hover:underline active:text-blue-800 dark:text-blue-400 dark:active:text-blue-300 transition-colors min-h-[44px] flex items-center"
+                      className="text-xs text-blue-400 hover:underline active:text-blue-300 transition-colors min-h-[44px] flex items-center"
                     >
                       Demo →
                     </a>
