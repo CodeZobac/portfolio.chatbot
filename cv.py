@@ -17,236 +17,238 @@ from weasyprint.text.fonts import FontConfiguration
 def create_html_cv():
     """Create the HTML content for the CV."""
     
-    html_content = """
+    # Resolve banner image path for weasyprint file:// URI
+    banner_path = Path(__file__).parent / "banner.jpg"
+    banner_uri = banner_path.as_uri()
+    
+    html_content = f"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="Afonso Caboz">
     <meta name="description" content="Full-Stack Solutions Architect CV">
-    <meta name="keywords" content="Full-Stack, Solutions Architect, Python, TypeScript, FastAPI, Next.js">
     <title>Afonso Caboz - CV</title>
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="name">Afonso Caboz</h1>
-                <p class="title">Full-Stack Solutions Architect | ERASMUS+ Candidate</p>
-                <div class="contact-bar">
-                    <span class="contact-item">Faro, Portugal</span>
-                    <span class="separator">•</span>
-                    <span class="contact-item">afonso.caboz@gmail.com</span>
-                    <span class="separator">•</span>
-                    <span class="contact-item">linkedin.com/in/afonsocaboz</span>
-                    <span class="separator">•</span>
-                    <span class="contact-item">github.com/CodeZobac</span>
-                </div>
+    <!-- Header with Banner -->
+    <header class="header">
+        <img class="header-bg" src="{banner_uri}" alt="" />
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1 class="name">AFONSO CABOZ</h1>
+            <p class="title">Full-Stack Solutions Architect</p>
+            <div class="contact-bar">
+                <a href="mailto:afonso.caboz@gmail.com" class="contact-link">afonso.caboz@gmail.com</a>
+                <span class="separator">|</span>
+                <a href="https://linkedin.com/in/afonsocaboz" class="contact-link">linkedin.com/in/afonsocaboz</a>
+                <span class="separator">|</span>
+                <a href="https://github.com/CodeZobac" class="contact-link">github.com/CodeZobac</a>
+                <span class="separator">|</span>
+                <a href="https://www.codezobac.me/" class="contact-link">codezobac.me</a>
+                <span class="separator">|</span>
+                <span class="contact-link">Faro, Portugal</span>
             </div>
-        </header>
-
-        <!-- Philosophy Quote -->
-        <div class="philosophy">
-            <p class="quote">"Code is a liability. A solution is an asset."</p>
-            <p class="quote-sub">My guiding principle is to write the least amount of code necessary to create the most value.</p>
         </div>
+    </header>
 
-        <!-- Professional Summary -->
-        <section class="section">
-            <h2 class="section-title">Professional Summary</h2>
-            <div class="section-content">
-                <p>
-                    Full-stack solutions architect with an obsessive focus on solving business problems through 
-                    technology. My approach is language-agnostic and problem-centered, with proven experience 
-                    building and deploying scalable applications, from infrastructure as code (IaC) to the final 
-                    user experience.
-                </p>
-                <p>
-                    With formal training in Web Programming, my true passion lies in translating concepts into 
-                    functional, high-impact products. I operate from the infrastructure layer (Terraform, Docker) 
-                    through robust backends to intuitive frontend experiences. I am now seeking a challenging 
-                    ERASMUS+ internship to apply my end-to-end product-building mindset in a dynamic, international 
-                    environment.
-                </p>
-            </div>
-        </section>
+    <div class="main-layout">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <!-- Philosophy -->
+            <section class="sidebar-section">
+                <h2 class="sidebar-title">PHILOSOPHY</h2>
+                <p class="quote">"Code is a liability.<br/>A solution is an asset."</p>
+                <p class="quote-sub">My guiding principle is to write the least amount of code necessary to create the most value.</p>
+            </section>
 
-        <!-- Two Column Layout: Tech Stack + Projects -->
-        <div class="two-column-section">
             <!-- Tech Stack -->
-            <section class="section tech-section">
-                <h2 class="section-title">Tech Stack</h2>
-                <div class="tech-grid">
-                    <div class="tech-category">
-                        <h3 class="tech-category-title">Frontend</h3>
-                        <div class="tech-items">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Vue.js</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">JavaScript (ES6+)</span>
-                            <span class="tech-tag">HTML5</span>
-                            <span class="tech-tag">CSS3/Sass</span>
-                        </div>
+            <section class="sidebar-section">
+                <h2 class="sidebar-title">TECH STACK</h2>
+
+                <h3 class="tech-category-title">Frontend</h3>
+                <div class="tech-items">
+                    <span class="tech-tag">Next.js</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Tailwind</span>
+                    <span class="tech-tag">Vue.js</span>
+                </div>
+
+                <h3 class="tech-category-title">Backend</h3>
+                <div class="tech-items">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Rust</span>
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">MongoDB</span>
+                </div>
+
+                <h3 class="tech-category-title">DevOps &amp; Cloud</h3>
+                <div class="tech-items">
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">Terraform</span>
+                    <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">Kubernetes</span>
+                    <span class="tech-tag">CI/CD</span>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="sidebar-section">
+                <h2 class="sidebar-title">EDUCATION</h2>
+                <h3 class="edu-degree">Information Systems Programming</h3>
+                <p class="edu-school">ETIC Algarve</p>
+                <p class="edu-meta">2025 &bull; Final grade: 18/20</p>
+            </section>
+        </aside>
+
+        <!-- RIGHT MAIN CONTENT -->
+        <main class="content">
+            <!-- Professional Summary -->
+            <p class="summary">
+                <strong>Full-stack solutions architect</strong> with a keen eye for detail and a focus on solving business
+                problems through technology. My approach is language-agnostic and solution-centered, with proven experience building and deploying scalable applications,
+                from <strong>Infrastructure as Code (IaC)</strong> to the final user experience.
+            </p>
+            <p class="summary">
+                Currently completing an <strong>ERASMUS+ professional internship</strong> in Warsaw, applying my end-to-end
+                product-building mindset in a dynamic, international environment.
+            </p>
+
+            <!-- Selected Projects -->
+            <section class="main-section">
+                <h2 class="main-title">Selected Projects</h2>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">Gyst</h3>
+                        <span class="project-label">AI-NATIVE KNOWLEDGE PLATFORM</span>
                     </div>
-                    <div class="tech-category">
-                        <h3 class="tech-category-title">Backend</h3>
-                        <div class="tech-items">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">Node.js</span>
-                        </div>
+                    <ul class="project-bullets">
+                        <li>Architected an <strong>agentic system with CrewAI</strong> for intelligent document analysis.</li>
+                        <li>Engineered a <strong>RAG pipeline</strong> for accurate conversational search.</li>
+                        <li>Built a robust <strong>FastAPI</strong> backend and reactive <strong>Next.js</strong> frontend.</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="ptag">NEXT.JS</span>
+                        <span class="ptag">FASTAPI</span>
+                        <span class="ptag">CREWAI</span>
+                        <span class="ptag">RAG</span>
+                        <span class="ptag">POSTGRESQL</span>
                     </div>
-                    <div class="tech-category">
-                        <h3 class="tech-category-title">Databases</h3>
-                        <div class="tech-items">
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">SQL</span>
-                        </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">ETIC Resource Hub</h3>
+                        <span class="project-label">RESOURCE MANAGEMENT</span>
                     </div>
-                    <div class="tech-category">
-                        <h3 class="tech-category-title">Infrastructure &amp; DevOps</h3>
-                        <div class="tech-items">
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Terraform (IaC)</span>
-                            <span class="tech-tag">AWS</span>
-                            <span class="tech-tag">Kubernetes</span>
-                            <span class="tech-tag">Git</span>
-                        </div>
+                    <ul class="project-bullets">
+                        <li><strong>Solutions Architect &amp; Developer:</strong> Delivered a fully functional MVP in under two weeks.</li>
+                        <li>Designed the entire system from <strong>PostgreSQL</strong> schema to <strong>Next.js</strong> frontend.</li>
+                        <li>Prioritized a modern rebuild over legacy refactoring for long-term scalability.</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="ptag">NEXT.JS</span>
+                        <span class="ptag">SUPABASE</span>
+                        <span class="ptag">TERRAFORM</span>
+                        <span class="ptag">DOCKER</span>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">In Sintonia</h3>
+                        <span class="project-label">AYURVEDIC DIET PLATFORM WITH AGENTIC REAL-TIME CHAT</span>
+                    </div>
+                    <ul class="project-bullets">
+                        <li>Developed an <strong>agentic Rust backend</strong> leveraging ZeroClaw for AI orchestration.</li>
+                        <li>Built high-performance APIs with <strong>Axum + Utopia</strong> and real-time chat via <strong>WebSockets</strong>.</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="ptag">RUST</span>
+                        <span class="ptag">AXUM</span>
+                        <span class="ptag">ZEROCLAW</span>
+                        <span class="ptag">WEBSOCKETS</span>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">Cyber Compass</h3>
+                        <span class="project-label">EDTECH PLATFORM</span>
+                    </div>
+                    <ul class="project-bullets">
+                        <li>Created a branching scenario system for ethical simulations.</li>
+                        <li>Implemented analytics to track user decision-making patterns.</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="ptag">REACT</span>
+                        <span class="ptag">FASTAPI</span>
+                        <span class="ptag">MONGODB</span>
+                        <span class="ptag">DOCKER</span>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">better.finder</h3>
+                        <span class="project-label">DESKTOP SEARCH LAUNCHER</span>
+                    </div>
+                    <ul class="project-bullets">
+                        <li>Built a system-wide <strong>Rust + Tauri</strong> desktop app with instant file search via Everything SDK.</li>
+                        <li>Integrated app launching, clipboard history, browser bookmarks, calculator, and web search fallback.</li>
+                    </ul>
+                    <div class="project-tags">
+                        <span class="ptag">RUST</span>
+                        <span class="ptag">TAURI</span>
+                        <span class="ptag">REACT</span>
+                        <span class="ptag">TYPESCRIPT</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Projects Portfolio -->
-            <section class="section projects-section">
-                <h2 class="section-title">Selected Projects Portfolio</h2>
-            
-            <div class="project">
-                <div class="project-header">
-                    <h3 class="project-title">Gyst - Your AI-Powered Knowledge Brain</h3>
-                    <p class="project-subtitle">AI-Native Knowledge Management Platform</p>
-                </div>
-                <p class="project-description">
-                    An AI-native knowledge management platform that transforms static documents into a dynamic, 
-                    conversational knowledge network for teams.
-                </p>
-                <div class="project-details">
-                    <h4 class="details-title">Contribution and Architecture Decisions:</h4>
-                    <ul class="project-list">
-                        <li>Architecture and implementation of an agentic system with CrewAI for intelligent document analysis and tagging</li>
-                        <li>Development of a RAG (Retrieval-Augmented Generation) pipeline for accurate conversational search</li>
-                        <li>Built a robust API with FastAPI and reactive frontend with Next.js</li>
-                    </ul>
-                    <p class="project-insight">
-                        <em>This project was a deep dive into building agentic AI systems, proving that complex knowledge 
-                        management can be made intuitive through a well-architected RAG pipeline.</em>
-                    </p>
-                    <div class="tech-stack-label">
-                        <strong>Tech Stack:</strong> Next.js • FastAPI • TypeScript • CrewAI • RAG • NLP • PostgreSQL • Docker
+            <!-- Professional Experience -->
+            <section class="main-section">
+                <h2 class="main-title">Professional Experience</h2>
+
+                <div class="experience">
+                    <div class="exp-header">
+                        <div>
+                            <h3 class="exp-role">Full-Stack Developer &mdash; ERASMUS+ Professional Internship</h3>
+                            <p class="exp-company">Vivadrive, Warsaw, Poland</p>
+                        </div>
+                        <span class="exp-date">Feb 2026 &ndash; May 2026</span>
                     </div>
-                </div>
-            </div>
-
-            <div class="project">
-                <div class="project-header">
-                    <h3 class="project-title">ETIC Resource Hub</h3>
-                    <p class="project-subtitle">Centralized Resource Management Platform</p>
-                </div>
-                <p class="project-description">
-                    A full-stack web application architected from the ground up to streamline and centralize the 
-                    management of ETIC Algarve's creative resources, from equipment to studios.
-                </p>
-                <div class="project-details">
-                    <h4 class="details-title">Contribution and Architecture Decisions:</h4>
-                    <ul class="project-list">
-                        <li>As the sole developer, made the strategic decision to rebuild the system on a modern, scalable foundation rather than refactor legacy code, ensuring long-term value for the institution</li>
-                        <li>Designed and implemented the entire system, from the PostgreSQL database schema and the robust backend API to the intuitive frontend for students and staff</li>
-                        <li>Delivered a fully functional MVP in under two weeks, demonstrating an extreme capacity for rapid, high-impact development and end-to-end project ownership</li>
+                    <ul class="exp-bullets">
+                        <li><strong>Full-Stack Development:</strong> Contributed to FleetFlow, an AI-powered fleet management application, delivering features across the entire stack.</li>
+                        <li><strong>LLM Ops &amp; Observability:</strong> Implemented a 4-layer observability architecture in LangChain, ensuring reliability and traceability of AI-driven operations.</li>
                     </ul>
-                    <p class="project-insight">
-                        <em>This project was a masterclass in pragmatic execution, proving that a single, focused architect 
-                        can deliver immense value by taking full ownership of a business problem.</em>
-                    </p>
-                    <div class="tech-stack-label">
-                        <strong>Tech Stack:</strong> Next.js • Terraform • Supabase • Docker
-                    </div>
                 </div>
-            </div>
 
-            <div class="project">
-                <div class="project-header">
-                    <h3 class="project-title">Cyber Compass</h3>
-                    <p class="project-subtitle">Digital Ethics Educational Platform</p>
-                </div>
-                <p class="project-description">
-                    An educational platform focused on teaching digital ethics through interactive dilemmas and simulations.
-                </p>
-                <div class="project-details">
-                    <h4 class="details-title">Contribution and Architecture Decisions:</h4>
-                    <ul class="project-list">
-                        <li>Created a branching scenario system for ethical simulations</li>
-                        <li>Backend development to manage user progress and analyze decision patterns</li>
+                <div class="experience">
+                    <div class="exp-header">
+                        <div>
+                            <h3 class="exp-role">Full-stack Developer &mdash; Professional Internship</h3>
+                            <p class="exp-company">ETIC Algarve, Faro, Portugal &bull; <a href="https://pedidodemeios.eticalgarve.com/">pedidodemeios.eticalgarve.com</a></p>
+                        </div>
+                        <span class="exp-date">Jun 2025 &ndash; Sep 2025</span>
+                    </div>
+                    <ul class="exp-bullets">
+                        <li><strong>Platform Development:</strong> Single-handedly designed, built, and deployed the ETIC Resource Hub — a centralized resource management platform still in active use by the institution.</li>
+                        <li><strong>End-to-End Ownership:</strong> Managed the full lifecycle from database schema design and backend API to the frontend interface, delivering a production-ready MVP in under two weeks.</li>
                     </ul>
-                    <p class="project-insight">
-                        <em>This platform was a fascinating exercise in user psychology, architecting a system that not only 
-                        teaches but also analyzes the user's ethical decision-making process.</em>
-                    </p>
-                    <div class="tech-stack-label">
-                        <strong>Tech Stack:</strong> React • Python (FastAPI) • MongoDB • Docker
-                    </div>
                 </div>
-            </div>
-        </section>
-        </div>
-
-        <!-- Professional Experience -->
-        <section class="section">
-            <h2 class="section-title">Professional Experience and Interpersonal Skills</h2>
-            
-            <div class="experience">
-                <div class="experience-header">
-                    <h3 class="experience-title">High-Volume Hospitality Roles</h3>
-                    <p class="experience-meta">Various Establishments, Faro | 2020-2023</p>
-                </div>
-                <ul class="experience-list">
-                    <li>
-                        <strong>Direct Client Interface and Expectation Management:</strong> 
-                        Responsible for client experience in high-pressure environments, solving problems in real-time 
-                        to ensure satisfaction and retention. This direct experience with the "end user" informs my 
-                        product-centered approach.
-                    </li>
-                    <li>
-                        <strong>Coordinated Execution and Resilience Under Pressure:</strong> 
-                        Synchronized operations with teams to ensure smooth service during demand peaks. Developed 
-                        high stress tolerance and ability to maintain execution excellence when systems are at their limit.
-                    </li>
-                    <li>
-                        <strong>Emotional Intelligence and Adaptive Communication:</strong> 
-                        Reading and managing team dynamics and client needs to adapt communication, prevent conflicts, 
-                        and ensure a collaborative environment.
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Education -->
-        <section class="section">
-            <h2 class="section-title">Education</h2>
-            <div class="education">
-                <h3 class="education-title">Technical Specialization Course in Information Systems Programming</h3>
-                <p class="education-meta">Level 5 | ETIC Algarve, Faro | 2025</p>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p class="footer-text">
-                Seeking to connect with a visionary team where I can contribute to and learn from a world-class engineering culture.
-            </p>
-        </footer>
+            </section>
+        </main>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Seeking to connect with a visionary team where I can contribute to and learn from a world-class engineering culture.</p>
+    </footer>
 </body>
 </html>
 """
@@ -254,7 +256,7 @@ def create_html_cv():
 
 
 def create_css_styles():
-    """Create modern, professional CSS styles for the CV."""
+    """Create modern, professional CSS styles matching the CV image."""
     
     css_content = """
 @page {
@@ -269,318 +271,330 @@ def create_css_styles():
 }
 
 body {
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    font-size: 10pt;
-    line-height: 1.6;
-    color: #2c3e50;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: #333;
     background: white;
+    height: 29.7cm;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.container {
-    padding: 1.2cm 1.8cm;
-}
-
-/* Header Styles - Improved */
+/* ── Header with banner ── */
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 1cm 1.8cm;
-    margin: -1.2cm -1.8cm 0.8cm -1.8cm;
-    border-radius: 0 0 15px 15px;
+    position: relative;
+    height: 6cm;
+    overflow: hidden;
+}
+
+.header-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+}
+
+.header-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.78) 0%,
+        rgba(0,0,0,0.42) 24%,
+        rgba(0,0,0,0.14) 52%,
+        rgba(0,0,0,0.0) 78%
+    );
+    z-index: 1;
 }
 
 .header-content {
-    text-align: center;
+    position: absolute;
+    z-index: 2;
+    bottom: 0.42cm;
+    left: 0.6cm;
+    right: 0.6cm;
+    text-align: right;
+    color: white;
 }
 
 .name {
-    font-size: 28pt;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.2cm;
+    font-size: 26pt;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.05cm;
+    line-height: 1.1;
 }
 
 .title {
-    font-size: 13pt;
-    font-weight: 400;
-    opacity: 0.95;
-    margin-bottom: 0.5cm;
+    font-size: 11pt;
+    font-weight: 300;
+    opacity: 0.92;
+    margin-bottom: 0.18cm;
 }
 
 .contact-bar {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    flex-wrap: wrap;
-    font-size: 9pt;
-    line-height: 1.4;
-    gap: 0.3cm;
+    flex-wrap: nowrap;
+    gap: 0.14cm;
+    font-size: 7pt;
+    white-space: nowrap;
 }
 
-.contact-item {
-    opacity: 0.95;
+.contact-link {
+    color: white;
+    text-decoration: none;
+    opacity: 0.90;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .separator {
-    opacity: 0.6;
-    font-size: 8pt;
+    opacity: 0.5;
+    font-size: 7pt;
+    flex-shrink: 0;
 }
 
-/* Philosophy Quote */
-.philosophy {
-    background: #f8f9fa;
-    border-left: 4px solid #667eea;
-    padding: 0.4cm 0.6cm;
-    margin: 0.6cm 0;
-    border-radius: 5px;
+/* ── Two-column body ── */
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ── LEFT SIDEBAR ── */
+.sidebar {
+    flex: 0 0 6.2cm;
+    background: #f5f5f5;
+    padding: 0.36cm 0.44cm;
+}
+
+.sidebar-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #222;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #E8A838;
+    padding-bottom: 0.1cm;
+    margin-bottom: 0.3cm;
+}
+
+.sidebar-section {
+    margin-bottom: 0.34cm;
 }
 
 .quote {
-    font-size: 11pt;
-    font-weight: 600;
-    color: #667eea;
+    font-size: 10pt;
     font-style: italic;
-    margin-bottom: 0.2cm;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 0.24cm;
 }
 
 .quote-sub {
-    font-size: 8.5pt;
+    font-size: 7.5pt;
     color: #666;
-}
-
-/* Section Styles */
-.section {
-    margin-bottom: 0.7cm;
-}
-
-.section-title {
-    font-size: 14pt;
-    font-weight: 700;
-    color: #667eea;
-    border-bottom: 2px solid #667eea;
-    padding-bottom: 0.15cm;
-    margin-bottom: 0.4cm;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.section-content p {
-    margin-bottom: 0.3cm;
-    text-align: justify;
-    font-size: 9.5pt;
-}
-
-/* Two Column Layout for Tech Stack and Projects */
-.two-column-section {
-    display: flex;
-    gap: 0.8cm;
-    margin-bottom: 0.7cm;
-}
-
-.tech-section {
-    flex: 0 0 35%;
-    margin-bottom: 0;
-}
-
-.projects-section {
-    flex: 1;
-    margin-bottom: 0;
-}
-
-/* Tech Stack Grid - More Compact */
-.tech-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3cm;
-}
-
-.tech-category {
-    background: #f8f9fa;
-    padding: 0.3cm;
-    border-radius: 6px;
-    border-left: 3px solid #667eea;
+    line-height: 1.45;
 }
 
 .tech-category-title {
-    font-size: 10pt;
+    font-size: 8.5pt;
     font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 0.25cm;
+    color: #444;
+    margin-top: 0.24cm;
+    margin-bottom: 0.12cm;
 }
 
 .tech-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.15cm;
+    gap: 0.14cm;
 }
 
 .tech-tag {
     background: white;
-    padding: 0.1cm 0.25cm;
+    border: 1px solid #ddd;
     border-radius: 3px;
-    font-size: 7.5pt;
-    border: 1px solid #e0e0e0;
-    color: #555;
-}
-
-/* Project Styles - More Compact */
-.project {
-    background: #f8f9fa;
-    padding: 0.4cm;
-    border-radius: 6px;
-    margin-bottom: 0.4cm;
-    border-left: 4px solid #764ba2;
-    page-break-inside: avoid;
-}
-
-.project-header {
-    margin-bottom: 0.2cm;
-}
-
-.project-title {
-    font-size: 11pt;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 0.1cm;
-}
-
-.project-subtitle {
-    font-size: 9pt;
-    color: #667eea;
-    font-weight: 600;
-}
-
-.project-description {
-    margin-bottom: 0.3cm;
-    color: #555;
-    line-height: 1.4;
-    font-size: 8.5pt;
-}
-
-.project-details {
-    background: white;
-    padding: 0.3cm;
-    border-radius: 4px;
-}
-
-.details-title {
-    font-size: 9pt;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 0.2cm;
-}
-
-.project-list {
-    margin-left: 0.4cm;
-    margin-bottom: 0.25cm;
-}
-
-.project-list li {
-    margin-bottom: 0.15cm;
-    font-size: 8pt;
-    line-height: 1.4;
-}
-
-.project-insight {
-    margin: 0.3cm 0 0.25cm 0;
-    padding: 0.25cm;
-    background: #f0f4ff;
-    border-left: 3px solid #667eea;
-    border-radius: 3px;
-    font-size: 8pt;
-    line-height: 1.5;
-    color: #555;
-}
-
-.project-insight em {
-    font-style: italic;
+    padding: 0.08cm 0.22cm;
+    font-size: 7pt;
     color: #444;
 }
 
-.tech-stack-label {
-    font-size: 7.5pt;
-    color: #666;
-    padding-top: 0.25cm;
-    border-top: 1px solid #e0e0e0;
-}
-
-/* Experience Styles */
-.experience {
-    margin-bottom: 0.5cm;
-    page-break-inside: avoid;
-}
-
-.experience-header {
-    margin-bottom: 0.25cm;
-}
-
-.experience-title {
-    font-size: 11pt;
+.edu-degree {
+    font-size: 9.5pt;
     font-weight: 700;
-    color: #2c3e50;
+    color: #222;
+    margin-bottom: 0.08cm;
 }
 
-.experience-meta {
-    font-size: 9pt;
-    color: #667eea;
-    font-weight: 600;
-}
-
-.experience-list {
-    margin-left: 0.4cm;
-}
-
-.experience-list li {
-    margin-bottom: 0.35cm;
+.edu-school {
     font-size: 8.5pt;
-    line-height: 1.5;
+    color: #555;
+    margin-bottom: 0.05cm;
 }
 
-.experience-list li strong {
-    color: #667eea;
-    display: block;
-    margin-bottom: 0.1cm;
+.edu-meta {
+    font-size: 7.5pt;
+    color: #888;
 }
 
-/* Education Styles */
-.education {
-    background: #f8f9fa;
-    padding: 0.4cm;
-    border-radius: 6px;
-    border-left: 4px solid #667eea;
+/* ── RIGHT CONTENT ── */
+.content {
+    flex: 1;
+    padding: 0.24cm 0.5cm;
 }
 
-.education-title {
+.summary {
+    font-size: 7pt;
+    line-height: 1.35;
+    color: #444;
+    margin-bottom: 0.14cm;
+    text-align: justify;
+}
+
+.main-title {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #222;
+    border-bottom: 2px solid #E8A838;
+    padding-bottom: 0.06cm;
+    margin-bottom: 0.2cm;
+    margin-top: 0.14cm;
+}
+
+/* ── Projects ── */
+.project {
+    margin-bottom: 0.14cm;
+}
+
+.project-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2cm;
+    margin-bottom: 0.08cm;
+}
+
+.project-name {
     font-size: 10pt;
     font-weight: 700;
-    color: #2c3e50;
+    color: #222;
+}
+
+.project-label {
+    font-size: 7pt;
+    font-weight: 600;
+    color: #E8A838;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.project-desc {
+    font-size: 8pt;
+    color: #555;
+    line-height: 1.45;
     margin-bottom: 0.15cm;
 }
 
-.education-meta {
-    font-size: 8.5pt;
-    color: #666;
+.project-bullets {
+    margin-left: 0.3cm;
+    margin-bottom: 0.08cm;
 }
 
-/* Footer Styles - Dramatic CTA */
+.project-bullets li {
+    font-size: 7pt;
+    line-height: 1.35;
+    margin-bottom: 0.04cm;
+    color: #444;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.08cm;
+    margin-top: 0.07cm;
+}
+
+.ptag {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 0.03cm 0.15cm;
+    font-size: 6pt;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ── Experience ── */
+.experience {
+    margin-bottom: 0.14cm;
+}
+
+.exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.1cm;
+}
+
+.exp-role {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #222;
+}
+
+.exp-company {
+    font-size: 7.5pt;
+    color: #E8A838;
+    font-weight: 600;
+}
+
+.exp-company a {
+    color: #E8A838;
+    text-decoration: none;
+}
+
+.exp-date {
+    font-size: 7.5pt;
+    color: #888;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.exp-bullets {
+    margin-left: 0.3cm;
+}
+
+.exp-bullets li {
+    font-size: 7pt;
+    line-height: 1.35;
+    margin-bottom: 0.06cm;
+    color: #444;
+}
+
+/* ── Footer ── */
 .footer {
-    margin-top: 0.8cm;
-    padding: 0.6cm 1cm;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 10px;
+    background: #E8A838;
+    padding: 0.15cm 1cm;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
 }
 
 .footer-text {
-    font-size: 10pt;
+    font-size: 8pt;
     color: white;
     font-weight: 600;
     letter-spacing: 0.3px;
-    line-height: 1.6;
 }
 
-/* Print Optimization */
+/* Print */
 @media print {
     body {
         print-color-adjust: exact;
