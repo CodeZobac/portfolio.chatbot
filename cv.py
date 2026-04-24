@@ -45,9 +45,9 @@ def create_html_cv():
                 <span class="separator">|</span>
                 <a href="https://github.com/CodeZobac" class="contact-link">github.com/CodeZobac</a>
                 <span class="separator">|</span>
-                <a href="https://www.codezobac.me/" class="contact-link">codezobac.me</a>
+                <a href="https://www.codezobac.com" class="contact-link">codezobac.com</a>
                 <span class="separator">|</span>
-                <span class="contact-link">Faro, Portugal</span>
+                <span class="contact-link">Warsaw, Poland</span>
             </div>
         </div>
     </header>
@@ -224,6 +224,8 @@ def create_html_cv():
                     </div>
                     <ul class="exp-bullets">
                         <li><strong>Full-Stack Development:</strong> Contributed to FleetFlow, an AI-powered fleet management application, delivering features across the entire stack.</li>
+                        <li><strong> Ownership &amp; Impact:</strong> Took end-to-end ownership of critical features, from research, design, planning to implementation. Worked side by side with the company tech lead impacting the product's success.</li>
+                        <li><strong>AI Integration:</strong> Developed and integrated AI components using Django, enhancing the platform's intelligent capabilities.</li>
                         <li><strong>LLM Ops &amp; Observability:</strong> Implemented a 4-layer observability architecture in LangChain, ensuring reliability and traceability of AI-driven operations.</li>
                     </ul>
                 </div>
@@ -238,6 +240,8 @@ def create_html_cv():
                     </div>
                     <ul class="exp-bullets">
                         <li><strong>Platform Development:</strong> Single-handedly designed, built, and deployed the ETIC Resource Hub — a centralized resource management platform still in active use by the institution.</li>
+                        <li><strong>Stakeholder Engagement:</strong> Pitched the project to the director and presented it to all professionals, gathering feedback and iterating on the solution to ensure it met the institution's needs.</li>
+                        <li><strong>Product-Centric Approach:</strong> Focused on delivering a user-friendly, scalable solution that met the specific needs of ETIC, rather than quick fixes or legacy refactoring.</li>
                         <li><strong>End-to-End Ownership:</strong> Managed the full lifecycle from database schema design and backend API to the frontend interface, delivering a production-ready MVP in under two weeks.</li>
                     </ul>
                 </div>
