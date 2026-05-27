@@ -617,8 +617,8 @@ const ChatClaude = () => {
                                                             !message.reasoning) && (
                                                                 <MessageContent
                                                                     className={cn(
-                                                                        "group-[.is-user]:bg-indigo-900/30 group-[.is-user]:text-white group-[.is-user]:border group-[.is-user]:border-indigo-500/20",
-                                                                        "group-[.is-assistant]:bg-transparent group-[.is-assistant]:p-0 group-[.is-assistant]:font-serif group-[.is-assistant]:text-zinc-100"
+                                                                        "group-[.is-user]:bg-amber-100/50 group-[.is-user]:text-amber-950 group-[.is-user]:border group-[.is-user]:border-amber-200/50",
+                                                                        "group-[.is-assistant]:bg-transparent group-[.is-assistant]:p-0 group-[.is-assistant]:font-serif group-[.is-assistant]:text-stone-900"
                                                                     )}
                                                                 >
                                                                     <div className="flex gap-2">
@@ -722,7 +722,7 @@ const ChatClaude = () => {
                                         </PromptInputSelectContent>
                                     </PromptInputSelect>
                                     <PromptInputSubmit
-                                        className="bg-[#c96442]"
+                                        className="bg-amber-600"
                                         disabled={!text.trim() || status === "streaming"}
                                         status={status}
                                     >

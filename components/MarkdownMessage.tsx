@@ -3,11 +3,13 @@
 import ReactMarkdown from 'react-markdown';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, FileText, Mail, Code, Briefcase, GraduationCap, FolderGit2, ExternalLink } from 'lucide-react';
+import { ArrowRight, FileText, Mail, Code, Briefcase, GraduationCap, FolderGit2, ExternalLink } from 'lucide-react';
 
 interface MarkdownMessageProps {
   content: string;
   onButtonClick?: (text: string) => void;
+  className?: string;
+  transparent?: boolean;
 }
 
 // Pattern to detect button syntax: **text**
@@ -25,42 +27,43 @@ const getButtonIcon = (text: string) => {
   return ArrowRight; // Default icon
 };
 
-const MarkdownMessage = memo(({ content, onButtonClick, className, transparent = false }: MarkdownMessageProps & { className?: string, transparent?: boolean }) => {
-  // Check if content contains button patterns
-  const hasButtons = BUTTON_PATTERN.test(content);
-  BUTTON_PATTERN.lastIndex = 0; // Reset regex
+const MarkdownMessage = memo(({ content, onButtonClick, className, transparent = false }: MarkdownMessageProps) => {
+  // Use a local regex to avoid side effects on the shared BUTTON_PATTERN
+  const localPattern = new RegExp(BUTTON_PATTERN.source, 'g');
+  const hasButtons = localPattern.test(content);
+  localPattern.lastIndex = 0; // Reset for parsing loop
 
   const renderContent = (text: string) => (
     <ReactMarkdown
       components={{
         p: ({ children }) => (
-          <span className="inline text-[16px] leading-[1.8] text-zinc-200 tracking-wide font-normal">
+          <span className="inline text-[16px] leading-[1.8] text-black tracking-wide font-normal">
             {children}
           </span>
         ),
         strong: ({ children }) => (
-          <strong className="font-bold text-white">
+          <strong className="font-bold text-black">
             {children}
           </strong>
         ),
         em: ({ children }) => (
-          <em className="italic text-zinc-300 font-serif">
+          <em className="italic text-stone-600 font-serif">
             {children}
           </em>
         ),
         h1: ({ children }) => (
-          <h1 className="text-3xl font-bold mb-6 mt-2 text-white tracking-tight">
+          <h1 className="text-3xl font-bold mb-6 mt-2 text-black tracking-tight leading-tight">
             {children}
           </h1>
         ),
         h2: ({ children }) => (
-          <h2 className="text-xl font-bold mb-4 mt-6 text-white flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-blue-400"></span>
+          <h2 className="text-xl font-bold mb-4 mt-8 text-black flex items-center gap-2 leading-tight">
+            <span className="h-2 w-2 rounded-full bg-amber-500"></span>
             {children}
           </h2>
         ),
         h3: ({ children }) => (
-          <h3 className="text-lg font-semibold mb-3 mt-4 text-zinc-100">
+          <h3 className="text-lg font-semibold mb-3 mt-6 text-stone-900 leading-snug">
             {children}
           </h3>
         ),
@@ -68,20 +71,20 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
           <ul className="space-y-2 mb-6 pl-4 my-4">{children}</ul>
         ),
         ol: ({ children }) => (
-          <ol className="space-y-2 mb-6 pl-4 my-4 list-decimal marker:text-zinc-400 marker:font-medium">{children}</ol>
+          <ol className="space-y-2 mb-6 pl-4 my-4 list-decimal marker:text-stone-400 marker:font-medium">{children}</ol>
         ),
         li: ({ children }) => (
-          <li className="list-item leading-relaxed text-zinc-200 pl-2">
+          <li className="list-item leading-[1.8] text-black pl-2">
             {children}
           </li>
         ),
         code: ({ children }) => (
-          <code className="bg-zinc-800 text-zinc-100 px-1.5 py-0.5 rounded text-[14px] font-mono border border-zinc-700 font-medium">
+          <code className="bg-stone-100 text-stone-900 px-1.5 py-0.5 rounded text-[14px] font-mono border border-stone-200 font-medium">
             {children}
           </code>
         ),
         blockquote: ({ children }) => (
-          <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 italic text-zinc-300 bg-blue-900/20 rounded-r">
+          <blockquote className="border-l-4 border-amber-500 pl-4 py-2 my-6 italic text-stone-700 bg-amber-50/50 rounded-r leading-relaxed">
             {children}
           </blockquote>
         ),
@@ -90,10 +93,10 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-blue-400 hover:underline decoration-blue-400/30 underline-offset-2 transition-colors font-medium"
+            className="inline-flex items-center gap-1 text-amber-600 hover:text-amber-700 hover:underline decoration-amber-600/30 underline-offset-4 transition-all font-medium"
           >
             {children}
-            <ExternalLink className="w-3 h-3 opacity-70" />
+            <ExternalLink className="w-3.5 h-3.5 opacity-70" />
           </a>
         ),
       }}
@@ -103,8 +106,8 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
   );
 
   const containerClasses = transparent
-    ? `prose prose-invert max-w-none ${className || ''}`
-    : `prose prose-invert max-w-none bg-zinc-900/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-zinc-800/50 ${className || ''}`;
+    ? `prose max-w-none ${className || ''}`
+    : `prose max-w-none bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-sm border border-stone-100 ${className || ''}`;
 
   if (!hasButtons || !onButtonClick) {
     return (
@@ -123,9 +126,11 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
   const segments: Array<{ type: 'text' | 'button'; content: string }> = [];
   let lastIndex = 0;
   let match;
+  let buttonCount = 0;
+  const MAX_BUTTONS = 4;
 
-  BUTTON_PATTERN.lastIndex = 0;
-  while ((match = BUTTON_PATTERN.exec(content)) !== null) {
+  localPattern.lastIndex = 0;
+  while ((match = localPattern.exec(content)) !== null) {
     // Add text before button
     if (match.index > lastIndex) {
       segments.push({
@@ -134,11 +139,20 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
       });
     }
 
-    // Add button
-    segments.push({
-      type: 'button',
-      content: match[1],
-    });
+    // Only render as interactive button if under the limit
+    if (buttonCount < MAX_BUTTONS) {
+      segments.push({
+        type: 'button',
+        content: match[1],
+      });
+      buttonCount++;
+    } else {
+      // Over the limit — keep as regular bold markdown
+      segments.push({
+        type: 'text',
+        content: match[0], // preserve the **text** markdown syntax
+      });
+    }
 
     lastIndex = match.index + match[0].length;
   }
@@ -152,8 +166,8 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
   }
 
   const segmentContainerClasses = transparent
-    ? `text-[16px] leading-[1.8] text-zinc-200 ${className || ''}`
-    : `text-[16px] leading-[1.8] text-zinc-200 bg-zinc-900/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-zinc-800/50 ${className || ''}`;
+    ? `prose max-w-none ${className || ''}`
+    : `prose max-w-none bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-sm border border-stone-100 ${className || ''}`;
 
   return (
     <motion.div
@@ -171,22 +185,19 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
           );
         }
 
-        // Render premium inline button
+        // Render "tidy" inline button
         const Icon = getButtonIcon(segment.content);
         return (
-          <motion.button
+          <button
             key={index}
             onClick={() => onButtonClick(segment.content)}
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            className="group inline-flex items-center gap-1.5 mx-1.5 px-3 py-1 text-[14px] font-semibold text-zinc-100 bg-zinc-800 rounded-lg border border-zinc-700 shadow-sm hover:shadow-md hover:border-blue-400/50 transition-all duration-200 align-baseline select-none relative overflow-hidden"
+            className="group inline-flex items-center gap-1 mx-1 px-2 py-0.5 text-[15px] font-medium text-white bg-[#E37100] rounded-md shadow-sm hover:bg-[#ff8000] active:scale-[0.97] transition-all duration-150 ease-out align-baseline select-none relative overflow-hidden will-change-transform"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <Icon className="w-3.5 h-3.5 text-blue-400 transition-transform group-hover:scale-110 group-hover:rotate-[-10deg]" />
-            <span className="relative z-10 bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent group-hover:from-blue-400 group-hover:to-purple-400 transition-all">
+            <Icon className="w-3 h-3 text-white/90" />
+            <span className="relative z-10">
               {segment.content}
             </span>
-          </motion.button>
+          </button>
         );
       })}
     </motion.div>

@@ -29,7 +29,7 @@ export const showExperience = tool({
           'React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind CSS',
           'Python', 'FastAPI', 'CrewAI', 'PostgreSQL', 'Docker',
           'Terraform', 'AWS', 'Kubernetes', 'Git',
-          'Problem solving', 'Rapid execution'
+          'Empathetic Thinking', 'Out-of-the-box Perspective', 'Mental Visualization', 'Present Attitude', 'Nurturing Environments'
         ].includes(s.name)),
         projects: projects.filter(p => p.featured),
       },
@@ -166,7 +166,7 @@ export const showCV = tool({
           'React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind CSS',
           'Python', 'FastAPI', 'CrewAI', 'PostgreSQL', 'Docker',
           'Terraform', 'AWS', 'Kubernetes', 'Git',
-          'Problem solving', 'Rapid execution'
+          'Empathetic Thinking', 'Out-of-the-box Perspective', 'Mental Visualization', 'Present Attitude', 'Nurturing Environments'
         ].includes(s.name)),
         projects: projects.filter(p => p.featured), // Featured projects only
       },
