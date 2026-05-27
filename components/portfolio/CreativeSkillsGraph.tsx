@@ -58,7 +58,7 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
             ctx.clearRect(0, 0, width, height);
 
             // Draw connections
-            ctx.strokeStyle = 'rgba(99, 102, 241, 0.15)'; // Indigo-500 with low opacity
+            ctx.strokeStyle = 'rgba(232, 168, 56, 0.15)'; // Amber with low opacity
             ctx.lineWidth = 1;
 
             for (let i = 0; i < nodes.length; i++) {
@@ -99,13 +99,13 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 // Draw node
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-                ctx.fillStyle = isHovered ? '#818cf8' : '#4f46e5'; // Indigo-400 hover, Indigo-600 default
+                ctx.fillStyle = isHovered ? '#f97316' : '#e8a838'; // Orange-500 hover, Amber default
                 ctx.fill();
 
                 // Glow effect
                 const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 3);
-                gradient.addColorStop(0, 'rgba(79, 70, 229, 0.3)');
-                gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
+                gradient.addColorStop(0, 'rgba(232, 168, 56, 0.3)');
+                gradient.addColorStop(1, 'rgba(232, 168, 56, 0)');
                 ctx.fillStyle = gradient;
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2);
@@ -114,7 +114,7 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 // Draw Label if showAllLabels is true
                 if (showAllLabels) {
                     ctx.font = '12px Inter, sans-serif';
-                    ctx.fillStyle = isHovered ? '#ffffff' : 'rgba(255, 255, 255, 0.7)';
+                    ctx.fillStyle = isHovered ? '#1c1917' : 'rgba(28, 25, 23, 0.6)';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'bottom';
                     ctx.fillText(node.name, node.x, node.y - node.radius - 5);
@@ -150,7 +150,7 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
     return (
         <div
             ref={containerRef}
-            className="relative h-[400px] w-full overflow-hidden rounded-xl bg-slate-950/50 backdrop-blur-sm border border-white/10"
+            className="relative h-[400px] w-full overflow-hidden rounded-xl bg-stone-100/30 backdrop-blur-sm border border-amber-200/30"
             onMouseMove={handleMouseMove}
             onMouseLeave={() => setHoveredNode(null)}
         >
@@ -161,15 +161,15 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="pointer-events-none absolute z-10 rounded-lg bg-zinc-900/90 px-3 py-2 shadow-xl backdrop-blur-md"
+                    className="pointer-events-none absolute z-10 rounded-lg bg-white/95 px-3 py-2 shadow-xl backdrop-blur-md border border-amber-200/50"
                     style={{
                         left: hoveredNode.x,
                         top: hoveredNode.y - 40,
                         transform: 'translate(-50%, -100%)'
                     }}
                 >
-                    <p className="text-sm font-bold text-indigo-400">{hoveredNode.name}</p>
-                    <p className="text-xs text-zinc-400">{hoveredNode.proficiency}% Proficiency</p>
+                    <p className="text-sm font-bold text-amber-600">{hoveredNode.name}</p>
+                    <p className="text-xs text-stone-500">{hoveredNode.proficiency}% Proficiency</p>
                 </motion.div>
             )}
 
@@ -185,19 +185,19 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="pointer-events-none absolute z-10 rounded-lg bg-zinc-900/90 px-2 py-1 shadow-xl backdrop-blur-md"
+                    className="pointer-events-none absolute z-10 rounded-lg bg-white/95 px-2 py-1 shadow-xl backdrop-blur-md border border-amber-200/50"
                     style={{
                         left: hoveredNode.x,
                         top: hoveredNode.y + 20, // Below the node
                         transform: 'translate(-50%, 0)'
                     }}
                 >
-                    <p className="text-xs text-zinc-400">{hoveredNode.proficiency}%</p>
+                    <p className="text-xs text-stone-500">{hoveredNode.proficiency}%</p>
                 </motion.div>
             )}
 
             <div className="absolute bottom-4 right-4 pointer-events-none">
-                <p className="text-xs text-white/30 font-mono">INTERACTIVE NEURAL NETWORK</p>
+                <p className="text-xs text-stone-400 font-mono">INTERACTIVE NEURAL NETWORK</p>
             </div>
         </div>
     );

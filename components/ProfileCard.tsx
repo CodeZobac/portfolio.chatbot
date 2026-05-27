@@ -23,7 +23,7 @@ interface ProfileCardProps {
   onContactClick?: () => void;
 }
 
-const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, rgba(79, 70, 229, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%)';
+const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, rgba(255, 248, 235, 0.95) 0%, rgba(255, 225, 181, 0.65) 55%, rgba(252, 208, 156, 0.4) 100%)';
 
 const ANIMATION_CONFIG = {
   INITIAL_DURATION: 1200,
@@ -318,8 +318,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         '--icon': iconUrl ? `url(${iconUrl})` : 'none',
         '--grain': grainUrl ? `url(${grainUrl})` : 'none',
         '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT,
-        '--behind-glow-color': behindGlowColor ?? 'rgba(125, 190, 255, 0.67)',
-        '--behind-glow-size': behindGlowSize ?? '50%'
+        '--behind-glow-color': behindGlowColor ?? 'rgba(232, 168, 56, 0.45)',
+        '--behind-glow-size': behindGlowSize ?? '55%'
       }) as React.CSSProperties,
     [iconUrl, grainUrl, innerGradient, behindGlowColor, behindGlowSize]
   );
