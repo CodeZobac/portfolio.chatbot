@@ -1,28 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Syne } from "next/font/google";
+
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const syne = Syne({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-syne",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import CustomCursor from "@/components/CustomCursor";
 
 export const viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  viewportFit: 'cover',
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
   title: "Afonso Caboz - Full-Stack Solutions Architect",
-  description: "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills. Chat with AI to explore my work in web development, mobile apps, and AI solutions.",
+  description:
+    "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills. Chat with AI to explore my work in web development, mobile apps, and AI solutions.",
   keywords: [
     "Full-Stack Developer",
     "Solutions Architect",
@@ -35,51 +36,53 @@ export const metadata: Metadata = {
     "Mobile Development",
     "Afonso Caboz",
     "Portfolio",
-    "Software Engineer"
+    "Software Engineer",
   ],
   authors: [{ name: "Afonso Caboz" }],
   creator: "Afonso Caboz",
   publisher: "Afonso Caboz",
-  metadataBase: new URL('https://afonsocaboz.com'),
+  metadataBase: new URL("https://afonsocaboz.com"),
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://afonsocaboz.com',
-    siteName: 'Afonso Caboz Portfolio',
-    title: 'Afonso Caboz - Full-Stack Solutions Architect',
-    description: 'Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills. Chat with AI to explore my work.',
+    type: "website",
+    locale: "en_US",
+    url: "https://afonsocaboz.com",
+    siteName: "Afonso Caboz Portfolio",
+    title: "Afonso Caboz - Full-Stack Solutions Architect",
+    description:
+      "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills. Chat with AI to explore my work.",
     images: [
       {
-        url: '/og-image.png',
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: 'Afonso Caboz - Full-Stack Solutions Architect',
+        alt: "Afonso Caboz - Full-Stack Solutions Architect",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Afonso Caboz - Full-Stack Solutions Architect',
-    description: 'Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills.',
-    images: ['/og-image.png'],
+    card: "summary_large_image",
+    title: "Afonso Caboz - Full-Stack Solutions Architect",
+    description:
+      "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills.",
+    images: ["/og-image.png"],
   },
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/apple-touch-icon.png',
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/apple-touch-icon.png",
   },
-  manifest: '/site.webmanifest',
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -90,15 +93,16 @@ export default function RootLayout({
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Afonso Caboz",
-    "jobTitle": "Full-Stack Solutions Architect",
-    "description": "Full-Stack Solutions Architect specializing in React, Next.js, TypeScript, and AI-powered applications. Experience in web development, mobile apps, and system architecture.",
-    "url": "https://afonsocaboz.com",
-    "sameAs": [
+    name: "Afonso Caboz",
+    jobTitle: "Full-Stack Solutions Architect",
+    description:
+      "Full-Stack Solutions Architect specializing in React, Next.js, TypeScript, and AI-powered applications. Experience in web development, mobile apps, and system architecture.",
+    url: "https://afonsocaboz.com",
+    sameAs: [
       "https://www.linkedin.com/in/afonsocaboz",
-      "https://github.com/afonsocaboz"
+      "https://github.com/afonsocaboz",
     ],
-    "knowsAbout": [
+    knowsAbout: [
       "React",
       "Next.js",
       "TypeScript",
@@ -108,25 +112,24 @@ export default function RootLayout({
       "Full-Stack Development",
       "System Architecture",
       "Web Development",
-      "Mobile Development"
+      "Mobile Development",
     ],
-    "alumniOf": {
+    alumniOf: {
       "@type": "EducationalOrganization",
-      "name": "ETIC Algarve"
-    }
+      name: "ETIC Algarve",
+    },
   };
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${syne.variable} antialiased`}>
+        <CustomCursor />
         {children}
       </body>
     </html>
