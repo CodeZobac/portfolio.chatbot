@@ -6,7 +6,7 @@ export interface Experience {
   company: string;
   period: string;
   location: string;
-  type: 'tech' | 'hospitality';
+  type: "tech" | "hospitality";
   achievements: string[];
   responsibilities: string[];
   technologies?: string[];
@@ -22,10 +22,11 @@ export interface Project {
   role: string;
   keyDecisions: string[];
   techStack: string[];
-  category: 'web' | 'mobile' | 'ai';
+  category: "web" | "mobile" | "ai";
   featured: boolean;
   image: string;
   gallery?: string[];
+  youtubeId?: string;
   links?: {
     live?: string;
     github?: string;
@@ -36,8 +37,16 @@ export interface Project {
 export interface Skill {
   name: string;
   proficiency: number; // 0-100
-  category: 'frontend' | 'backend' | 'infrastructure' | 'ai-data' | 'soft-skills';
+  category:
+    | "frontend"
+    | "backend"
+    | "infrastructure"
+    | "ai-data"
+    | "soft-skills";
   yearsOfExperience?: number;
+  appliedIn?: string[];
+  strengthTag?: string;
+  priority?: "core" | "supporting" | "emerging";
 }
 
 export interface Education {
@@ -46,6 +55,7 @@ export interface Education {
   location: string;
   graduationYear: number;
   level: string;
+  description?: string;
   certifications?: string[];
 }
 
@@ -66,7 +76,7 @@ export interface PersonalInfo {
 // Tool output types for Dynamic Components
 
 export interface ExperienceToolOutput {
-  type: 'experience';
+  type: "experience";
   data: {
     roles: Experience[];
     highlight?: string;
@@ -74,7 +84,7 @@ export interface ExperienceToolOutput {
 }
 
 export interface ProjectsToolOutput {
-  type: 'projects';
+  type: "projects";
   data: {
     projects: Project[];
     category?: string;
@@ -83,7 +93,7 @@ export interface ProjectsToolOutput {
 }
 
 export interface SkillsToolOutput {
-  type: 'skills';
+  type: "skills";
   data: {
     skills: Skill[];
     category?: string;
@@ -91,21 +101,21 @@ export interface SkillsToolOutput {
 }
 
 export interface EducationToolOutput {
-  type: 'education';
+  type: "education";
   data: {
     education: Education;
   };
 }
 
 export interface ContactToolOutput {
-  type: 'contact';
+  type: "contact";
   data: {
     contact: PersonalInfo;
   };
 }
 
 export interface CVToolOutput {
-  type: 'cv';
+  type: "cv";
   data: {
     personal: PersonalInfo;
     experience: Experience[];
@@ -116,7 +126,7 @@ export interface CVToolOutput {
 }
 
 export interface ResumeToolOutput {
-  type: 'resume';
+  type: "resume";
   data: {
     url: string;
   };

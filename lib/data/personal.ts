@@ -1,27 +1,27 @@
-import { PersonalInfo, Education } from '../types';
+import { PersonalInfo, Education } from "../types";
 
 export const personalInfo: PersonalInfo = {
-  name: 'Afonso Caboz',
-  title: 'Full-Stack Solutions Architect',
-  tagline: 'Building scalable solutions with strategic thinking and rapid execution',
-  email: 'afonso.caboz@example.com',
-  phone: '+351 XXX XXX XXX',
-  location: 'Faro, Portugal',
-  website: 'https://afonsocaboz.dev',
-  linkedin: 'https://linkedin.com/in/afonsocaboz',
-  github: 'https://github.com/afonsocaboz',
-  availability: 'Available for full-time opportunities and consulting projects'
+  name: "Afonso Caboz",
+  title: "Systems Architect: AI & Full-Stack Integration",
+  tagline:
+    '"Code is a liability. A solution is an asset." — Engineering scalable, observable, cost-optimized AI-driven production environments.',
+  email: "afonso.caboz@gmail.com",
+  phone: "+351 XXX XXX XXX",
+  location: "Warsaw, Poland",
+  website: "https://www.codezobac.com",
+  linkedin: "https://linkedin.com/in/afonsocaboz",
+  github: "https://github.com/CodeZobac",
+  availability:
+    "Open to visionary teams and high-impact consulting opportunities",
 };
 
 export const education: Education = {
-  degree: 'Professional Degree in Web Development and Multimedia',
-  institution: 'ETIC Algarve',
-  location: 'Faro, Portugal',
+  degree: "Information Systems Programming",
+  institution: "ETIC Algarve",
+  location: "Faro, Portugal",
   graduationYear: 2025,
-  level: 'Level 5 (EQF)',
-  certifications: [
-    'AWS Certified Solutions Architect - Associate (In Progress)',
-    'Google Cloud Digital Leader',
-    'Terraform Associate Certification (In Progress)'
-  ]
+  level: "Professional Degree (Final grade: 18/20)",
+  description:
+    "Recognized by School Director as professional-grade; independent architecture and deployment of a resource management system still in active use.",
+  certifications: [],
 };

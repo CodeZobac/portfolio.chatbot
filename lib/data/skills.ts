@@ -1,217 +1,259 @@
-import { Skill } from '../types';
+import { Skill } from "../types";
 
 export const skills: Skill[] = [
-  // Frontend Skills
+  // AI / LLM Skills
   {
-    name: 'React',
-    proficiency: 90,
-    category: 'frontend',
-    yearsOfExperience: 3
+    name: "RAG Pipelines",
+    proficiency: 88,
+    category: "ai-data",
+    yearsOfExperience: 2,
+    strengthTag: "Autonomous AI systems",
+    priority: "core",
+    appliedIn: ["FleetFlow", "IN Sintonia"],
   },
   {
-    name: 'Next.js',
+    name: "CrewAI",
+    proficiency: 82,
+    category: "ai-data",
+    yearsOfExperience: 2,
+    strengthTag: "Agent orchestration",
+    priority: "supporting",
+    appliedIn: ["FleetFlow", "IN Sintonia"],
+  },
+  {
+    name: "Langfuse",
     proficiency: 85,
-    category: 'frontend',
-    yearsOfExperience: 2
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "LLM observability",
+    priority: "core",
+    appliedIn: ["FleetFlow"],
   },
   {
-    name: 'TypeScript',
-    proficiency: 90,
-    category: 'frontend',
-    yearsOfExperience: 3
+    name: "LiteLLM",
+    proficiency: 80,
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "Model routing",
+    priority: "supporting",
+    appliedIn: ["FleetFlow"],
   },
   {
-    name: 'Vue.js',
+    name: "LLM Observability",
+    proficiency: 83,
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "Reliability layer",
+    priority: "supporting",
+    appliedIn: ["FleetFlow"],
+  },
+  {
+    name: "AI Agent Development",
+    proficiency: 85,
+    category: "ai-data",
+    yearsOfExperience: 2,
+    strengthTag: "Multi-agent design",
+    priority: "core",
+    appliedIn: ["FleetFlow", "IN Sintonia"],
+  },
+  {
+    name: "Predictive Analytics",
     proficiency: 75,
-    category: 'frontend',
-    yearsOfExperience: 2
-  },
-  {
-    name: 'Tailwind CSS',
-    proficiency: 85,
-    category: 'frontend',
-    yearsOfExperience: 2
-  },
-  {
-    name: 'JavaScript',
-    proficiency: 90,
-    category: 'frontend',
-    yearsOfExperience: 4
-  },
-  {
-    name: 'React Native',
-    proficiency: 70,
-    category: 'frontend',
-    yearsOfExperience: 1
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "Forecasting",
+    priority: "emerging",
+    appliedIn: ["FleetFlow"],
   },
 
-  // Backend Skills
+  // Backend & Systems Skills
   {
-    name: 'Python',
+    name: "Python",
+    proficiency: 88,
+    category: "backend",
+    yearsOfExperience: 3,
+    strengthTag: "Production APIs",
+    priority: "core",
+    appliedIn: ["FleetFlow", "ETIC Resource Hub"],
+  },
+  {
+    name: "FastAPI",
     proficiency: 85,
-    category: 'backend',
-    yearsOfExperience: 3
+    category: "backend",
+    yearsOfExperience: 2,
+    strengthTag: "High-speed API delivery",
+    priority: "core",
+    appliedIn: ["FleetFlow", "ETIC Resource Hub"],
   },
   {
-    name: 'FastAPI',
-    proficiency: 80,
-    category: 'backend',
-    yearsOfExperience: 2
-  },
-  {
-    name: 'Node.js',
-    proficiency: 85,
-    category: 'backend',
-    yearsOfExperience: 3
-  },
-  {
-    name: 'Express',
-    proficiency: 80,
-    category: 'backend',
-    yearsOfExperience: 2
-  },
-  {
-    name: 'PostgreSQL',
-    proficiency: 85,
-    category: 'backend',
-    yearsOfExperience: 3
-  },
-  {
-    name: 'MongoDB',
+    name: "Django",
     proficiency: 75,
-    category: 'backend',
-    yearsOfExperience: 2
+    category: "backend",
+    yearsOfExperience: 2,
+    priority: "supporting",
   },
   {
-    name: 'SQL',
+    name: "Rust",
+    proficiency: 72,
+    category: "backend",
+    yearsOfExperience: 1,
+    strengthTag: "High-throughput services",
+    priority: "emerging",
+    appliedIn: ["IN Sintonia"],
+  },
+  {
+    name: "Axum",
+    proficiency: 70,
+    category: "backend",
+    yearsOfExperience: 1,
+    priority: "emerging",
+    appliedIn: ["IN Sintonia"],
+  },
+  {
+    name: "PostgreSQL",
     proficiency: 85,
-    category: 'backend',
-    yearsOfExperience: 3
+    category: "backend",
+    yearsOfExperience: 3,
+    strengthTag: "Data architecture",
+    priority: "core",
+    appliedIn: ["ETIC Resource Hub"],
+  },
+
+  // Frontend Skills
+  {
+    name: "Next.js",
+    proficiency: 90,
+    category: "frontend",
+    yearsOfExperience: 3,
+    strengthTag: "App architecture",
+    priority: "core",
+    appliedIn: ["IN Sintonia", "ETIC Resource Hub"],
   },
   {
-    name: 'REST API Design',
+    name: "TypeScript",
     proficiency: 90,
-    category: 'backend',
-    yearsOfExperience: 3
+    category: "frontend",
+    yearsOfExperience: 3,
+    strengthTag: "Type-safe systems",
+    priority: "core",
+    appliedIn: ["IN Sintonia", "ETIC Resource Hub"],
+  },
+  {
+    name: "Tailwind CSS",
+    proficiency: 88,
+    category: "frontend",
+    yearsOfExperience: 3,
+    strengthTag: "Design execution",
+    priority: "core",
+    appliedIn: ["IN Sintonia", "Portfolio Chatbot"],
+  },
+  {
+    name: "React",
+    proficiency: 88,
+    category: "frontend",
+    yearsOfExperience: 3,
+    strengthTag: "Interactive UX",
+    priority: "core",
+    appliedIn: ["IN Sintonia", "ETIC Resource Hub", "Portfolio Chatbot"],
+  },
+  {
+    name: "Vite",
+    proficiency: 80,
+    category: "frontend",
+    yearsOfExperience: 2,
+    priority: "supporting",
   },
 
   // Infrastructure Skills
   {
-    name: 'Docker',
+    name: "Docker",
+    proficiency: 82,
+    category: "infrastructure",
+    yearsOfExperience: 2,
+    strengthTag: "Portable deployments",
+    priority: "core",
+    appliedIn: ["ETIC Resource Hub", "FleetFlow"],
+  },
+  {
+    name: "Terraform",
+    proficiency: 78,
+    category: "infrastructure",
+    yearsOfExperience: 2,
+    strengthTag: "Infra as code",
+    priority: "core",
+    appliedIn: ["ETIC Resource Hub"],
+  },
+  {
+    name: "CI/CD",
     proficiency: 80,
-    category: 'infrastructure',
-    yearsOfExperience: 2
+    category: "infrastructure",
+    yearsOfExperience: 2,
+    strengthTag: "Release reliability",
+    priority: "core",
+    appliedIn: ["ETIC Resource Hub", "FleetFlow"],
   },
   {
-    name: 'Terraform',
-    proficiency: 70,
-    category: 'infrastructure',
-    yearsOfExperience: 1
-  },
-  {
-    name: 'AWS',
-    proficiency: 75,
-    category: 'infrastructure',
-    yearsOfExperience: 2
-  },
-  {
-    name: 'Azure',
-    proficiency: 70,
-    category: 'infrastructure',
-    yearsOfExperience: 1
-  },
-  {
-    name: 'Vercel',
+    name: "Supabase",
     proficiency: 85,
-    category: 'infrastructure',
-    yearsOfExperience: 2
+    category: "infrastructure",
+    yearsOfExperience: 2,
+    strengthTag: "Secure auth + data",
+    priority: "core",
+    appliedIn: ["ETIC Resource Hub"],
   },
   {
-    name: 'Supabase',
-    proficiency: 85,
-    category: 'infrastructure',
-    yearsOfExperience: 2
-  },
-  {
-    name: 'CI/CD',
+    name: "Nginx",
     proficiency: 75,
-    category: 'infrastructure',
-    yearsOfExperience: 2
-  },
-
-  // AI & Data Skills
-  {
-    name: 'CrewAI',
-    proficiency: 80,
-    category: 'ai-data',
-    yearsOfExperience: 1
-  },
-  {
-    name: 'RAG Pipelines',
-    proficiency: 75,
-    category: 'ai-data',
-    yearsOfExperience: 1
-  },
-  {
-    name: 'OpenAI API',
-    proficiency: 80,
-    category: 'ai-data',
-    yearsOfExperience: 1
-  },
-  {
-    name: 'NLP',
-    proficiency: 70,
-    category: 'ai-data',
-    yearsOfExperience: 1
-  },
-  {
-    name: 'Data Analysis',
-    proficiency: 75,
-    category: 'ai-data',
-    yearsOfExperience: 2
+    category: "infrastructure",
+    yearsOfExperience: 1,
+    priority: "supporting",
+    appliedIn: ["ETIC Resource Hub"],
   },
 
   // Soft Skills
   {
-    name: 'Stakeholder Management',
+    name: "Empathetic Thinking",
+    proficiency: 92,
+    category: "soft-skills",
+    yearsOfExperience: 5,
+    strengthTag: "User-centric & collaborative",
+    priority: "core",
+    appliedIn: ["UX Design", "Stakeholder relations"],
+  },
+  {
+    name: "Out-of-the-box Perspective",
     proficiency: 90,
-    category: 'soft-skills',
-    yearsOfExperience: 7
+    category: "soft-skills",
+    yearsOfExperience: 7,
+    strengthTag: "Creative problem solving",
+    priority: "core",
+    appliedIn: ["Architecture", "System design"],
   },
   {
-    name: 'Team Leadership',
-    proficiency: 85,
-    category: 'soft-skills',
-    yearsOfExperience: 5
+    name: "Mental Visualization",
+    proficiency: 88,
+    category: "soft-skills",
+    yearsOfExperience: 5,
+    strengthTag: "Conceptual design",
+    priority: "core",
+    appliedIn: ["Database design", "System mapping"],
   },
   {
-    name: 'Problem Solving',
-    proficiency: 90,
-    category: 'soft-skills',
-    yearsOfExperience: 7
+    name: "Present Attitude",
+    proficiency: 92,
+    category: "soft-skills",
+    yearsOfExperience: 5,
+    strengthTag: "High-pressure adaptability",
+    priority: "core",
+    appliedIn: ["Operations", "Incident response"],
   },
   {
-    name: 'Strategic Thinking',
-    proficiency: 85,
-    category: 'soft-skills',
-    yearsOfExperience: 5
+    name: "Nurturing Environments",
+    proficiency: 92,
+    category: "soft-skills",
+    yearsOfExperience: 7,
+    strengthTag: "Supportive collaboration",
+    priority: "core",
+    appliedIn: ["Mentorship", "Team dynamics"],
   },
-  {
-    name: 'Communication',
-    proficiency: 90,
-    category: 'soft-skills',
-    yearsOfExperience: 7
-  },
-  {
-    name: 'Emotional Intelligence',
-    proficiency: 85,
-    category: 'soft-skills',
-    yearsOfExperience: 7
-  },
-  {
-    name: 'Rapid Execution',
-    proficiency: 90,
-    category: 'soft-skills',
-    yearsOfExperience: 5
-  }
 ];

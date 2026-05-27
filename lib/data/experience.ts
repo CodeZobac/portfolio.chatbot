@@ -1,60 +1,64 @@
-import { Experience } from '../types';
+import { Experience } from "../types";
 
 export const experiences: Experience[] = [
   {
-    id: 'etic-algarve',
-    title: 'Full-Stack Developer & Solutions Architect',
-    company: 'ETIC Algarve',
-    period: '2024 - 2025',
-    location: 'Faro, Portugal',
-    type: 'tech',
+    id: "vivadrive",
+    title: "AI Solutions Architect | LLMOps & Agentic Systems",
+    company: "VivaDrive",
+    period: "Feb 2026 – Present",
+    location: "Remote / Warsaw, Poland",
+    type: "tech",
     achievements: [
-      'Architected and delivered ETIC Resource Hub in 2 weeks - a centralized management platform serving 200+ students and staff',
-      'Made strategic decision to rebuild legacy application rather than refactor, creating a modern, scalable foundation',
-      'Designed full-stack architecture from Supabase database to Next.js frontend with TypeScript',
-      'Implemented role-based access control and real-time data synchronization',
-      'Reduced operational overhead by centralizing resource management and automating workflows'
+      'Engineered multi-layer observability architecture using Langfuse and LiteLLM, implementing an "LLM-as-a-Judge" framework to reduce API costs while increasing output precision via total request traceability.',
+      'Developed the "Fuel Intelligence Layer" — transitioning architecture from static data processing to a predictive Data Warehouse model for automated anomaly and fraud detection.',
+      "Engineered AI Automated Testing pipeline to mitigate model hallucinations, creating a self-correcting ecosystem where specialized models validate autonomous agent outputs.",
+      "Transformed FleetFlow into a resilient, predictive architecture capable of managing complex logistics with minimal human intervention.",
     ],
     responsibilities: [
-      'Full-stack development and architecture decisions',
-      'Database design and optimization',
-      'API development and integration',
-      'Frontend development with React and Next.js',
-      'Infrastructure setup and deployment',
-      'Stakeholder communication and requirements gathering'
+      "Scaling FleetFlow AI-powered fleet management from reactive assistants to fully autonomous RAG-driven agents",
+      "LLMOps architecture design and cost optimization",
+      "Multi-agent system development and observability",
+      "AI testing pipeline engineering",
     ],
     technologies: [
-      'TypeScript',
-      'Next.js',
-      'React',
-      'Supabase',
-      'PostgreSQL',
-      'Tailwind CSS',
-      'Vercel'
-    ]
+      "RAG Pipelines",
+      "Langfuse",
+      "LiteLLM",
+      "CrewAI",
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+    ],
   },
   {
-    id: 'hospitality-operations',
-    title: 'Operations Manager & Team Leader',
-    company: 'High-Volume Hospitality',
-    period: '2018 - 2023',
-    location: 'Algarve, Portugal',
-    type: 'hospitality',
+    id: "etic-algarve",
+    title: "Solutions Architect | Systemic Debt Recovery & MVP Deployment",
+    company: "ETIC_Algarve",
+    period: "Aug 2025 – Sep 2025",
+    location: "Faro, Portugal",
+    type: "tech",
     achievements: [
-      'Led teams of 15+ staff in high-pressure, fast-paced environments',
-      'Managed operations serving 500+ customers daily during peak season',
-      'Developed stakeholder management skills working with diverse customers and suppliers',
-      'Built emotional intelligence and conflict resolution capabilities',
-      'Optimized workflows and processes to improve efficiency and customer satisfaction'
+      "Conducted deep-dive architectural audit to identify root causes of systemic failure in a legacy resource management system, addressing structural decay rather than superficial fixes.",
+      "Engineered a framework to pivot from high-maintenance refactoring toward a modern, scalable architecture for long-term maintainability.",
+      "Developed a functional, high-fidelity prototype within 48 hours to validate technical viability and secure stakeholder buy-in.",
+      "Delivered a production-ready MVP, transforming a failing legacy asset into a scalable, high-performance platform. Recognized by School Director as a professional-grade asset.",
     ],
     responsibilities: [
-      'Team leadership and staff management',
-      'Operations planning and execution',
-      'Customer relationship management',
-      'Problem-solving under pressure',
-      'Resource allocation and optimization',
-      'Quality control and service standards'
+      "Architectural audit and root-cause analysis",
+      "Strategic rebuild advocacy and stakeholder alignment",
+      "Rapid prototyping and MVP delivery",
+      "Infrastructure setup with Terraform, Docker Compose, Nginx SSL and Makefile CI/CD",
     ],
-    technologies: []
-  }
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Terraform",
+      "Docker",
+      "Nginx",
+      "k6",
+      "Resend API",
+    ],
+  },
 ];
