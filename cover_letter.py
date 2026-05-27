@@ -3,6 +3,7 @@
 # requires-python = ">=3.11"
 # dependencies = [
 #   "weasyprint",
+#   "pillow",
 # ]
 # ///
 """
@@ -10,18 +11,43 @@ Generate a professional PDF Cover Letter matching the CV style.
 Reuses the same header, yellow (#E8A838) accents, and typography.
 """
 
+import tempfile
 from pathlib import Path
-from weasyprint import HTML, CSS
+
+from PIL import Image
+from weasyprint import CSS, HTML
 from weasyprint.text.fonts import FontConfiguration
+
+
+def _optimize_image(src_path: Path, target_width: int, quality: int = 85) -> Path:
+    """Resize + convert image → JPEG at target width, return temp file path.
+
+    WeasyPrint/Cairo cannot embed WebP natively; it decodes to raw pixels
+    and re-encodes as FlateDecode, ballooning the PDF.  Converting to JPEG
+    beforehand and downsizing to match the display dimensions eliminates
+    this bloat.
+    """
+    img = Image.open(src_path).convert("RGB")
+    w_percent = target_width / img.width
+    target_height = int(img.height * w_percent)
+    img = img.resize((target_width, target_height), Image.LANCZOS)
+
+    tmp = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
+    img.save(tmp.name, "JPEG", quality=quality, optimize=True)
+    return Path(tmp.name)
 
 
 def create_html_cover_letter():
     """Create the HTML content for the cover letter."""
 
     base = Path(__file__).parent
-    banner_uri = (base / "banner.jpg").as_uri()
-    ayurveda_uri = (base / "ayurveda.webp").as_uri()
-    portfolio_uri = (base / "portfolio.webp").as_uri()
+
+    # Optimise images for PDF — WebP → JPEG at display resolution.
+    # The header banner fills A4 width (~21 cm); 150 dpi ≈ 1240 px.
+    # Showcase images are displayed at 7.8 cm; ~920 px at 300 dpi.
+    banner_uri = _optimize_image(base / "banner.jpg", 1240).as_uri()
+    ayurveda_uri = _optimize_image(base / "ayurveda.webp", 920).as_uri()
+    portfolio_uri = _optimize_image(base / "portfolio.webp", 920).as_uri()
 
     html_content = f"""\
 <!DOCTYPE html>
@@ -80,7 +106,7 @@ def create_html_cover_letter():
         <section class="section">
             <p class="body-text">
                 My tenure at VivaDrive was defined by a singular mission: resolving high-stakes engineering
-                bottlenecks through architectural transmutation. I did not merely fix errors; I re-engineered
+                bottlenecks through architectural transmutation. I did not merely fix errors, I re-engineered
                 systems to turn volatility into stability. This was achieved through four critical pillars of
                 innovation:
             </p>
@@ -98,7 +124,7 @@ def create_html_cover_letter():
             <p class="body-text">
                 To resolve the opacity inherent in complex LLM workflows, I engineered a four-layer
                 observability framework utilizing <strong>Langfuse</strong>. This architecture provided total
-                visibility across the entire request lifecycle—tracing every movement from the "Root"
+                visibility across the entire request lifecycle, tracing every movement from the "Root"
                 (monitoring API expenditure and authorship) to the final "Generation." This brought
                 much-needed transparency and accountability to our generative processes.
             </p>
@@ -138,7 +164,7 @@ def create_html_cover_letter():
             <h3 class="pillar-title">I. Architectural Audit &amp; The Rejection of Superficiality</h3>
             <p class="body-text">
                 Upon conducting a deep-dive technical audit, I identified that the existing architecture was
-                suffering from terminal entropy; the lack of responsiveness was not a surface-level UI issue,
+                suffering from terminal entropy, the lack of responsiveness was not a surface-level UI issue,
                 but a fundamental failure in the underlying structure. While a superficial "patch" could have
                 provided temporary relief, I made the strategic decision to advocate for a complete
                 architectural rebuild—a move designed to ensure long presence and long-term maintainability.
@@ -179,7 +205,7 @@ def create_html_cover_letter():
             <!-- In Sintonia -->
             <div class="showcase">
                 <div class="showcase-text">
-                    <h3 class="showcase-name">I. In Sintonia</h3>
+                    <h3 class="showcase-name">I. IN Sintonia</h3>
                     <p class="showcase-subtitle">Ayurvedic Nutritional Intelligence</p>
                     <p class="showcase-desc-italic">
                         An agentic real-time platform engineered to align dietary interventions with
