@@ -193,3 +193,8 @@ html.custom-cursor-active * {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(232, 168, 56, 0.7);
 }
+
+/* Ensure markdown list markers display properly in chat */
+.prose ul { list-style-type: disc; }
+.prose ol { list-style-type: decimal; }
+.prose li::marker { color: #f59e0b; /* amber-500 */ }

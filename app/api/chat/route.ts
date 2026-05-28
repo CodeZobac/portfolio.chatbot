@@ -1,69 +1,78 @@
-import { streamText, convertToCoreMessages } from 'ai';
-import { google } from '@ai-sdk/google';
-import { SYSTEM_PROMPT } from '@/lib/ai/system-prompt';
-import { tools } from '@/lib/ai/tools';
+import { streamText, convertToCoreMessages } from "ai";
+import { createOpenAI } from "@ai-sdk/openai";
+import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
+import { tools } from "@/lib/ai/tools";
 
-/**
- * API Route: /api/chat
- * Handles chat requests and streams responses from Google Gemini
- */
+const manifest = createOpenAI({
+  baseURL: "https://app.manifest.build/v1",
+  apiKey: process.env.MANIFEST_API_KEY,
+  fetch: async (url, init) => {
+    if (init?.body && typeof init.body === "string") {
+      try {
+        const body = JSON.parse(init.body);
+
+        // Strip stream_options - OpenAI-specific, rejected by upstream providers
+        delete body.stream_options;
+
+        // Fix "developer" role -> "system": the AI SDK treats unknown
+        // model IDs as "reasoning models" and converts system messages
+        // to "developer" role, which DeepSeek and others don't support.
+        if (body.messages) {
+          for (const msg of body.messages) {
+            if (msg.role === "developer") {
+              msg.role = "system";
+            }
+          }
+        }
+
+        init = { ...init, body: JSON.stringify(body) };
+      } catch {
+        /* ignore */
+      }
+    }
+    return fetch(url, init);
+  },
+});
+
 export async function POST(request: Request) {
   try {
-    // Parse incoming messages from request body
     const { messages } = await request.json();
 
-    // Validate that messages exist
     if (!messages || !Array.isArray(messages)) {
       return new Response(
-        JSON.stringify({ error: 'Invalid request: messages array is required' }),
-        { 
-          status: 400, 
-          headers: { 'Content-Type': 'application/json' } 
-        }
+        JSON.stringify({
+          error: "Invalid request: messages array is required",
+        }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
-    // Initialize Google Gemini client with API key from environment
-    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    
-    if (!apiKey) {
-      console.error('Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable');
+    if (!process.env.MANIFEST_API_KEY) {
       return new Response(
-        JSON.stringify({ error: 'Server configuration error: API key not found' }),
-        { 
-          status: 500, 
-          headers: { 'Content-Type': 'application/json' } 
-        }
+        JSON.stringify({ error: "Manifest API key not found" }),
+        { status: 500, headers: { "Content-Type": "application/json" } },
       );
     }
 
-    // Stream response from Gemini with tool calling support
     const result = streamText({
-      model: google('gemini-flash-latest'),
+      model: manifest.chat("auto"),
       system: SYSTEM_PROMPT,
       messages: convertToCoreMessages(messages),
       tools,
+      maxOutputTokens: 40000,
     });
 
-    // Return streaming response to client in UI message format
     return result.toUIMessageStreamResponse();
-    
   } catch (error) {
-    // Log error for debugging
-    console.error('Chat API error:', error);
-    
-    // Return user-friendly error message
-    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-    
+    console.error("Chat API error:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
     return new Response(
-      JSON.stringify({ 
-        error: 'Failed to process chat request',
-        details: errorMessage 
+      JSON.stringify({
+        error: "Failed to process chat request",
+        details: errorMessage,
       }),
-      { 
-        status: 500, 
-        headers: { 'Content-Type': 'application/json' } 
-      }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }
