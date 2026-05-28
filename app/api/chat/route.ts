@@ -1,4 +1,4 @@
-import { streamText, convertToCoreMessages } from "ai";
+import { streamText, convertToCoreMessages, stepCountIs } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
 import { tools } from "@/lib/ai/tools";
@@ -60,6 +60,7 @@ export async function POST(request: Request) {
       messages: convertToCoreMessages(messages),
       tools,
       maxOutputTokens: 40000,
+      stopWhen: stepCountIs(3),
     });
 
     return result.toUIMessageStreamResponse();
