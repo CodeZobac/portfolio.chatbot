@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Skill } from '@/lib/types';
 
 interface CreativeSkillsGraphProps {
@@ -20,37 +20,47 @@ interface Node extends Skill {
 export default function CreativeSkillsGraph({ skills, showAllLabels = false }: CreativeSkillsGraphProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [nodes, setNodes] = useState<Node[]>([]);
+    const nodesRef = useRef<Node[]>([]);
     const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
     const animationRef = useRef<number>(0);
+    const hoveredNodeRef = useRef<Node | null>(null);
 
-    // Initialize nodes
+    // Keep hoveredNodeRef in sync for use in the animation loop (avoids re-running the effect)
+    hoveredNodeRef.current = hoveredNode;
+
+    // Initialize nodes — only when skills array content actually changes
+    const skillsKey = skills.map(s => s.name).join(',');
     useEffect(() => {
         if (!containerRef.current) return;
 
         const { width, height } = containerRef.current.getBoundingClientRect();
-        const newNodes: Node[] = skills.map((skill) => ({
+        nodesRef.current = skills.map((skill) => ({
             ...skill,
             x: Math.random() * width,
             y: Math.random() * height,
             vx: (Math.random() - 0.5) * 0.5,
             vy: (Math.random() - 0.5) * 0.5,
-            radius: Math.max(4, (skill.proficiency / 100) * 8), // Size based on proficiency
+            radius: Math.max(4, (skill.proficiency / 100) * 8),
         }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [skillsKey]);
 
-        setNodes(newNodes);
-    }, [skills]);
-
-    // Animation loop
+    // Animation loop — runs once and reads from refs (no dependency on nodes state)
     useEffect(() => {
         const canvas = canvasRef.current;
         const container = containerRef.current;
-        if (!canvas || !container || nodes.length === 0) return;
+        if (!canvas || !container) return;
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         const update = () => {
+            const nodes = nodesRef.current;
+            if (nodes.length === 0) {
+                animationRef.current = requestAnimationFrame(update);
+                return;
+            }
+
             const { width, height } = container.getBoundingClientRect();
             canvas.width = width;
             canvas.height = height;
@@ -58,7 +68,7 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
             ctx.clearRect(0, 0, width, height);
 
             // Draw connections
-            ctx.strokeStyle = 'rgba(232, 168, 56, 0.15)'; // Amber with low opacity
+            ctx.strokeStyle = 'rgba(232, 168, 56, 0.15)';
             ctx.lineWidth = 1;
 
             for (let i = 0; i < nodes.length; i++) {
@@ -92,14 +102,16 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                 }
             }
 
+            const currentHovered = hoveredNodeRef.current;
+
             // Draw nodes and labels
             nodes.forEach((node) => {
-                const isHovered = hoveredNode === node;
+                const isHovered = currentHovered === node;
 
                 // Draw node
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-                ctx.fillStyle = isHovered ? '#f97316' : '#e8a838'; // Orange-500 hover, Amber default
+                ctx.fillStyle = isHovered ? '#f97316' : '#e8a838';
                 ctx.fill();
 
                 // Glow effect
@@ -124,12 +136,12 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
             animationRef.current = requestAnimationFrame(update);
         };
 
-        update();
+        animationRef.current = requestAnimationFrame(update);
 
         return () => {
             if (animationRef.current) cancelAnimationFrame(animationRef.current);
         };
-    }, [nodes, hoveredNode, showAllLabels]); // Added showAllLabels dependency
+    }, [showAllLabels]);
 
     // Handle mouse interaction to find hovered node
     const handleMouseMove = (e: React.MouseEvent) => {
@@ -138,7 +150,7 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        const found = nodes.find((node) => {
+        const found = nodesRef.current.find((node) => {
             const dx = node.x - mouseX;
             const dy = node.y - mouseY;
             return Math.sqrt(dx * dx + dy * dy) < node.radius + 10; // Hit area slightly larger
