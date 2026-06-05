@@ -78,7 +78,7 @@ export default function Home() {
               Afonso Caboz
             </h1>
             <p className="text-xs text-stone-500">
-              Full-Stack Solutions Architect
+              Systems Architect: AI & Full-Stack Integration 𖤍
             </p>
           </div>
           <div className="flex items-center gap-2">
