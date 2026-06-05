@@ -65,6 +65,33 @@ export const skills: Skill[] = [
     priority: "emerging",
     appliedIn: ["FleetFlow"],
   },
+  {
+    name: "Observability",
+    proficiency: 85,
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "Full-lifecycle tracing",
+    priority: "core",
+    appliedIn: ["FleetFlow"],
+  },
+  {
+    name: "Cost Management",
+    proficiency: 82,
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "Manifest governance",
+    priority: "core",
+    appliedIn: ["FleetFlow"],
+  },
+  {
+    name: "Prompt Engineering",
+    proficiency: 83,
+    category: "ai-data",
+    yearsOfExperience: 1,
+    strengthTag: "promptfoo testing",
+    priority: "core",
+    appliedIn: ["FleetFlow"],
+  },
 
   // Backend & Systems Skills
   {

@@ -22,6 +22,9 @@ import {
   Eye,
   Compass,
   Sparkles,
+  Activity,
+  Wallet,
+  ShieldAlert,
 } from "lucide-react";
 
 export const skillIconMap: Record<
@@ -36,6 +39,9 @@ export const skillIconMap: Record<
   "LLM Observability": Shield,
   "AI Agent Development": Brain,
   "Predictive Analytics": LineChart,
+  "Observability": Activity,
+  "Cost Management": Wallet,
+  "Prompt Engineering": ShieldAlert,
 
   // Backend
   Python: Code2,
