@@ -50,29 +50,6 @@ export default function ContactCard({ data }: ContactCardProps) {
             </a>
           </div>
 
-          <div className="flex items-center gap-3 group">
-            <div className="p-2 rounded-full bg-amber-50 group-hover:bg-amber-100 transition-colors">
-              <svg
-                className="h-5 w-5 text-stone-400 group-hover:text-amber-600 transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                />
-              </svg>
-            </div>
-            <a
-              href={`tel:${contact.phone}`}
-              className="text-sm text-stone-600 hover:text-amber-600 transition-colors"
-            >
-              {contact.phone}
-            </a>
-          </div>
 
           <div className="flex items-center gap-3 group">
             <div className="p-2 rounded-full bg-amber-50 group-hover:bg-amber-100 transition-colors">
