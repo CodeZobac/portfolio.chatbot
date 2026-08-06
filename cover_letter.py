@@ -77,7 +77,7 @@ def create_html_cover_letter():
                 <span class="separator">|</span>
                 <a href="https://www.codezobac.com" class="contact-link">codezobac.com</a>
                 <span class="separator">|</span>
-                <span class="contact-link">Warsaw, Poland</span>
+                <span class="contact-link">Faro, Portugal</span>
             </div>
         </div>
     </header>
@@ -603,7 +603,9 @@ def generate_pdf():
     html = HTML(string=html_content)
     css = CSS(string=css_content, font_config=font_config)
 
-    output_path = Path(__file__).parent / "Afonso_Caboz_Cover_Letter.pdf"
+    output_dir = Path.home() / "Documents"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / "Afonso_Caboz_Cover_Letter.pdf"
     html.write_pdf(
         target=str(output_path),
         stylesheets=[css],
