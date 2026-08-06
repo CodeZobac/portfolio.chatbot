@@ -141,6 +141,11 @@ export async function publishContent(input: {
 
   const { owner, repo, branch } = config();
   const state = await branchState();
+  if (state.commitSha !== input.baseCommitSha) {
+    const conflict = new Error("The production branch changed. Reload the published content before trying again.");
+    conflict.name = "PublishConflictError";
+    throw conflict;
+  }
   const oldManaged = managedPaths(current.content);
   const nextManaged = managedPaths(content);
   const removed = [...oldManaged].filter((path) => !nextManaged.has(path));

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -306,7 +306,7 @@ function Field({ label, value, onChange, type = "text", required, error, min, ma
   label: string; value: string | number; onChange: (value: string) => void; type?: string; required?: boolean;
   error?: string; min?: number; max?: number; step?: number; multiline?: boolean; helper?: string;
 }) {
-  const id = useMemo(() => `field-${crypto.randomUUID()}`, []);
+  const id = useId();
   const shared = { id, value, required, "aria-required": required, "aria-invalid": !!error, "aria-describedby": `${id}-help`, onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange(event.target.value) };
   return <label className="admin-field" htmlFor={id}><span>{label}{required && <b aria-hidden="true"> *</b>}</span>
     {multiline ? <textarea {...shared} rows={5} /> : <input {...shared} type={type} min={min} max={max} step={step} />}
@@ -363,7 +363,11 @@ function ProjectEditor({ project, onChange, onUpload }: { project: Project; onCh
     <label className="admin-checkbox"><input type="checkbox" checked={project.featured} onChange={(event) => set("featured", event.target.checked)} /><span>Featured project</span></label>
     <div className="admin-form-wide admin-media-block"><Field label="Main image path" value={project.image} onChange={(value) => set("image", value)} required helper="Public path or complete URL" />
       <label className="admin-upload"><ImagePlus size={17} /><span>Upload main image</span><input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => void upload(event.target.files, false)} /></label>
-      {project.image && <img src={project.image} alt="Current project cover preview" />}
+      {project.image && <>
+        {/* The admin preview accepts unpublished local paths and arbitrary validated URLs. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={project.image} alt="Current project cover preview" />
+      </>}
     </div>
     <div className="admin-form-wide admin-media-block"><ListField label="Gallery images" values={project.gallery ?? []} onChange={(value) => set("gallery", value)} placeholder="Public path or URL" />
       <label className="admin-upload"><ImagePlus size={17} /><span>Upload gallery images</span><input type="file" multiple accept="image/jpeg,image/png,image/webp" onChange={(event) => void upload(event.target.files, true)} /></label>
@@ -383,7 +387,7 @@ function YouTubeField({ value, onChange }: { value?: string; onChange: (value?: 
     else if (!id) setError("That YouTube link was not recognized. Use a watch, share, Shorts, or embed URL.");
     else { setError(""); onChange(id); }
   }
-  const id = useMemo(() => `youtube-${crypto.randomUUID()}`, []);
+  const id = useId();
   return <label className="admin-field" htmlFor={id}><span>YouTube video link</span>
     <input id={id} type="url" defaultValue={youtubeUrl(value)} onBlur={validate} aria-invalid={!!error} aria-describedby={`${id}-help`} />
     <small id={`${id}-help`} className={error ? "error" : ""}>{error || "A full YouTube URL; the video ID is stored automatically."}</small>
