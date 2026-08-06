@@ -1,0 +1,8 @@
+{
+  "date": "2026-08-06",
+  "framework": "Next.js 16 App Router",
+  "font_stack": "Syne via next/font",
+  "palette": "warm amber and orange light palette",
+  "motion": ["framer-motion", "gsap"],
+  "spacing": "Tailwind v4 with project CSS tokens"
+}

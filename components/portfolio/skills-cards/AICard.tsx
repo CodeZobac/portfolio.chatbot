@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { Skill } from "@/lib/types";
-import { ParticleCard } from "../MagicBento";
-import { skillIconMap } from "../skillIconMap";
 import { Bot } from "lucide-react";
+import { Skill } from "@/lib/types";
+import { skillIconMap } from "../skillIconMap";
 
 interface SkillCardProps {
   skills: Skill[];
@@ -16,57 +15,42 @@ export const AICard: React.FC<SkillCardProps> = ({
   skills,
   title,
   className,
-}) => {
-  return (
-    <ParticleCard
-      className={`${className} group relative flex flex-col p-6 rounded-[24px] border border-orange-200 bg-gradient-to-br from-orange-50/50 to-amber-50/50 overflow-hidden transition-all duration-500`}
-      particleCount={20}
-      enableTilt={true}
-      glowColor="249, 115, 22" // Orange
-    >
-      {/* Neural Network SVG Background */}
-      <div
-        className="absolute inset-0 opacity-30 pointer-events-none bg-no-repeat bg-cover bg-center"
-        style={{ backgroundImage: "url('/neuron-mesh.svg')" }}
+}) => (
+  <article
+    className={`${className ?? ""} skill-panel relative overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-paper-2)] p-5 sm:p-6`}
+  >
+    <div className="flex items-center gap-3">
+      <Bot
+        aria-hidden="true"
+        className="h-6 w-6 shrink-0 text-[var(--color-accent-strong)]"
       />
+      <h4 className="min-w-0 text-lg font-bold text-[var(--color-ink)]">
+        {title}
+      </h4>
+      <span className="h-px flex-1 bg-[var(--color-rule-strong)]" />
+    </div>
 
-      <div className="relative z-10 flex flex-col h-full">
-        <div className="mb-6">
-          <span className="inline-block px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-bold uppercase tracking-wider mb-2">
-            {title}
-          </span>
-          <h3 className="text-2xl font-bold text-stone-800">
-            Intelligence Layers
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {skills.map((skill) => {
-            const Icon = skillIconMap[skill.name] || Bot;
-            return (
-              <div
-                key={skill.name}
-                className="group/skill relative flex flex-col gap-2 p-3 rounded-xl bg-white/60 backdrop-blur-sm border border-orange-100 shadow-sm transition-all duration-300 hover:bg-white hover:border-orange-300 hover:shadow-md hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-2">
-                  <Icon className="w-4 h-4 text-orange-600" />
-                  <span className="text-[11px] font-bold text-stone-700 uppercase tracking-tight">
-                    {skill.name}
-                  </span>
-                </div>
-
-                {/* Micro Proficiency Bar */}
-                <div className="h-1 w-full bg-orange-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-orange-500 transition-all duration-1000 group-hover/skill:w-full"
-                    style={{ width: `${skill.proficiency}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </ParticleCard>
-  );
-};
+    <ul
+      className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3"
+      aria-label={`${title} skills`}
+    >
+      {skills.map((skill, index) => {
+        const Icon = skillIconMap[skill.name] || Bot;
+        return (
+          <li
+            key={skill.id}
+            className={`flex min-w-0 items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--color-rule)] bg-[var(--color-paper)] px-3 py-3 ${index % 5 === 0 ? "col-span-2 sm:col-span-2" : ""}`}
+          >
+            <Icon
+              aria-hidden="true"
+              className="h-4 w-4 shrink-0 text-[var(--color-accent-strong)]"
+            />
+            <span className="skill-name text-xs font-bold text-[var(--color-ink-soft)] sm:text-sm">
+              {skill.name}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  </article>
+);

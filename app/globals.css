@@ -1,3 +1,4 @@
+@import "../tokens.css";
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
@@ -62,6 +63,11 @@ textarea {
 /* Smooth scrolling for better UX */
 html {
     scroll-behavior: smooth;
+    overflow-x: clip;
+}
+
+body {
+    overflow-x: clip;
 }
 
 /* Prevent zoom on input focus on iOS */
@@ -144,6 +150,12 @@ html {
     }
 }
 
+/* Skip layout and paint work for chat entries outside the viewport. */
+.chat-message {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 180px;
+}
+
 .animate-fadeIn {
     animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -154,13 +166,6 @@ html {
 
 .animate-float {
     animation: float 3s ease-in-out infinite;
-}
-
-/* Hide system cursor globally when custom cursor is active */
-html.custom-cursor-active,
-html.custom-cursor-active body,
-html.custom-cursor-active * {
-    cursor: none !important;
 }
 
 /* Glassmorphism Utilities */

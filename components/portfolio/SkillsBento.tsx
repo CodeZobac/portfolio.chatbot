@@ -1,20 +1,7 @@
 "use client";
 
-import React, { useRef, useMemo, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useMemo } from "react";
 import { Skill } from "@/lib/types";
-
-// Register ScrollTrigger
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-import {
-  GlobalSpotlight,
-  BentoCardGrid,
-  useMobileDetection,
-} from "./MagicBento";
 import { FrontendCard } from "./skills-cards/FrontendCard";
 import { BackendCard } from "./skills-cards/BackendCard";
 import { AICard } from "./skills-cards/AICard";
@@ -29,54 +16,10 @@ export interface SkillsBentoProps {
   glowColor?: string;
 }
 
-const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = "232, 168, 56"; // Amber
-
 const SkillsBento: React.FC<SkillsBentoProps> = ({
   skills,
   category,
-  enableSpotlight = true,
-  spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
-  glowColor = DEFAULT_GLOW_COLOR,
 }) => {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const isMobile = useMobileDetection();
-
-  useEffect(() => {
-    if (!gridRef.current || isMobile) return;
-
-    const cards = gridRef.current.querySelectorAll(".skills-grid > *");
-
-    gsap.fromTo(
-      cards,
-      {
-        opacity: 0,
-        y: 40,
-        scale: 0.95,
-        filter: "blur(10px)",
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      },
-    );
-
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, [isMobile]);
-
-  // Group skills by category
   const groupedSkills = useMemo(() => {
     return skills.reduce(
       (acc, skill) => {
@@ -93,60 +36,77 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
     );
   }, [skills, category]);
 
+  const isFiltered = Boolean(category && category !== "all");
+
   return (
-    <div className="w-full py-8">
+    <section className="skills-bento w-full pb-4" aria-label="Skills by category">
       <style>
         {`
-          .bento-section {
-            --glow-color: ${glowColor};
-            --border-color: rgba(232, 168, 56, 0.1);
-          }
+          /* Hallmark · component: skills collection · genre: playful · theme: portfolio amber
+           * states: presentational component — no interactive state contract
+           * contrast: pass (46–50)
+           */
+          /* Hallmark · pre-emit critique: P5 H5 E4 S5 R4 V5 */
 
           .skills-grid {
             display: grid;
-            gap: 1.5rem;
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
+            gap: var(--space-md);
+            width: 100%;
+            min-width: 0;
           }
 
-          @media (min-width: 768px) {
+          .skill-panel {
+            min-width: 0;
+            border: var(--rule-thin) solid var(--color-rule);
+            color: var(--color-ink);
+            box-shadow: 0 0.75rem 2rem -1.5rem var(--color-accent-strong);
+            transition:
+              transform var(--dur-short) var(--ease-out),
+              box-shadow var(--dur-short) var(--ease-out);
+          }
+
+          .skill-name {
+            min-width: 0;
+            overflow-wrap: anywhere;
+          }
+
+          @media (hover: hover) and (pointer: fine) {
+            .skill-panel:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 1rem 2.25rem -1.35rem var(--color-accent-strong);
+            }
+          }
+
+          @media (min-width: 40rem) {
             .skills-grid {
-              grid-template-columns: repeat(6, 1fr);
+              grid-template-columns: repeat(6, minmax(0, 1fr));
             }
 
             .card-frontend { grid-column: span 4; grid-row: span 1; }
             .card-backend { grid-column: span 2; grid-row: span 2; }
-            .card-ai-data { grid-column: span 2; grid-row: span 1; }
-            .card-infrastructure { grid-column: span 2; grid-row: span 1; }
+            .card-ai-data { grid-column: span 3; grid-row: span 1; }
+            .card-infrastructure { grid-column: span 3; grid-row: span 1; }
             .card-soft-skills { grid-column: span 6; grid-row: span 1; }
+
+            .skills-grid--filtered > * {
+              grid-column: 1 / -1;
+              grid-row: auto;
+            }
           }
 
-          @keyframes slide-down {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-          }
-
-          .animate-slide-down {
-            animation: slide-down 2s linear infinite;
-          }
-
-          .perspective-1000 {
-            perspective: 1000px;
+          @media (prefers-reduced-motion: reduce) {
+            .skill-panel,
+            .skill-panel * {
+              animation: none !important;
+              transition-duration: var(--dur-micro) !important;
+              transform: none !important;
+            }
           }
         `}
       </style>
 
-      {enableSpotlight && (
-        <GlobalSpotlight
-          gridRef={gridRef}
-          disableAnimations={isMobile}
-          enabled={enableSpotlight}
-          spotlightRadius={spotlightRadius}
-          glowColor={glowColor}
-        />
-      )}
-
-      <BentoCardGrid gridRef={gridRef}>
-        <div className="skills-grid w-full">
+      <div className={`skills-grid ${isFiltered ? "skills-grid--filtered" : ""}`}>
           {groupedSkills["frontend"] && (
             <FrontendCard
               skills={groupedSkills["frontend"]}
@@ -186,9 +146,8 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
               className="card-soft-skills"
             />
           )}
-        </div>
-      </BentoCardGrid>
-    </div>
+      </div>
+    </section>
   );
 };
 

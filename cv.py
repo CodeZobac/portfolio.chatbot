@@ -49,7 +49,7 @@ def create_html_cv():
                 <span class="separator">|</span>
                 <a href="https://www.codezobac.com" class="contact-link">codezobac.com</a>
                 <span class="separator">|</span>
-                <span class="contact-link">Warsaw, Poland</span>
+                <span class="contact-link">Faro, Portugal</span>
             </div>
         </div>
     </header>
@@ -655,7 +655,9 @@ def generate_pdf():
     css = CSS(string=css_content, font_config=font_config)
 
     # Generate PDF
-    output_path = Path(__file__).parent / "Afonso_Caboz_CV.pdf"
+    output_dir = Path.home() / "Documents"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / "Afonso_Caboz_CV.pdf"
     html.write_pdf(target=str(output_path), stylesheets=[css], font_config=font_config)
 
     print(f"✅ PDF generated successfully: {output_path}")

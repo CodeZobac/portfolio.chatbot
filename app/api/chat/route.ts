@@ -59,7 +59,8 @@ export async function POST(request: Request) {
       system: SYSTEM_PROMPT,
       messages: convertToCoreMessages(messages),
       tools,
-      maxOutputTokens: 40000,
+      // Portfolio answers should stay concise; this also bounds client DOM growth.
+      maxOutputTokens: 4000,
       stopWhen: stepCountIs(3),
     });
 

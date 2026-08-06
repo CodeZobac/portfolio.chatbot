@@ -218,6 +218,11 @@ const SplashCursor = memo(
   }: SplashCursorProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationFrameId = useRef<number | null>(null);
+    const pausedRef = useRef(PAUSED);
+
+    useEffect(() => {
+      pausedRef.current = PAUSED;
+    }, [PAUSED]);
 
     useEffect(() => {
       const canvas = canvasRef.current;
@@ -238,7 +243,6 @@ const SplashCursor = memo(
         SPLAT_FORCE: SPLAT_FORCE!,
         SHADING,
         COLOR_UPDATE_SPEED: COLOR_UPDATE_SPEED!,
-        PAUSED: PAUSED,
         BACK_COLOR,
         TRANSPARENT,
         RAINBOW_MODE,
@@ -1038,7 +1042,7 @@ const SplashCursor = memo(
       }
 
       function scaleByPixelRatio(input: number) {
-        const pixelRatio = window.devicePixelRatio || 1;
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
         return Math.floor(input * pixelRatio);
       }
 
@@ -1048,14 +1052,31 @@ const SplashCursor = memo(
       let lastUpdateTime = Date.now();
       let colorUpdateTimer = 0.0;
 
-      function updateFrame() {
+      let lastFrameTime = 0;
+      const frameInterval = 1000 / 30;
+
+      function updateFrame(now = performance.now()) {
+        animationFrameId.current = requestAnimationFrame(updateFrame);
+        if (
+          pausedRef.current ||
+          document.hidden ||
+          now - lastFrameTime < frameInterval
+        ) {
+          return;
+        }
+        lastFrameTime = now;
         const dt = calcDeltaTime();
         if (resizeCanvas()) initFramebuffers();
         updateColors(dt);
         applyInputs();
         step(dt);
         render(null);
-        animationFrameId.current = requestAnimationFrame(updateFrame);
+      }
+
+      function startAnimation() {
+        if (animationFrameId.current === null) {
+          animationFrameId.current = requestAnimationFrame(updateFrame);
+        }
       }
 
       function calcDeltaTime() {
@@ -1541,7 +1562,7 @@ const SplashCursor = memo(
         const posX = scaleByPixelRatio(e.clientX);
         const posY = scaleByPixelRatio(e.clientY);
         const color = generateColor();
-        updateFrame();
+        startAnimation();
         updatePointerMoveData(pointer, posX, posY, color);
         document.body.removeEventListener("mousemove", handleFirstMouseMove);
       }
@@ -1552,7 +1573,7 @@ const SplashCursor = memo(
         for (let i = 0; i < touches.length; i++) {
           const posX = scaleByPixelRatio(touches[i].clientX);
           const posY = scaleByPixelRatio(touches[i].clientY);
-          updateFrame();
+          startAnimation();
           updatePointerDownData(pointer, touches[i].identifier, posX, posY);
         }
         document.body.removeEventListener("touchstart", handleFirstTouchStart);

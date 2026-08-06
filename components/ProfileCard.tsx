@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 import './ProfileCard.css';
 
 interface ProfileCardProps {
@@ -126,7 +127,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
       const stillFar = Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05;
 
-      if (stillFar || document.hasFocus()) {
+      if (stillFar) {
         rafId = requestAnimationFrame(step);
       } else {
         running = false;
@@ -269,9 +270,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
     const handleClick = () => {
       if (!enableMobileTilt || location.protocol !== 'https:') return;
-      const anyMotion = window.DeviceMotionEvent as any;
-      if (anyMotion && typeof anyMotion.requestPermission === 'function') {
-        anyMotion
+      const motionEvent = window.DeviceMotionEvent as typeof DeviceMotionEvent & {
+        requestPermission?: () => Promise<'granted' | 'denied'>;
+      };
+      if (motionEvent && typeof motionEvent.requestPermission === 'function') {
+        motionEvent
           .requestPermission()
           .then((state: string) => {
             if (state === 'granted') {
@@ -329,7 +332,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   }, [onContactClick]);
 
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
+    <div
+      ref={wrapRef}
+      className={`pc-card-wrapper ${!enableTilt ? 'pc-static' : ''} ${className}`.trim()}
+      style={cardStyle}
+    >
       {behindGlowEnabled && <div className="pc-behind" />}
       <div ref={shellRef} className="pc-card-shell">
         <section className="pc-card">
@@ -337,11 +344,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             <div className="pc-shine" />
             <div className="pc-glare" />
             <div className="pc-content pc-avatar-content">
-              <img
+              <Image
                 className="avatar"
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}
-                loading="lazy"
+                width={1024}
+                height={1536}
+                sizes="(max-width: 600px) 300px, 420px"
+                quality={75}
+                preload
                 onError={e => {
                   const t = e.target as HTMLImageElement;
                   t.style.display = 'none';
@@ -351,9 +362,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 <div className="pc-user-info">
                   <div className="pc-user-details">
                     <div className="pc-mini-avatar">
-                      <img
+                      <Image
                         src={miniAvatarUrl || avatarUrl}
                         alt={`${name || 'User'} mini avatar`}
+                        width={48}
+                        height={48}
+                        sizes="48px"
                         loading="lazy"
                         onError={e => {
                           const t = e.target as HTMLImageElement;
