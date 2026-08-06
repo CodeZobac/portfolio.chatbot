@@ -35,6 +35,7 @@ export interface Project {
 }
 
 export interface Skill {
+  id: string;
   name: string;
   proficiency: number; // 0-100
   category:
@@ -47,6 +48,13 @@ export interface Skill {
   appliedIn?: string[];
   strengthTag?: string;
   priority?: "core" | "supporting" | "emerging";
+}
+
+export interface PortfolioContent {
+  version: 1;
+  skills: Skill[];
+  projects: Project[];
+  experiences: Experience[];
 }
 
 export interface Education {

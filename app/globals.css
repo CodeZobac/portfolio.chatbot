@@ -1,3 +1,4 @@
+@import "../tokens.css";
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
@@ -62,6 +63,11 @@ textarea {
 /* Smooth scrolling for better UX */
 html {
     scroll-behavior: smooth;
+    overflow-x: clip;
+}
+
+body {
+    overflow-x: clip;
 }
 
 /* Prevent zoom on input focus on iOS */
