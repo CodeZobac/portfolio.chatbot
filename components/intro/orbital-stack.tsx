@@ -54,10 +54,14 @@ interface OrbitingItems3DProps {
   className?: string;
 }
 
+/** Container is a fixed 16rem (h-64 w-64) square. */
+const CONTAINER_PX = 256;
+
 /**
  * A single orbiting tile. All motion is derived from the shared `angle`
- * MotionValue via transforms, so the orbit runs on the animation frame
- * loop without triggering React re-renders.
+ * MotionValue via transforms only (x/y/scale/opacity) — no layout
+ * properties and no per-frame filters, so the orbit stays entirely on the
+ * GPU compositor and can't jank or stall the main thread.
  */
 function OrbitingItem({
   index,
@@ -81,48 +85,45 @@ function OrbitingItem({
   const cosTilt = Math.cos(tiltRadians);
   const sinTilt = Math.sin(tiltRadians);
 
-  // Position of this item on the (tilted) ellipse, in container %.
+  // Position of this item on the (tilted) ellipse, in radians.
   const theta = useTransform(angle, (a) => {
     const deg = (((a + index * angleStep) % 360) + 360) % 360;
     return (deg * Math.PI) / 180;
   });
 
-  const left = useTransform(theta, (rad) => {
-    const x = radiusX * Math.cos(rad);
-    const y = radiusY * Math.sin(rad);
-    return `${50 + x * cosTilt - y * sinTilt}%`;
+  // Pixel offsets from center — animated via transform, never left/top.
+  const x = useTransform(theta, (rad) => {
+    const ex = radiusX * Math.cos(rad);
+    const ey = radiusY * Math.sin(rad);
+    return ((ex * cosTilt - ey * sinTilt) / 100) * CONTAINER_PX;
   });
 
-  const top = useTransform(theta, (rad) => {
-    const x = radiusX * Math.cos(rad);
-    const y = radiusY * Math.sin(rad);
-    return `${50 + x * sinTilt + y * cosTilt}%`;
+  const y = useTransform(theta, (rad) => {
+    const ex = radiusX * Math.cos(rad);
+    const ey = radiusY * Math.sin(rad);
+    return ((ex * sinTilt + ey * cosTilt) / 100) * CONTAINER_PX;
   });
 
   // Continuous depth along the orbit: +1 at the closest point, -1 at the
-  // farthest. Drives scale, opacity, blur and stacking for a true 3D feel.
+  // farthest. Drives scale, opacity and stacking for the 3D feel.
   const depth = useTransform(theta, (rad) => Math.sin(rad));
   const depthNorm = useTransform(depth, (d) => (d + 1) / 2);
 
   const scale = useTransform(depthNorm, [0, 1], [0.72, 1.18]);
-  const opacity = useTransform(depthNorm, [0, 1], [0.45, 1]);
-  const filter = useTransform(
-    depthNorm,
-    (n) => `blur(${((1 - n) * 2.5).toFixed(2)}px)`,
-  );
-  const zIndex = useTransform(depth, (d) => Math.round(10 + d * 9));
+  const opacity = useTransform(depthNorm, [0, 1], [0.4, 1]);
+  // zIndex only flips between a few discrete layers (cheap style write).
+  const zIndex = useTransform(depth, (d) => (d > 0.15 ? 12 : d < -0.15 ? 3 : 8));
 
   return (
     <motion.div
-      className="absolute flex h-[4.5rem] w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-2xl border border-white/60 bg-white/75 backdrop-blur-xl"
+      className="absolute left-1/2 top-1/2 flex h-[4.5rem] w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-2xl border border-white/60 bg-white/95 will-change-transform"
       style={{
-        left,
-        top,
-        x: "-50%",
-        y: "-50%",
+        x,
+        y,
+        marginLeft: "-2.25rem",
+        marginTop: "-2.25rem",
         scale,
         opacity,
-        filter,
         zIndex,
         boxShadow: `0 8px 24px -6px ${icon.hex}40, 0 2px 8px rgba(120, 72, 20, 0.12), inset 0 1px 0 rgba(255,255,255,0.9)`,
       }}

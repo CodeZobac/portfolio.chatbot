@@ -212,36 +212,62 @@ export const ParticleCard: React.FC<{
 
     const element = cardRef.current;
 
-    // Cursor-tracking glare sheen — positioned via CSS vars, cheap to update.
+    // Cursor-tracking glare sheen. Perf notes: the glare is a fixed-size
+    // radial gradient moved with a GPU transform (translate), NOT a
+    // repainted gradient position, and it uses no blend mode — blend modes
+    // above backdrop-blur surfaces force full backdrop recomposition every
+    // frame and can freeze the page.
     const glare = document.createElement("div");
     glare.className = "card-glare";
     glare.style.cssText = `
       position: absolute;
-      inset: 0;
+      left: -180px;
+      top: -180px;
+      width: 360px;
+      height: 360px;
       pointer-events: none;
       z-index: 4;
       opacity: 0;
-      border-radius: inherit;
       background: radial-gradient(
-        360px circle at var(--glare-x, 50%) var(--glare-y, 50%),
-        rgba(255, 255, 255, 0.45),
-        rgba(255, 255, 255, 0.1) 35%,
+        circle,
+        rgba(255, 255, 255, 0.28),
+        rgba(255, 255, 255, 0.07) 35%,
         transparent 65%
       );
-      mix-blend-mode: overlay;
+      will-change: transform, opacity;
     `;
     element.appendChild(glare);
 
-    gsap.set(element, { transformPerspective: 900, transformOrigin: "center" });
+    gsap.set(element, {
+      transformPerspective: 900,
+      transformOrigin: "center",
+      force3D: true,
+    });
 
-    // Inertial tilt — quickTo tweens glide toward the cursor instead of
-    // snapping, giving the card physical weight.
+    // Inertial motion — quickTo tweens glide toward the cursor instead of
+    // snapping, and reuse one tween each (no per-mousemove allocations).
     const rotX = gsap.quickTo(element, "rotationX", {
       duration: 0.55,
       ease: "power3.out",
     });
     const rotY = gsap.quickTo(element, "rotationY", {
       duration: 0.55,
+      ease: "power3.out",
+    });
+    const glareX = gsap.quickTo(glare, "x", {
+      duration: 0.3,
+      ease: "power2.out",
+    });
+    const glareY = gsap.quickTo(glare, "y", {
+      duration: 0.3,
+      ease: "power2.out",
+    });
+    const magnetX = gsap.quickTo(element, "x", {
+      duration: 0.4,
+      ease: "power3.out",
+    });
+    const magnetY = gsap.quickTo(element, "y", {
+      duration: 0.4,
       ease: "power3.out",
     });
 
@@ -252,6 +278,7 @@ export const ParticleCard: React.FC<{
       animateParticles();
 
       if (enableTilt) {
+        // box-shadow only tweens on enter/leave (brief), never per-frame.
         gsap.to(element, {
           scale: 1.015,
           boxShadow: `0 24px 48px -16px rgba(${glowColor}, 0.35), 0 12px 24px -12px rgba(68, 48, 24, 0.18)`,
@@ -310,20 +337,14 @@ export const ParticleCard: React.FC<{
         rotX(ny * -MAX_TILT);
         rotY(nx * MAX_TILT);
 
-        element.style.setProperty("--glare-x", `${(x / rect.width) * 100}%`);
-        element.style.setProperty("--glare-y", `${(y / rect.height) * 100}%`);
+        // Glare follows the cursor via transform only (no repaint).
+        glareX(x);
+        glareY(y);
       }
 
       if (enableMagnetism) {
-        const magnetX = (x - centerX) * 0.04;
-        const magnetY = (y - centerY) * 0.04;
-
-        magnetismAnimationRef.current = gsap.to(element, {
-          x: magnetX,
-          y: magnetY,
-          duration: 0.4,
-          ease: "power3.out",
-        });
+        magnetX((x - centerX) * 0.04);
+        magnetY((y - centerY) * 0.04);
       }
     };
 
