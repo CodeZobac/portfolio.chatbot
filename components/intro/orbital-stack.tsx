@@ -1,65 +1,42 @@
-import { Brain, Sparkles, CircuitBoard, Cpu, Bot, Network } from "lucide-react";
-import { useEffect, useState } from "react";
+"use client";
+
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 
 import { Icons } from "@/components/icons";
+import { TECH_STACK, type TechIcon } from "@/components/intro/tech-icons";
 import { cn } from "@/lib/utils";
-
-export const CenterIcon = (
-  <Icons.logo
-    className="center z-1 h-32 w-32 animate-float rounded-full bg-linear-to-br from-amber-400 via-orange-400 to-rose-400 p-8 shadow-2xl text-white"
-    style={{
-      boxShadow:
-        "0 0 40px 15px rgba(232, 168, 56, 0.4), 0 0 80px 30px rgba(249, 115, 22, 0.2)",
-    }}
-  />
-);
-
-const iconColors = [
-  "text-amber-500",
-  "text-orange-500",
-  "text-rose-500",
-  "text-emerald-500",
-  "text-sky-500",
-  "text-violet-500",
-];
-
-export const LucideIcons = [
-  <Brain key="brain" className={cn("h-12 w-12", iconColors[0])} />,
-  <Sparkles key="sparkles" className={cn("h-12 w-12", iconColors[1])} />,
-  <CircuitBoard
-    key="circuit-board"
-    className={cn("h-12 w-12", iconColors[2])}
-  />,
-  <Cpu key="cpu" className={cn("h-12 w-12", iconColors[3])} />,
-  <Bot key="bot" className={cn("h-12 w-12", iconColors[4])} />,
-  <Network key="network" className={cn("h-12 w-12", iconColors[5])} />,
-];
 
 interface OrbitingItems3DProps {
   /**
    * The radius of the ellipse on X-axis in percentage, relative to the container.
    */
-  radiusX: number;
+  radiusX?: number;
 
   /**
    * The radius of the ellipse on Y-axis in percentage, relative to the container.
    */
-  radiusY: number;
+  radiusY?: number;
 
   /**
-   * The angle at which ellipse is tilted to x-axis.
+   * The angle at which the ellipse is tilted relative to the x-axis, in degrees.
    */
-  tiltAngle: number;
+  tiltAngle?: number;
 
   /**
-   * The time taken for the revolution around the center element.
+   * Seconds per full revolution around the center element.
    */
-  duration: number;
+  duration?: number;
 
   /**
-   * The items to orbit around the center of the parent element.
+   * The tech items to orbit around the center of the parent element.
    */
-  items?: React.ReactNode[];
+  items?: TechIcon[];
 
   /**
    * Class name for the background element.
@@ -77,57 +54,170 @@ interface OrbitingItems3DProps {
   className?: string;
 }
 
+/**
+ * A single orbiting tile. All motion is derived from the shared `angle`
+ * MotionValue via transforms, so the orbit runs on the animation frame
+ * loop without triggering React re-renders.
+ */
 function OrbitingItem({
   index,
+  totalItems,
+  angle,
   radiusX,
   radiusY,
-  totalItems,
   tiltAngle,
-  duration,
-  children,
+  icon,
 }: {
   index: number;
+  totalItems: number;
+  angle: MotionValue<number>;
   radiusX: number;
   radiusY: number;
-  totalItems: number;
   tiltAngle: number;
-  duration: number;
-  children: React.ReactNode;
+  icon: TechIcon;
 }) {
   const angleStep = 360 / totalItems;
-  const [angle, setAngle] = useState(index * angleStep);
-
-  useEffect(() => {
-    const animation = setInterval(() => {
-      setAngle((prevAngle) => (prevAngle + 1) % 360);
-    }, duration);
-    return () => clearInterval(animation);
-  }, [duration]);
-
-  const radians = (angle * Math.PI) / 180;
-  const x = radiusX * Math.cos(radians);
-  const y = radiusY * Math.sin(radians);
-
   const tiltRadians = (tiltAngle * Math.PI) / 180;
-  const xTilted = x * Math.cos(tiltRadians) - y * Math.sin(tiltRadians);
-  const yTilted = x * Math.sin(tiltRadians) + y * Math.cos(tiltRadians);
-  const zIndex = angle > 180 ? 0 : 3;
-  const scale = angle < 180 ? 1.2 : 0.9;
+  const cosTilt = Math.cos(tiltRadians);
+  const sinTilt = Math.sin(tiltRadians);
+
+  // Position of this item on the (tilted) ellipse, in container %.
+  const theta = useTransform(angle, (a) => {
+    const deg = (((a + index * angleStep) % 360) + 360) % 360;
+    return (deg * Math.PI) / 180;
+  });
+
+  const left = useTransform(theta, (rad) => {
+    const x = radiusX * Math.cos(rad);
+    const y = radiusY * Math.sin(rad);
+    return `${50 + x * cosTilt - y * sinTilt}%`;
+  });
+
+  const top = useTransform(theta, (rad) => {
+    const x = radiusX * Math.cos(rad);
+    const y = radiusY * Math.sin(rad);
+    return `${50 + x * sinTilt + y * cosTilt}%`;
+  });
+
+  // Continuous depth along the orbit: +1 at the closest point, -1 at the
+  // farthest. Drives scale, opacity, blur and stacking for a true 3D feel.
+  const depth = useTransform(theta, (rad) => Math.sin(rad));
+  const depthNorm = useTransform(depth, (d) => (d + 1) / 2);
+
+  const scale = useTransform(depthNorm, [0, 1], [0.72, 1.18]);
+  const opacity = useTransform(depthNorm, [0, 1], [0.45, 1]);
+  const filter = useTransform(
+    depthNorm,
+    (n) => `blur(${((1 - n) * 2.5).toFixed(2)}px)`,
+  );
+  const zIndex = useTransform(depth, (d) => Math.round(10 + d * 9));
 
   return (
-    <div
-      className="absolute flex h-20 w-20 items-center justify-center rounded-full border border-amber-200/30 bg-white/80 shadow-2xl shadow-amber-500/20 backdrop-blur-xl transition-transform duration-500 ease-out"
+    <motion.div
+      className="absolute flex h-[4.5rem] w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-2xl border border-white/60 bg-white/75 backdrop-blur-xl"
       style={{
-        left: `${50 + xTilted}%`,
-        top: `${50 + yTilted}%`,
-        transform: `translate(-50%, -50%) scale(${scale})`,
+        left,
+        top,
+        x: "-50%",
+        y: "-50%",
+        scale,
+        opacity,
+        filter,
         zIndex,
-        transition: "transform 0.8s ease-in-out",
+        boxShadow: `0 8px 24px -6px ${icon.hex}40, 0 2px 8px rgba(120, 72, 20, 0.12), inset 0 1px 0 rgba(255,255,255,0.9)`,
       }}
     >
-      <div className="transition-transform ease-linear direction-reverse repeat-infinite">
-        {children}
-      </div>
+      <svg
+        role="img"
+        aria-label={icon.name}
+        viewBox="0 0 24 24"
+        className="h-7 w-7"
+        fill={icon.hex}
+      >
+        <path d={icon.path} />
+      </svg>
+      <span className="text-[8px] font-semibold uppercase tracking-widest text-stone-500">
+        {icon.name}
+      </span>
+    </motion.div>
+  );
+}
+
+/**
+ * The gradient ellipse the items travel along — gives the orbit a visible,
+ * softly glowing track instead of icons floating in a void.
+ */
+function OrbitTrack({
+  radiusX,
+  radiusY,
+  tiltAngle,
+}: {
+  radiusX: number;
+  radiusY: number;
+  tiltAngle: number;
+}) {
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="orbit-track" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(251, 191, 36, 0)" />
+          <stop offset="35%" stopColor="rgba(251, 146, 60, 0.55)" />
+          <stop offset="65%" stopColor="rgba(244, 63, 94, 0.35)" />
+          <stop offset="100%" stopColor="rgba(251, 191, 36, 0)" />
+        </linearGradient>
+      </defs>
+      <ellipse
+        cx="50"
+        cy="50"
+        rx={radiusX}
+        ry={radiusY}
+        transform={`rotate(${tiltAngle} 50 50)`}
+        fill="none"
+        stroke="url(#orbit-track)"
+        strokeWidth="0.5"
+      />
+    </svg>
+  );
+}
+
+function CenterEmblem() {
+  return (
+    <div className="relative z-10 flex items-center justify-center">
+      {/* Slow-rotating conic halo */}
+      <motion.div
+        className="absolute h-44 w-44 rounded-full opacity-60"
+        style={{
+          background:
+            "conic-gradient(from 0deg, rgba(251,191,36,0) 0%, rgba(251,146,60,0.35) 25%, rgba(244,63,94,0.25) 50%, rgba(251,191,36,0) 75%)",
+          filter: "blur(18px)",
+        }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+      />
+      {/* Breathing glow */}
+      <motion.div
+        className="absolute h-32 w-32 rounded-full bg-amber-400/30"
+        style={{ filter: "blur(24px)" }}
+        animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity }}
+      />
+      <motion.div
+        animate={{ y: [-4, 4, -4] }}
+        transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+      >
+        <Icons.logo
+          className="h-28 w-28 rounded-full bg-linear-to-br from-amber-400 via-orange-400 to-rose-400 p-7 text-white"
+          style={{
+            boxShadow:
+              "0 0 40px 12px rgba(232, 168, 56, 0.35), 0 0 90px 30px rgba(249, 115, 22, 0.18), inset 0 1px 0 rgba(255,255,255,0.5)",
+          }}
+        />
+      </motion.div>
     </div>
   );
 }
@@ -135,13 +225,20 @@ function OrbitingItem({
 export default function OrbitingItems3D({
   radiusX = 120,
   radiusY = 30,
-  tiltAngle = 360 - 30,
-  duration = 25,
-  items = LucideIcons,
+  tiltAngle = 330,
+  duration = 9,
+  items = TECH_STACK,
   backgroundClassName,
   containerClassName,
   className,
 }: OrbitingItems3DProps) {
+  const angle = useMotionValue(0);
+
+  // Frame-driven rotation — buttery smooth, no interval stepping.
+  useAnimationFrame((time) => {
+    angle.set((time / 1000) * (360 / duration));
+  });
+
   return (
     <div
       className={cn(
@@ -157,23 +254,23 @@ export default function OrbitingItems3D({
       />
       <div
         className={cn(
-          "relative flex h-64 w-64 items-center justify-center ease-linear repeat-infinite",
+          "relative flex h-64 w-64 items-center justify-center",
           className,
         )}
       >
-        {CenterIcon}
-        {items.map((item, index) => (
+        <OrbitTrack radiusX={radiusX} radiusY={radiusY} tiltAngle={tiltAngle} />
+        <CenterEmblem />
+        {items.map((icon, index) => (
           <OrbitingItem
-            key={index}
+            key={icon.name}
             index={index}
+            totalItems={items.length}
+            angle={angle}
             radiusX={radiusX}
             radiusY={radiusY}
-            totalItems={items.length}
             tiltAngle={tiltAngle}
-            duration={duration}
-          >
-            {item}
-          </OrbitingItem>
+            icon={icon}
+          />
         ))}
       </div>
     </div>
