@@ -44,6 +44,34 @@
   touch-action: none;
 }
 
+.pc-card-wrapper.pc-static {
+  perspective: none;
+  touch-action: auto;
+}
+
+.pc-static .pc-card,
+.pc-static .pc-shine {
+  animation: none;
+}
+
+.pc-static .pc-card,
+.pc-static .pc-card:hover {
+  transform: none;
+  transition: none;
+  box-shadow: 0 16px 40px rgba(140, 96, 36, 0.16);
+}
+
+.pc-static .pc-avatar-content .avatar {
+  transform: translateX(-50%) translateY(18px);
+  transition: none;
+  will-change: auto;
+}
+
+.pc-static .pc-user-info,
+.pc-static .pc-contact-btn {
+  backdrop-filter: none;
+}
+
 .pc-behind {
   position: absolute;
   inset: 0;

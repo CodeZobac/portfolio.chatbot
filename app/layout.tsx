@@ -10,8 +10,6 @@ const syne = Syne({
   display: "swap",
 });
 
-import CustomCursor from "@/components/CustomCursor";
-
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -129,7 +127,6 @@ export default function RootLayout({
         />
       </head>
       <body className={`${syne.variable} antialiased`}>
-        <CustomCursor />
         {children}
       </body>
     </html>

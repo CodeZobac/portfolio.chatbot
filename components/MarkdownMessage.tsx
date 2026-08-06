@@ -1,7 +1,7 @@
 'use client';
 
 import ReactMarkdown from 'react-markdown';
-import { memo, useRef } from 'react';
+import { memo, useDeferredValue, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, FileText, Mail, Code, Briefcase, GraduationCap, FolderGit2, ExternalLink } from 'lucide-react';
 
@@ -10,6 +10,7 @@ interface MarkdownMessageProps {
   onButtonClick?: (text: string) => void;
   className?: string;
   transparent?: boolean;
+  isStreaming?: boolean;
 }
 
 const MAX_BUTTONS = 4;
@@ -37,23 +38,16 @@ const extractText = (children: React.ReactNode): string => {
   return '';
 };
 
-const MarkdownMessage = memo(({ content, onButtonClick, className, transparent = false }: MarkdownMessageProps) => {
-  // Use a ref to track button count across renders of the same message.
-  // This counter is reset each time the component re-renders with new content.
-  const buttonCountRef = useRef(0);
-  buttonCountRef.current = 0;
-
+const MarkdownMessage = memo(({ content, onButtonClick, className, transparent = false, isStreaming = false }: MarkdownMessageProps) => {
   const containerClasses = transparent
     ? `prose max-w-none ${className || ''}`
-    : `prose max-w-none bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-sm border border-stone-100 ${className || ''}`;
+    : `prose max-w-none bg-white/95 p-6 sm:p-8 rounded-2xl shadow-sm border border-stone-100 ${className || ''}`;
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
-      className={containerClasses}
-    >
+  const deferredContent = useDeferredValue(content);
+  const renderedContent = isStreaming ? deferredContent : content;
+  const renderedMarkdown = useMemo(() => {
+    let buttonCount = 0;
+    return (
       <ReactMarkdown
         components={{
           p: ({ children }) => (
@@ -65,8 +59,8 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
             const text = extractText(children);
 
             // Render as interactive button if: callback exists, under cap, and text is short enough
-            if (onButtonClick && buttonCountRef.current < MAX_BUTTONS && text.length > 0 && text.length < 40) {
-              buttonCountRef.current++;
+            if (onButtonClick && buttonCount < MAX_BUTTONS && text.length > 0 && text.length < 40) {
+              buttonCount++;
               const Icon = getButtonIcon(text);
               return (
                 <button
@@ -146,8 +140,19 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
           ),
         }}
       >
-        {content}
+        {renderedContent}
       </ReactMarkdown>
+    );
+  }, [renderedContent, onButtonClick]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
+      className={containerClasses}
+    >
+      {renderedMarkdown}
     </motion.div>
   );
 });

@@ -2,41 +2,154 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useEffect, useRef, useState } from "react";
-// import ExperienceCard from '@/components/portfolio/ExperienceCard';
-import ProjectsCard from "@/components/portfolio/ProjectsCard";
-import SkillsCard from "@/components/portfolio/SkillsCard";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import EducationCard from "@/components/portfolio/EducationCard";
 import ContactCard from "@/components/portfolio/ContactCard";
-import DramaticResumeCard from "@/components/portfolio/DramaticResumeCard";
-import CVCard from "@/components/portfolio/CVCard";
 import ProfileCard from "@/components/ProfileCard";
-import GradualBlur from "@/components/GradualBlur";
-import SplashAnimation from "@/components/SplashAnimation";
 import IntroAnimation from "@/components/intro/intro-animation";
 import MarkdownMessage from "@/components/MarkdownMessage";
 import { Message, MessageContent } from "@/components/ai-elements/message";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import type { ToolOutput } from "@/lib/types";
+
+const VISIBLE_MESSAGE_LIMIT = 12;
+
+const ProjectsCard = dynamic(
+  () => import("@/components/portfolio/ProjectsCard"),
+  { loading: ToolCardSkeleton },
+);
+const SkillsCard = dynamic(() => import("@/components/portfolio/SkillsCard"), {
+  loading: ToolCardSkeleton,
+});
+const CVCard = dynamic(() => import("@/components/portfolio/CVCard"), {
+  loading: ToolCardSkeleton,
+});
+const DramaticResumeCard = dynamic(
+  () => import("@/components/portfolio/DramaticResumeCard"),
+  { loading: ToolCardSkeleton },
+);
+
+function ToolCardSkeleton() {
+  return (
+    <div className="h-36 w-full animate-pulse rounded-2xl border border-amber-100 bg-amber-50/60" />
+  );
+}
+
+const ToolOutputRenderer = memo(
+  ({
+    output,
+    onModalOpen,
+    onSendMessage,
+  }: {
+    output: ToolOutput;
+    onModalOpen: (isOpen: boolean) => void;
+    onSendMessage: (text: string) => void;
+  }) => {
+    switch (output.type) {
+      case "experience":
+        return null;
+      case "projects":
+        return (
+          <ProjectsCard
+            data={output.data}
+            onModalOpen={onModalOpen}
+          />
+        );
+      case "skills":
+        return <SkillsCard data={output.data} />;
+      case "education":
+        return <EducationCard data={output.data} />;
+      case "contact":
+        return <ContactCard data={output.data} />;
+      case "cv":
+        return (
+          <CVCard
+            data={output.data}
+            onModalOpen={onModalOpen}
+            onSendMessage={onSendMessage}
+          />
+        );
+      case "resume":
+        return <DramaticResumeCard data={output.data} />;
+      default:
+        return null;
+    }
+  },
+);
+
+ToolOutputRenderer.displayName = "ToolOutputRenderer";
 
 export default function Home() {
   const [input, setInput] = useState("");
   const [isInputVisible, setIsInputVisible] = useState(true);
-  const [isLensActive, setIsLensActive] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [showFullHistory, setShowFullHistory] = useState(false);
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: "/api/chat" }),
+    [],
+  );
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-    }),
+    transport,
+    experimental_throttle: 50,
   });
   const isLoading = status === "submitted" || status === "streaming";
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollFrameRef = useRef<number | null>(null);
+  const lastScrollRef = useRef(0);
 
-  // Auto-scroll to latest message
+  // Avoid queuing a smooth scroll animation for every streamed chunk.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    const now = performance.now();
+    if (isLoading && now - lastScrollRef.current < 50) return;
+
+    if (scrollFrameRef.current !== null) {
+      cancelAnimationFrame(scrollFrameRef.current);
+    }
+    scrollFrameRef.current = requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: isLoading ? "auto" : "smooth",
+        block: "end",
+      });
+      lastScrollRef.current = performance.now();
+      scrollFrameRef.current = null;
+    });
+
+    return () => {
+      if (scrollFrameRef.current !== null) {
+        cancelAnimationFrame(scrollFrameRef.current);
+        scrollFrameRef.current = null;
+      }
+    };
+  }, [messages, isLoading]);
+
+  const handleSuggestedMessage = useCallback(
+    (text: string) => sendMessage({ text }),
+    [sendMessage],
+  );
+  const handleModalOpen = useCallback(
+    (isOpen: boolean) => setIsInputVisible(!isOpen),
+    [],
+  );
+  const handleContactClick = useCallback(() => {
+    handleSuggestedMessage("How can I contact Afonso?");
+  }, [handleSuggestedMessage]);
+  const hiddenMessageCount = Math.max(
+    messages.length - VISIBLE_MESSAGE_LIMIT,
+    0,
+  );
+  const renderedMessages =
+    showFullHistory || hiddenMessageCount === 0
+      ? messages
+      : messages.slice(-VISIBLE_MESSAGE_LIMIT);
 
   const handleIntroComplete = () => {
     setShowIntro(false);
@@ -47,31 +160,19 @@ export default function Home() {
       {/* Intro Animation Overlay */}
       {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
 
-      {/* Background Effects */}
-      <div className="fixed inset-0 pointer-events-none z-[-2]">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-amber-500/10 blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-orange-500/10 blur-[100px]" />
-      </div>
-
-      {/* Splash Animation Layer */}
-      <div className="fixed inset-0 pointer-events-auto z-[-1]">
-        <SplashAnimation
-          DENSITY_DISSIPATION={3}
-          VELOCITY_DISSIPATION={3.5}
-          PRESSURE={0.05}
-          CURL={50}
-          SPLAT_RADIUS={0.11}
-          SPLAT_FORCE={3000}
-          COLOR_UPDATE_SPEED={30}
-          SHADING
-          RAINBOW_MODE={false}
-          COLOR="#E37100"
-          PAUSED={isLensActive}
-        />
+      {/* Zero-runtime background: no canvas, WebGL, filters, or animation loop. */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[-2] bg-[#fffaf4]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 12% 8%, rgba(245, 158, 11, 0.14), transparent 34%), radial-gradient(circle at 88% 92%, rgba(234, 88, 12, 0.11), transparent 36%), linear-gradient(145deg, #fffdf9 0%, #fff8ee 55%, #fffaf5 100%)",
+        }}
+      >
+        <div className="absolute inset-0 bg-[url('/grain.webp')] opacity-[0.025]" />
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-[100] glass-strong transition-all duration-300">
+      <header className="fixed top-0 left-0 right-0 z-[100] border-b border-amber-100 bg-white/95 shadow-sm transition-all duration-300">
         <div className="mx-auto max-w-5xl px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-orange-500">
@@ -89,16 +190,7 @@ export default function Home() {
       </header>
 
       {/* Main Chat Container */}
-      <GradualBlur
-        target="page"
-        position="bottom"
-        height="7rem"
-        strength={2}
-        divCount={5}
-        curve="bezier"
-        exponential
-        opacity={1}
-      />
+      <div className="fixed inset-x-0 bottom-0 z-30 h-28 pointer-events-none bg-gradient-to-t from-[#fffaf4] via-[#fffaf4]/80 to-transparent" />
       <main className="flex flex-1 flex-col pt-[70px] pb-[100px]">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -113,10 +205,11 @@ export default function Home() {
                 contactText="Contact"
                 avatarUrl="/foto.jpg"
                 grainUrl="/grain.webp"
+                behindGlowEnabled={false}
                 showUserInfo={true}
-                enableTilt={true}
+                enableTilt={false}
                 enableMobileTilt={false}
-                onContactClick={() => console.log("Contact clicked")}
+                onContactClick={handleContactClick}
               />
             </div>
 
@@ -151,9 +244,22 @@ export default function Home() {
               </div>
             )}
 
+            {/* Keep older messages in state without retaining their full DOM. */}
+            {hiddenMessageCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowFullHistory((visible) => !visible)}
+                className="mx-auto block rounded-full border border-amber-200 bg-white/95 px-4 py-2 text-xs font-medium text-stone-600 shadow-sm transition-colors hover:border-amber-300 hover:text-stone-900"
+              >
+                {showFullHistory
+                  ? "Collapse earlier messages"
+                  : `Show ${hiddenMessageCount} earlier messages`}
+              </button>
+            )}
+
             {/* Messages */}
-            {messages.map((message) => (
-              <div key={message.id} className="space-y-6">
+            {renderedMessages.map((message) => (
+              <div key={message.id} className="chat-message space-y-6">
                 {message.parts.map((part, partIndex) => {
                   if (part.type === "text") {
                     return (
@@ -163,19 +269,22 @@ export default function Home() {
                         className="gap-3"
                       >
                         {message.role === "assistant" && (
-                          <Avatar className="h-8 w-8 shrink-0">
-                            <AvatarImage
+                          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-amber-50">
+                            <Image
                               src="/always_solving_something.jpg"
                               alt="Assistant"
+                              width={32}
+                              height={32}
+                              sizes="32px"
+                              className="h-full w-full object-cover"
                             />
-                            <AvatarFallback>AI</AvatarFallback>
-                          </Avatar>
+                          </div>
                         )}
                         <MessageContent
                           className={
                             message.role === "user"
                               ? "bg-gradient-to-br from-amber-500 to-orange-500 text-white rounded-2xl rounded-tr-sm shadow-md border border-amber-400/20"
-                              : "bg-white/90 backdrop-blur-md border border-amber-100 text-stone-800 rounded-2xl rounded-tl-sm shadow-sm"
+                              : "bg-white/95 border border-amber-100 text-stone-800 rounded-2xl rounded-tl-sm shadow-sm"
                           }
                         >
                           {message.role === "user" ? (
@@ -185,7 +294,11 @@ export default function Home() {
                           ) : (
                             <MarkdownMessage
                               content={part.text}
-                              onButtonClick={(text) => sendMessage({ text })}
+                              onButtonClick={handleSuggestedMessage}
+                              isStreaming={
+                                isLoading &&
+                                message.id === messages[messages.length - 1]?.id
+                              }
                               transparent={true}
                             />
                           )}
@@ -205,7 +318,7 @@ export default function Home() {
                             key={partIndex}
                             className="flex justify-start animate-fadeIn"
                           >
-                            <div className="glass rounded-xl p-4 flex items-center gap-3">
+                            <div className="rounded-xl border border-amber-100 bg-white/95 p-4 shadow-sm flex items-center gap-3">
                               <div className="relative flex h-4 w-4">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-4 w-4 bg-amber-500"></span>
@@ -229,50 +342,11 @@ export default function Home() {
                             key={partIndex}
                             className="animate-slideIn w-full"
                           >
-                            {(() => {
-                              switch (toolOutput.type) {
-                                case "experience":
-                                  return null; // Deprecated, now returns 'cv' type
-                                case "projects":
-                                  return (
-                                    <ProjectsCard
-                                      data={toolOutput.data}
-                                      onModalOpen={(isOpen) =>
-                                        setIsInputVisible(!isOpen)
-                                      }
-                                      onLensActiveChange={setIsLensActive}
-                                    />
-                                  );
-                                case "skills":
-                                  return <SkillsCard data={toolOutput.data} />;
-                                case "education":
-                                  return (
-                                    <EducationCard data={toolOutput.data} />
-                                  );
-                                case "contact":
-                                  return <ContactCard data={toolOutput.data} />;
-                                case "cv":
-                                  return (
-                                    <CVCard
-                                      data={toolOutput.data}
-                                      onModalOpen={(isOpen) =>
-                                        setIsInputVisible(!isOpen)
-                                      }
-                                      onSendMessage={(text) =>
-                                        sendMessage({ text })
-                                      }
-                                    />
-                                  );
-                                case "resume":
-                                  return (
-                                    <DramaticResumeCard
-                                      data={toolOutput.data}
-                                    />
-                                  );
-                                default:
-                                  return null;
-                              }
-                            })()}
+                            <ToolOutputRenderer
+                              output={toolOutput}
+                              onModalOpen={handleModalOpen}
+                              onSendMessage={handleSuggestedMessage}
+                            />
                           </div>
                         );
                       }
@@ -283,7 +357,7 @@ export default function Home() {
                       ) {
                         return (
                           <div key={partIndex} className="flex justify-start">
-                            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 backdrop-blur-sm">
+                            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
                               <p className="font-medium">Error</p>
                               <p className="mt-1 text-xs opacity-90">
                                 {part.errorText}
@@ -302,7 +376,7 @@ export default function Home() {
             {/* Loading Indicator */}
             {isLoading && (
               <div className="flex justify-start animate-fadeIn">
-                <div className="glass rounded-2xl px-4 py-3">
+                <div className="rounded-2xl border border-amber-100 bg-white/95 px-4 py-3 shadow-sm">
                   <div className="flex items-center space-x-1.5">
                     <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:-0.3s]"></div>
                     <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:-0.15s]"></div>
@@ -330,7 +404,7 @@ export default function Home() {
                 className="relative flex items-center"
                 data-chat-input-area
               >
-                <div className="absolute inset-0 rounded-full bg-white/90 backdrop-blur-xl shadow-2xl ring-1 ring-amber-200" />
+                <div className="absolute inset-0 rounded-full bg-white/95 shadow-2xl ring-1 ring-amber-200" />
 
                 <input
                   type="text"
