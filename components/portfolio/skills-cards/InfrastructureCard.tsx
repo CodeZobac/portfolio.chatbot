@@ -86,20 +86,12 @@ export const InfrastructureCard: React.FC<SkillCardProps> = ({
                   <Icon className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="flex flex-col flex-grow">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-bold text-stone-700">
-                      {skill.name}
-                    </span>
-                    <span className="text-[10px] text-blue-500 font-mono font-bold">
-                      {skill.proficiency}%
-                    </span>
-                  </div>
-                  <div className="mt-1 h-1 w-full bg-blue-50 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-blue-400 to-indigo-500 transition-all duration-1000 group-hover/skill:brightness-110"
-                      style={{ width: `${skill.proficiency}%` }}
-                    />
-                  </div>
+                  <span className="text-sm font-bold text-stone-700">
+                    {skill.name}
+                  </span>
+                  <span className="text-[11px] font-medium text-stone-400 transition-colors duration-300 group-hover/skill:text-blue-600">
+                    {skill.strengthTag ?? "Production infrastructure"}
+                  </span>
                 </div>
 
                 {/* Floating "Data" Particles on hover */}

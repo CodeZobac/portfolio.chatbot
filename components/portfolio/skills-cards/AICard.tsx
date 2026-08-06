@@ -55,13 +55,10 @@ export const AICard: React.FC<SkillCardProps> = ({
                   </span>
                 </div>
 
-                {/* Micro Proficiency Bar */}
-                <div className="h-1 w-full bg-orange-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-orange-500 transition-all duration-1000 group-hover/skill:w-full"
-                    style={{ width: `${skill.proficiency}%` }}
-                  />
-                </div>
+                {/* Qualitative strength tag */}
+                <span className="text-[10px] font-medium text-stone-400 transition-colors duration-300 group-hover/skill:text-orange-600">
+                  {skill.strengthTag ?? "Applied in production"}
+                </span>
               </div>
             );
           })}
