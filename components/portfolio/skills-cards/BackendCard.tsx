@@ -58,22 +58,19 @@ export const BackendCard: React.FC<SkillCardProps> = ({ skills, title, className
                   <span className="text-sm font-semibold text-stone-700">{skill.name}</span>
                 </div>
 
-                {/* Server Status Lights — live system heartbeat */}
-                <div className="flex items-center gap-2">
-                  {skill.strengthTag && (
-                    <span className="hidden md:inline text-[10px] font-medium text-stone-400 opacity-0 -translate-x-1 transition-all duration-300 group-hover/skill:opacity-100 group-hover/skill:translate-x-0 group-hover/skill:text-amber-600">
-                      {skill.strengthTag}
-                    </span>
-                  )}
-                  <div className="flex gap-1">
-                    {[...Array(3)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"
-                        style={{ animationDelay: `${i * 0.2}s` }}
-                      />
-                    ))}
-                  </div>
+                {/* Server Status Lights */}
+                <div className="flex gap-1">
+                  {[...Array(3)].map((_, i) => (
+                    <div
+                      key={i}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                        skill.proficiency > (i * 30)
+                          ? 'bg-amber-400 animate-pulse'
+                          : 'bg-stone-200'
+                      }`}
+                      style={{ animationDelay: `${i * 0.2}s` }}
+                    />
+                  ))}
                 </div>
 
                 {/* Processing Data Packet Animation on Hover */}

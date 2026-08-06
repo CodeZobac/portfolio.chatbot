@@ -94,35 +94,4 @@ export const projects: Project[] = [
     youtubeId: "Qhf_GBtLPK0",
     links: {},
   },
-  {
-    id: "cybercompass",
-    name: "CyberCompass: Agentic EdTech Simulations",
-    tagline: "Full-Stack AI Solutions Architect",
-    description:
-      "Engineered CyberCompass, an AI-powered cyber-ethics education platform delivering adaptive training across misinformation, deepfake detection, cyberbullying, and online identity safety. Architected a distributed Rust backend using Axum, SQLx, PostgreSQL, JWT authentication, and Utoipa, with dedicated database and AI orchestration services. Implemented agentic, real-time simulations through WebSockets, pluggable LLM providers, structured prompting, safety classification, deterministic scoring, and multi-layer Langfuse observability. Built a modern, multilingual Next.js 15 and React 19 frontend with TypeScript, Tailwind CSS, React Query, and NextAuth, supported by persistent progress tracking, unified learning analytics, achievements, and privacy-conscious profile sharing.",
-    problem:
-      "Cyber-ethics education needed adaptive, real-time training across misinformation, deepfake detection, cyberbullying, and online identity safety — with AI simulations that stay safe, observable, and deterministic enough to score fairly.",
-    solution:
-      "Architected a distributed Rust backend (Axum, SQLx, PostgreSQL, JWT, Utoipa) with dedicated database and AI orchestration services, delivering agentic real-time simulations over WebSockets with pluggable LLM providers, structured prompting, safety classification, deterministic scoring, and multi-layer Langfuse observability — fronted by a multilingual Next.js 15 / React 19 experience with persistent progress tracking and privacy-conscious profile sharing.",
-    role: "Full-Stack AI Solutions Architect",
-    keyDecisions: [
-      "RUST",
-      "AGENTIC AI & LLM ORCHESTRATION",
-      "PROMPT ENGINEERING & AI SAFETY",
-      "WEBSOCKETS & REAL-TIME",
-      "LANGFUSE OBSERVABILITY",
-    ],
-    techStack: [
-      "RUST",
-      "AGENTIC AI & LLM ORCHESTRATION",
-      "PROMPT ENGINEERING & AI SAFETY",
-      "WEBSOCKETS & REAL-TIME",
-      "LANGFUSE OBSERVABILITY",
-    ],
-    category: "ai",
-    featured: true,
-    image: "https://img.youtube.com/vi/BpA0IFLWH-c/maxresdefault.jpg",
-    youtubeId: "BpA0IFLWH-c",
-    links: {},
-  },
 ];

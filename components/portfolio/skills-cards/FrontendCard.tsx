@@ -35,17 +35,18 @@ export const FrontendCard: React.FC<SkillCardProps> = ({ skills, title, classNam
             return (
               <div
                 key={skill.name}
-                className="group/skill relative flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/80 border border-amber-100/50 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-amber-50 hover:border-amber-300/50 hover:shadow-md hover:shadow-amber-200/40"
+                className="group/skill relative flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/80 border border-amber-100/50 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-amber-50 hover:border-amber-300/50"
               >
                 <Icon className="w-4 h-4 text-amber-600 group-hover/skill:scale-110 transition-transform" />
                 <span className="text-sm font-semibold text-stone-700">{skill.name}</span>
 
-                {/* Qualitative strength reveal */}
-                {skill.strengthTag && (
-                  <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-amber-200/60 bg-white/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-700 shadow-lg shadow-amber-200/30 opacity-0 translate-y-1 transition-all duration-300 group-hover/skill:opacity-100 group-hover/skill:translate-y-0 z-20">
-                    {skill.strengthTag}
-                  </span>
-                )}
+                {/* Subtle Proficiency Indicator */}
+                <div className="absolute -bottom-1 left-4 right-4 h-0.5 bg-stone-100 rounded-full overflow-hidden opacity-0 group-hover/skill:opacity-100 transition-opacity">
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-400 to-orange-400"
+                    style={{ width: `${skill.proficiency}%` }}
+                  />
+                </div>
               </div>
             );
           })}

@@ -212,80 +212,18 @@ export const ParticleCard: React.FC<{
 
     const element = cardRef.current;
 
-    // Cursor-tracking glare sheen. Perf notes: the glare is a fixed-size
-    // radial gradient moved with a GPU transform (translate), NOT a
-    // repainted gradient position, and it uses no blend mode — blend modes
-    // above backdrop-blur surfaces force full backdrop recomposition every
-    // frame and can freeze the page.
-    const glare = document.createElement("div");
-    glare.className = "card-glare";
-    glare.style.cssText = `
-      position: absolute;
-      left: -180px;
-      top: -180px;
-      width: 360px;
-      height: 360px;
-      pointer-events: none;
-      z-index: 4;
-      opacity: 0;
-      background: radial-gradient(
-        circle,
-        rgba(255, 255, 255, 0.28),
-        rgba(255, 255, 255, 0.07) 35%,
-        transparent 65%
-      );
-      will-change: transform, opacity;
-    `;
-    element.appendChild(glare);
-
-    gsap.set(element, {
-      transformPerspective: 900,
-      transformOrigin: "center",
-      force3D: true,
-    });
-
-    // Inertial motion — quickTo tweens glide toward the cursor instead of
-    // snapping, and reuse one tween each (no per-mousemove allocations).
-    const rotX = gsap.quickTo(element, "rotationX", {
-      duration: 0.55,
-      ease: "power3.out",
-    });
-    const rotY = gsap.quickTo(element, "rotationY", {
-      duration: 0.55,
-      ease: "power3.out",
-    });
-    const glareX = gsap.quickTo(glare, "x", {
-      duration: 0.3,
-      ease: "power2.out",
-    });
-    const glareY = gsap.quickTo(glare, "y", {
-      duration: 0.3,
-      ease: "power2.out",
-    });
-    const magnetX = gsap.quickTo(element, "x", {
-      duration: 0.4,
-      ease: "power3.out",
-    });
-    const magnetY = gsap.quickTo(element, "y", {
-      duration: 0.4,
-      ease: "power3.out",
-    });
-
-    const MAX_TILT = 8;
-
     const handleMouseEnter = () => {
       isHoveredRef.current = true;
       animateParticles();
 
       if (enableTilt) {
-        // box-shadow only tweens on enter/leave (brief), never per-frame.
         gsap.to(element, {
-          scale: 1.015,
-          boxShadow: `0 24px 48px -16px rgba(${glowColor}, 0.35), 0 12px 24px -12px rgba(68, 48, 24, 0.18)`,
-          duration: 0.45,
-          ease: "power3.out",
+          rotateX: 5,
+          rotateY: 5,
+          duration: 0.3,
+          ease: "power2.out",
+          transformPerspective: 1000,
         });
-        gsap.to(glare, { opacity: 1, duration: 0.45, ease: "power2.out" });
       }
     };
 
@@ -294,28 +232,20 @@ export const ParticleCard: React.FC<{
       clearAllParticles();
 
       if (enableTilt) {
-        // Elastic settle — the card swings softly back to rest.
         gsap.to(element, {
-          rotationX: 0,
-          rotationY: 0,
-          duration: 0.9,
-          ease: "elastic.out(1, 0.55)",
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.3,
+          ease: "power2.out",
         });
-        gsap.to(element, {
-          scale: 1,
-          boxShadow: `0 0 0 0 rgba(${glowColor}, 0)`,
-          duration: 0.5,
-          ease: "power3.out",
-        });
-        gsap.to(glare, { opacity: 0, duration: 0.4, ease: "power2.out" });
       }
 
       if (enableMagnetism) {
         gsap.to(element, {
           x: 0,
           y: 0,
-          duration: 0.9,
-          ease: "elastic.out(1, 0.55)",
+          duration: 0.3,
+          ease: "power2.out",
         });
       }
     };
@@ -330,21 +260,28 @@ export const ParticleCard: React.FC<{
       const centerY = rect.height / 2;
 
       if (enableTilt) {
-        // Normalized offset (-1..1) with a gentle falloff toward the edges.
-        const nx = (x - centerX) / centerX;
-        const ny = (y - centerY) / centerY;
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
 
-        rotX(ny * -MAX_TILT);
-        rotY(nx * MAX_TILT);
-
-        // Glare follows the cursor via transform only (no repaint).
-        glareX(x);
-        glareY(y);
+        gsap.to(element, {
+          rotateX,
+          rotateY,
+          duration: 0.1,
+          ease: "power2.out",
+          transformPerspective: 1000,
+        });
       }
 
       if (enableMagnetism) {
-        magnetX((x - centerX) * 0.04);
-        magnetY((y - centerY) * 0.04);
+        const magnetX = (x - centerX) * 0.05;
+        const magnetY = (y - centerY) * 0.05;
+
+        magnetismAnimationRef.current = gsap.to(element, {
+          x: magnetX,
+          y: magnetY,
+          duration: 0.3,
+          ease: "power2.out",
+        });
       }
     };
 
@@ -405,7 +342,6 @@ export const ParticleCard: React.FC<{
       element.removeEventListener("mouseleave", handleMouseLeave);
       element.removeEventListener("mousemove", handleMouseMove);
       element.removeEventListener("click", handleClick);
-      glare.remove();
       clearAllParticles();
     };
   }, [
