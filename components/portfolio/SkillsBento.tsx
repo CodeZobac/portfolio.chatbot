@@ -89,17 +89,19 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({ skills, category }) => {
             }
           }
 
-          /* Oversized section numeral, stamped low-contrast in the corner */
+          /* Section numeral — folio digit resting on the header rule.
+           * Lives inside the (relative) header row; bottom: 0 plus a tight
+           * line-height sets the glyph baseline on the title's rule line. */
           .fm-index {
             position: absolute;
-            top: -0.35em;
-            right: 0.08em;
-            font-size: clamp(4rem, 9vw, 6.5rem);
+            right: 0;
+            bottom: 0;
+            font-size: clamp(2.5rem, 5.5vw, 3.75rem);
             font-weight: 800;
-            line-height: 1;
+            line-height: 0.78;
             letter-spacing: -0.04em;
             color: var(--color-accent);
-            opacity: 0.12;
+            opacity: 0.18;
             pointer-events: none;
             user-select: none;
           }

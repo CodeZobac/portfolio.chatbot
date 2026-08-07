@@ -30,13 +30,8 @@ export const InfrastructureCard: React.FC<SkillCardProps> = ({
     <article
       className={`${className ?? ""} skill-panel overflow-hidden rounded-[var(--radius-sm)] bg-[var(--color-paper)] p-5 sm:p-6`}
     >
-      {index && (
-        <span aria-hidden="true" className="fm-index">
-          {index}
-        </span>
-      )}
 
-      <div className="flex items-center gap-3 border-b-2 border-[var(--color-ink)] pb-3">
+      <div className="relative flex items-center gap-3 border-b-2 border-[var(--color-ink)] pb-3 pr-16 sm:pr-20">
         <Layers
           aria-hidden="true"
           className="h-4 w-4 shrink-0 text-[var(--color-accent-strong)]"
@@ -44,9 +39,14 @@ export const InfrastructureCard: React.FC<SkillCardProps> = ({
         <span className="fm-kicker text-[var(--color-accent-strong)]">
           Section {index ?? "—"}
         </span>
-        <h4 className="min-w-0 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-ink)]">
+        <h4 className="min-w-0 text-sm font-extrabold uppercase tracking-[0.08em] text-[var(--color-ink)]">
           {title}
         </h4>
+        {index && (
+          <span aria-hidden="true" className="fm-index">
+            {index}
+          </span>
+        )}
       </div>
 
       <ul
