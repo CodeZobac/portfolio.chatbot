@@ -16,10 +16,17 @@ export interface SkillsBentoProps {
   glowColor?: string;
 }
 
-const SkillsBento: React.FC<SkillsBentoProps> = ({
-  skills,
-  category,
-}) => {
+const PRIORITY_RANK: Record<string, number> = {
+  core: 0,
+  supporting: 1,
+  emerging: 2,
+};
+
+export const byPriority = (a: Skill, b: Skill) =>
+  (PRIORITY_RANK[a.priority ?? "supporting"] ?? 1) -
+  (PRIORITY_RANK[b.priority ?? "supporting"] ?? 1);
+
+const SkillsBento: React.FC<SkillsBentoProps> = ({ skills, category }) => {
   const groupedSkills = useMemo(() => {
     return skills.reduce(
       (acc, skill) => {
@@ -42,11 +49,11 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
     <section className="skills-bento w-full pb-4" aria-label="Skills by category">
       <style>
         {`
-          /* Hallmark · component: skills collection · genre: playful · theme: portfolio amber
-           * states: presentational component — no interactive state contract
+          /* Hallmark · component: skills field manual · genre: editorial dossier · theme: portfolio amber
+           * states: hover reveals annotation (fine pointers); annotations always visible on coarse pointers
+           * motion contract: transforms + opacity only — no filters, no blend modes (repo perf rule)
            * contrast: pass (46–50)
            */
-          /* Hallmark · pre-emit critique: P5 H5 E4 S5 R4 V5 */
 
           .skills-grid {
             display: grid;
@@ -57,13 +64,59 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
           }
 
           .skill-panel {
+            position: relative;
             min-width: 0;
             border: var(--rule-thin) solid var(--color-rule);
-            color: var(--color-ink);
             box-shadow: 0 0.75rem 2rem -1.5rem var(--color-accent-strong);
+            opacity: 0;
+            transform: translateY(0.75rem);
+            animation: fm-rise var(--dur-long) var(--ease-out) forwards;
             transition:
               transform var(--dur-short) var(--ease-out),
               box-shadow var(--dur-short) var(--ease-out);
+          }
+
+          .skill-panel:nth-child(1) { animation-delay: 40ms; }
+          .skill-panel:nth-child(2) { animation-delay: 120ms; }
+          .skill-panel:nth-child(3) { animation-delay: 200ms; }
+          .skill-panel:nth-child(4) { animation-delay: 280ms; }
+          .skill-panel:nth-child(5) { animation-delay: 360ms; }
+
+          @keyframes fm-rise {
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          /* Oversized section numeral, stamped low-contrast in the corner */
+          .fm-index {
+            position: absolute;
+            top: -0.35em;
+            right: 0.08em;
+            font-size: clamp(4rem, 9vw, 6.5rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: var(--color-accent);
+            opacity: 0.12;
+            pointer-events: none;
+            user-select: none;
+          }
+
+          .fm-kicker {
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+          }
+
+          /* Dashed dot-leader between a skill name and its margin note */
+          .fm-leader {
+            flex: 1 1 1.5rem;
+            min-width: 1.5rem;
+            border-bottom: var(--rule-thin) dashed var(--color-rule-strong);
+            margin-bottom: 0.4em;
           }
 
           .skill-name {
@@ -71,11 +124,67 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
             overflow-wrap: anywhere;
           }
 
+          /* strengthTag margin note — qualitative only, never numeric */
+          .fm-note {
+            font-style: italic;
+          }
+
+          /* Ticket stubs rest at a slight tilt (set per item via --tilt) */
+          .fm-ticket {
+            transform: rotate(var(--tilt, 0deg));
+            transition: transform var(--dur-short) var(--ease-out);
+          }
+
           @media (hover: hover) and (pointer: fine) {
             .skill-panel:hover {
               transform: translateY(-2px);
-              box-shadow: 0 1rem 2.25rem -1.35rem var(--color-accent-strong);
+              box-shadow: 0 1rem 2.5rem -1.25rem var(--color-accent-strong);
             }
+
+            .fm-reveal {
+              opacity: 0;
+              transform: translateX(0.375rem);
+              transition:
+                opacity var(--dur-short) var(--ease-out),
+                transform var(--dur-short) var(--ease-out);
+            }
+
+            .fm-row:hover .fm-reveal,
+            .fm-tile:hover .fm-reveal,
+            .fm-node:hover .fm-reveal {
+              opacity: 1;
+              transform: translateX(0);
+            }
+
+            .fm-tile {
+              transition:
+                transform var(--dur-short) var(--ease-out),
+                border-color var(--dur-short) var(--ease-out);
+            }
+
+            .fm-tile:hover {
+              transform: translateY(-2px);
+              border-color: var(--color-accent);
+            }
+
+            .fm-ticket:hover {
+              transform: rotate(0deg) translateY(-4px);
+            }
+          }
+
+          /* Emerging-skill stamp: qualitative status, not a number */
+          .fm-stamp {
+            display: inline-block;
+            border: var(--rule-thin) solid var(--color-accent-strong);
+            color: var(--color-accent-strong);
+            font-size: 0.5625rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0.1rem 0.4rem;
+            border-radius: var(--radius-sm);
+            transform: rotate(-3deg);
+            white-space: nowrap;
           }
 
           @media (min-width: 40rem) {
@@ -83,11 +192,11 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
               grid-template-columns: repeat(6, minmax(0, 1fr));
             }
 
-            .card-frontend { grid-column: span 4; grid-row: span 1; }
+            .card-frontend { grid-column: span 4; }
             .card-backend { grid-column: span 2; grid-row: span 2; }
-            .card-ai-data { grid-column: span 3; grid-row: span 1; }
-            .card-infrastructure { grid-column: span 3; grid-row: span 1; }
-            .card-soft-skills { grid-column: span 6; grid-row: span 1; }
+            .card-ai-data { grid-column: span 4; }
+            .card-infrastructure { grid-column: span 6; }
+            .card-soft-skills { grid-column: span 6; }
 
             .skills-grid--filtered > * {
               grid-column: 1 / -1;
@@ -96,9 +205,13 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
           }
 
           @media (prefers-reduced-motion: reduce) {
+            .skill-panel {
+              animation: none !important;
+              opacity: 1 !important;
+            }
+
             .skill-panel,
             .skill-panel * {
-              animation: none !important;
               transition-duration: var(--dur-micro) !important;
               transform: none !important;
             }
@@ -107,45 +220,50 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({
       </style>
 
       <div className={`skills-grid ${isFiltered ? "skills-grid--filtered" : ""}`}>
-          {groupedSkills["frontend"] && (
-            <FrontendCard
-              skills={groupedSkills["frontend"]}
-              title="Frontend"
-              className="card-frontend"
-            />
-          )}
+        {groupedSkills["frontend"] && (
+          <FrontendCard
+            skills={groupedSkills["frontend"]}
+            title="Frontend"
+            index="01"
+            className="card-frontend"
+          />
+        )}
 
-          {groupedSkills["backend"] && (
-            <BackendCard
-              skills={groupedSkills["backend"]}
-              title="Backend"
-              className="card-backend"
-            />
-          )}
+        {groupedSkills["backend"] && (
+          <BackendCard
+            skills={groupedSkills["backend"]}
+            title="Backend"
+            index="02"
+            className="card-backend"
+          />
+        )}
 
-          {groupedSkills["ai-data"] && (
-            <AICard
-              skills={groupedSkills["ai-data"]}
-              title="AI & Data"
-              className="card-ai-data"
-            />
-          )}
+        {groupedSkills["ai-data"] && (
+          <AICard
+            skills={groupedSkills["ai-data"]}
+            title="AI & Data"
+            index="03"
+            className="card-ai-data"
+          />
+        )}
 
-          {groupedSkills["infrastructure"] && (
-            <InfrastructureCard
-              skills={groupedSkills["infrastructure"]}
-              title="Infrastructure"
-              className="card-infrastructure"
-            />
-          )}
+        {groupedSkills["infrastructure"] && (
+          <InfrastructureCard
+            skills={groupedSkills["infrastructure"]}
+            title="Infrastructure"
+            index="04"
+            className="card-infrastructure"
+          />
+        )}
 
-          {groupedSkills["soft-skills"] && (
-            <SoftSkillsCard
-              skills={groupedSkills["soft-skills"]}
-              title="Soft Skills"
-              className="card-soft-skills"
-            />
-          )}
+        {groupedSkills["soft-skills"] && (
+          <SoftSkillsCard
+            skills={groupedSkills["soft-skills"]}
+            title="Soft Skills"
+            index="05"
+            className="card-soft-skills"
+          />
+        )}
       </div>
     </section>
   );
