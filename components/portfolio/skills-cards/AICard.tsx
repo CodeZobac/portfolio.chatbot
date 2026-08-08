@@ -37,9 +37,6 @@ export const AICard: React.FC<SkillCardProps> = ({
           aria-hidden="true"
           className="h-4 w-4 shrink-0 text-[var(--color-accent-strong)]"
         />
-        <span className="fm-kicker text-[var(--color-accent-strong)]">
-          Section {index ?? "—"}
-        </span>
         <h4 className="min-w-0 text-sm font-extrabold uppercase tracking-[0.08em] text-[var(--color-ink)]">
           {title}
         </h4>
@@ -80,13 +77,7 @@ export const AICard: React.FC<SkillCardProps> = ({
                   aria-hidden="true"
                   className="h-4 w-4 shrink-0 text-[var(--color-accent-strong)]"
                 />
-                <span
-                  className={`skill-name text-xs sm:text-sm ${
-                    isCore
-                      ? "font-extrabold text-[var(--color-ink)]"
-                      : "font-semibold text-[var(--color-ink-soft)]"
-                  }`}
-                >
+                <span className="skill-name text-xs font-bold text-[var(--color-ink)] sm:text-sm">
                   {skill.name}
                 </span>
               </div>

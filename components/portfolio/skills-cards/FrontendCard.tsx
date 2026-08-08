@@ -36,9 +36,6 @@ export const FrontendCard: React.FC<SkillCardProps> = ({
           aria-hidden="true"
           className="h-4 w-4 shrink-0 text-[var(--color-accent-strong)]"
         />
-        <span className="fm-kicker text-[var(--color-accent-strong)]">
-          Section {index ?? "—"}
-        </span>
         <h4 className="min-w-0 text-sm font-extrabold uppercase tracking-[0.08em] text-[var(--color-ink)]">
           {title}
         </h4>
@@ -52,7 +49,6 @@ export const FrontendCard: React.FC<SkillCardProps> = ({
       <ul className="mt-2" aria-label={`${title} skills`}>
         {ordered.map((skill) => {
           const Icon = skillIconMap[skill.name] || Globe;
-          const isCore = skill.priority === "core";
           const isEmerging = skill.priority === "emerging";
 
           return (
@@ -64,13 +60,7 @@ export const FrontendCard: React.FC<SkillCardProps> = ({
                 aria-hidden="true"
                 className="h-4 w-4 shrink-0 self-center text-[var(--color-accent-strong)]"
               />
-              <span
-                className={`skill-name text-[var(--color-ink)] ${
-                  isCore
-                    ? "text-xl font-extrabold tracking-tight sm:text-2xl"
-                    : "text-base font-semibold text-[var(--color-ink-soft)]"
-                }`}
-              >
+              <span className="skill-name text-base font-bold text-[var(--color-ink)] sm:text-lg">
                 {skill.name}
               </span>
               {isEmerging && <span className="fm-stamp">Emerging</span>}

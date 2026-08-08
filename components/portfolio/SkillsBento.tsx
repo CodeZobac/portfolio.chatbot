@@ -95,7 +95,7 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({ skills, category }) => {
           .fm-index {
             position: absolute;
             right: 0;
-            bottom: 0;
+            bottom: 0.14em; /* digits rest just above the title rule, not crossed by it */
             font-size: clamp(2.5rem, 5.5vw, 3.75rem);
             font-weight: 800;
             line-height: 0.78;
@@ -104,13 +104,6 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({ skills, category }) => {
             opacity: 0.18;
             pointer-events: none;
             user-select: none;
-          }
-
-          .fm-kicker {
-            font-size: 0.625rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
           }
 
           /* Dashed dot-leader between a skill name and its margin note */

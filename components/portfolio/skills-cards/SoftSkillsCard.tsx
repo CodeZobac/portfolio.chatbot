@@ -31,9 +31,6 @@ export const SoftSkillsCard: React.FC<SkillCardProps> = ({
         aria-hidden="true"
         className="h-4 w-4 shrink-0 text-[var(--color-accent-strong)]"
       />
-      <span className="fm-kicker text-[var(--color-accent-strong)]">
-        Section {index ?? "—"}
-      </span>
       <h4 className="min-w-0 text-sm font-extrabold uppercase tracking-[0.08em] text-[var(--color-ink)]">
         {title}
       </h4>
@@ -58,7 +55,7 @@ export const SoftSkillsCard: React.FC<SkillCardProps> = ({
             aria-hidden="true"
             className="absolute left-1/2 top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[var(--color-accent)]"
           />
-          <span className="skill-name block text-sm font-extrabold text-[var(--color-ink)]">
+          <span className="skill-name block text-sm font-bold text-[var(--color-ink)]">
             {skill.name}
           </span>
           {skill.strengthTag && (
