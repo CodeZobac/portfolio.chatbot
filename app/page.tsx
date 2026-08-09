@@ -105,9 +105,116 @@ export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollFrameRef = useRef<number | null>(null);
   const lastScrollRef = useRef(0);
+  const autoScrollEnabledRef = useRef(true);
+  const pointerScrollingRef = useRef(false);
+  const lastWindowScrollYRef = useRef(0);
+  const lastTouchYRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    lastWindowScrollYRef.current = window.scrollY;
+
+    const stopFollowing = () => {
+      autoScrollEnabledRef.current = false;
+      if (scrollFrameRef.current !== null) {
+        cancelAnimationFrame(scrollFrameRef.current);
+        scrollFrameRef.current = null;
+      }
+      // Cancel any in-progress native smooth scroll at its current position.
+      window.scrollTo({ top: window.scrollY, behavior: "auto" });
+    };
+
+    const isNearBottom = () =>
+      document.documentElement.scrollHeight -
+        (window.scrollY + window.innerHeight) <=
+      96;
+
+    const handleWheel = (event: WheelEvent) => {
+      if (event.deltaY < 0) {
+        stopFollowing();
+      } else if (event.deltaY > 0 && isNearBottom()) {
+        autoScrollEnabledRef.current = true;
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (["ArrowUp", "PageUp", "Home"].includes(event.key)) {
+        stopFollowing();
+      } else if (event.key === "End") {
+        autoScrollEnabledRef.current = true;
+      }
+    };
+
+    const handlePointerDown = () => {
+      pointerScrollingRef.current = true;
+    };
+
+    const handlePointerUp = () => {
+      pointerScrollingRef.current = false;
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
+      lastTouchYRef.current = event.touches[0]?.clientY ?? null;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const touchY = event.touches[0]?.clientY;
+      if (
+        touchY !== undefined &&
+        lastTouchYRef.current !== null &&
+        touchY > lastTouchYRef.current + 2
+      ) {
+        stopFollowing();
+      }
+      lastTouchYRef.current = touchY ?? null;
+    };
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (
+        pointerScrollingRef.current &&
+        currentScrollY < lastWindowScrollYRef.current - 1
+      ) {
+        stopFollowing();
+      }
+
+      if (
+        isNearBottom() &&
+        currentScrollY > lastWindowScrollYRef.current + 1
+      ) {
+        autoScrollEnabledRef.current = true;
+      }
+      lastWindowScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("pointerdown", handlePointerDown, {
+      passive: true,
+    });
+    window.addEventListener("pointerup", handlePointerUp, { passive: true });
+    window.addEventListener("pointercancel", handlePointerUp, {
+      passive: true,
+    });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Avoid queuing a smooth scroll animation for every streamed chunk.
   useEffect(() => {
+    if (!autoScrollEnabledRef.current) return;
+
     const now = performance.now();
     if (isLoading && now - lastScrollRef.current < 50) return;
 
@@ -131,10 +238,14 @@ export default function Home() {
     };
   }, [messages, isLoading]);
 
-  const handleSuggestedMessage = useCallback(
-    (text: string) => sendMessage({ text }),
+  const sendAndFollow = useCallback(
+    (text: string) => {
+      autoScrollEnabledRef.current = true;
+      sendMessage({ text });
+    },
     [sendMessage],
   );
+  const handleSuggestedMessage = sendAndFollow;
   const handleModalOpen = useCallback(
     (isOpen: boolean) => setIsInputVisible(!isOpen),
     [],
@@ -233,7 +344,7 @@ export default function Home() {
                   ].map((text) => (
                     <button
                       key={text}
-                      onClick={() => sendMessage({ text })}
+                      onClick={() => sendAndFollow(text)}
                       className="w-full rounded-xl bg-amber-50 p-4 text-left text-sm text-stone-600 shadow-sm transition-all hover:text-stone-900 hover:shadow-md border border-amber-200/50 hover:border-amber-400/50 group relative overflow-hidden"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-orange-500/10 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -397,7 +508,7 @@ export default function Home() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (input.trim()) {
-                    sendMessage({ text: input });
+                    sendAndFollow(input);
                     setInput("");
                   }
                 }}
