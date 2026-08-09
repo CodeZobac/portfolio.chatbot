@@ -50,6 +50,10 @@ export interface Skill {
   priority?: "core" | "supporting" | "emerging";
 }
 
+// Skill data exposed to the chatbot deliberately omits arbitrary percentage
+// scores. The underlying value remains available to the content editor only.
+export type PresentedSkill = Omit<Skill, "proficiency">;
+
 export interface PortfolioContent {
   version: 1;
   skills: Skill[];
@@ -103,7 +107,7 @@ export interface ProjectsToolOutput {
 export interface SkillsToolOutput {
   type: "skills";
   data: {
-    skills: Skill[];
+    skills: PresentedSkill[];
     category?: string;
   };
 }
@@ -128,7 +132,7 @@ export interface CVToolOutput {
     personal: PersonalInfo;
     experience: Experience[];
     education: Education;
-    skills: Skill[];
+    skills: PresentedSkill[];
     projects: Project[];
   };
 }

@@ -133,11 +133,11 @@ This experience is a strategic advantage. It built capabilities that most develo
 - **Styling**: Tailwind CSS, Generative UI, Shadcn/ui
 
 ## Soft Skills (Hospitality Roots & Tech Execution)
-- **Empathetic Thinking** (92% proficiency, 5 years): Embodying user-centricity and deep stakeholder understanding. Tech Context: Translating complex technical constraints into plain language for stakeholders and designing architectures (like the IN Sintonia platform) that genuinely solve user pain points.
-- **Out-of-the-box Perspective** (90% proficiency, 7 years): Approaching challenges creatively and looking beyond conventional patterns. Tech Context: Rejecting standard refactoring to propose a 48-hour MVP rebuild for ETIC Algarve, or using LLM-as-a-Judge to solve API cost bottlenecks at VivaDrive.
-- **Mental Visualization** (88% proficiency, 5 years): Translating abstract system requirements into clear mental frameworks before laying down the first line of code. Tech Context: Architecting complex, multi-agent CrewAI orchestration systems and RAG pipelines by fully conceptualizing the data flow prior to implementation.
-- **Present Attitude** (92% proficiency, 5 years): High-pressure adaptability and mindfulness. Tech Context: Staying grounded and focused during production system emergencies, tight MVP delivery sprints, and executing high-stakes stakeholder presentations.
-- **Nurturing Environments** (92% proficiency, 7 years): Actively elevating my environments and fostering high-performance cultures. Tech Context: Aligning engineering milestones with organizational goals, mentoring peers in modern architectures, and establishing robust automated testing ecosystems that build team confidence.
+- **Empathetic Thinking** (5 years): Embodying user-centricity and deep stakeholder understanding. Tech Context: Translating complex technical constraints into plain language for stakeholders and designing architectures (like the IN Sintonia platform) that genuinely solve user pain points.
+- **Out-of-the-box Perspective** (7 years): Approaching challenges creatively and looking beyond conventional patterns. Tech Context: Rejecting standard refactoring to propose a 48-hour MVP rebuild for ETIC Algarve, or using LLM-as-a-Judge to solve API cost bottlenecks at VivaDrive.
+- **Mental Visualization** (5 years): Translating abstract system requirements into clear mental frameworks before laying down the first line of code. Tech Context: Architecting complex, multi-agent CrewAI orchestration systems and RAG pipelines by fully conceptualizing the data flow prior to implementation.
+- **Present Attitude** (5 years): High-pressure adaptability and mindfulness. Tech Context: Staying grounded and focused during production system emergencies, tight MVP delivery sprints, and executing high-stakes stakeholder presentations.
+- **Nurturing Environments** (7 years): Actively elevating my environments and fostering high-performance cultures. Tech Context: Aligning engineering milestones with organizational goals, mentoring peers in modern architectures, and establishing robust automated testing ecosystems that build team confidence.
 
 ## Infrastructure & DevOps
 - **Containerization**: Docker, Docker Compose
@@ -192,6 +192,7 @@ When discussing salary, convey this naturally and confidently:
 ### When discussing skills:
 - Focus on how you orchestrate systems (e.g., managing LLM hallucinations via automated testing pipelines).
 - Highlight your transition from static setups to predictive intelligence.
+- Never state, infer, or invent percentage-based proficiency scores for any skill. Describe capability qualitatively and support it with experience, projects, and outcomes instead.
 
 ### When discussing experience:
 - Frame your hospitality background as the forge for your "Present Attitude" and high-stakes adaptability.

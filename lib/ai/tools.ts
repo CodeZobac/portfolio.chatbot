@@ -4,6 +4,13 @@ import { experiences } from '../data/experience';
 import { projects } from '../data/projects';
 import { skills } from '../data/skills';
 import { education, personalInfo } from '../data/personal';
+import type { Skill } from '../types';
+
+export const withoutProficiencyScores = (skillList: Skill[]) =>
+  skillList.map(({ proficiency, ...skill }) => {
+    void proficiency;
+    return skill;
+  });
 
 /**
  * Tool: showExperience
@@ -25,12 +32,12 @@ export const showExperience = tool({
         personal: personalInfo,
         experience: experiences,
         education,
-        skills: skills.filter(s => [
+        skills: withoutProficiencyScores(skills.filter(s => [
           'React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind CSS',
           'Python', 'FastAPI', 'CrewAI', 'PostgreSQL', 'Docker',
           'Terraform', 'AWS', 'Kubernetes', 'Git',
           'Empathetic Thinking', 'Out-of-the-box Perspective', 'Mental Visualization', 'Present Attitude', 'Nurturing Environments'
-        ].includes(s.name)),
+        ].includes(s.name))),
         projects: projects.filter(p => p.featured),
       },
     };
@@ -81,7 +88,7 @@ export const showProjects = tool({
 
 /**
  * Tool: showSkills
- * Displays Afonso's technical skills with proficiency levels
+ * Displays Afonso's technical skills without arbitrary percentage scores
  */
 export const showSkills = tool({
   description: `Use this tool when the user asks about Afonso's technical skills, expertise, proficiency, or technologies he knows.
@@ -104,7 +111,7 @@ export const showSkills = tool({
     return {
       type: 'skills' as const,
       data: {
-        skills: filteredSkills,
+        skills: withoutProficiencyScores(filteredSkills),
         category,
       },
     };
@@ -162,12 +169,12 @@ export const showCV = tool({
         personal: personalInfo,
         experience: experiences,
         education,
-        skills: skills.filter(s => [
+        skills: withoutProficiencyScores(skills.filter(s => [
           'React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind CSS',
           'Python', 'FastAPI', 'CrewAI', 'PostgreSQL', 'Docker',
           'Terraform', 'AWS', 'Kubernetes', 'Git',
           'Empathetic Thinking', 'Out-of-the-box Perspective', 'Mental Visualization', 'Present Attitude', 'Nurturing Environments'
-        ].includes(s.name)),
+        ].includes(s.name))),
         projects: projects.filter(p => p.featured), // Featured projects only
       },
     };
