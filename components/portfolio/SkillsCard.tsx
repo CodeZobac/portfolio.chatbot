@@ -1,9 +1,9 @@
-import { Skill } from "@/lib/types";
+import { PresentedSkill } from "@/lib/types";
 import SkillsBento from "./SkillsBento";
 
 interface SkillsCardProps {
   data: {
-    skills: Skill[];
+    skills: PresentedSkill[];
     category?: string;
   };
 }

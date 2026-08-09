@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Brain } from "lucide-react";
-import { Skill } from "@/lib/types";
+import { PresentedSkill } from "@/lib/types";
 
 interface SkillCardProps {
-  skills: Skill[];
+  skills: PresentedSkill[];
   title: string;
   index?: string;
   className?: string;

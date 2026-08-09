@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Skill } from '@/lib/types';
+import { PresentedSkill } from '@/lib/types';
 
 interface CreativeSkillsGraphProps {
-    skills: Skill[];
+    skills: PresentedSkill[];
     showAllLabels?: boolean;
 }
 
-interface Node extends Skill {
+interface Node extends PresentedSkill {
     x: number;
     y: number;
     vx: number;
@@ -40,7 +40,7 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
             y: Math.random() * height,
             vx: (Math.random() - 0.5) * 0.5,
             vy: (Math.random() - 0.5) * 0.5,
-            radius: Math.max(4, (skill.proficiency / 100) * 8),
+            radius: 7,
         }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [skillsKey]);
@@ -181,30 +181,9 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                     }}
                 >
                     <p className="text-sm font-bold text-amber-600">{hoveredNode.name}</p>
-                    <p className="text-xs text-stone-500">{hoveredNode.proficiency}% Proficiency</p>
-                </motion.div>
-            )}
-
-            {/* If labels are shown, maybe show just proficiency on hover? Or keep full tooltip? 
-                Let's keep full tooltip but maybe position it differently or just let it overlap. 
-                Actually, user asked to "show all skill names". 
-                If we show names on canvas, the tooltip duplicates the name. 
-                Let's hide the name in tooltip if showAllLabels is true, or just hide tooltip entirely if we want simple.
-                Decision: Hide tooltip if showAllLabels is true, OR show extra info (proficiency) in tooltip.
-                Let's show proficiency in tooltip if showAllLabels is true.
-            */}
-            {hoveredNode && showAllLabels && (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="pointer-events-none absolute z-10 rounded-lg bg-white/95 px-2 py-1 shadow-xl backdrop-blur-md border border-amber-200/50"
-                    style={{
-                        left: hoveredNode.x,
-                        top: hoveredNode.y + 20, // Below the node
-                        transform: 'translate(-50%, 0)'
-                    }}
-                >
-                    <p className="text-xs text-stone-500">{hoveredNode.proficiency}%</p>
+                    {hoveredNode.strengthTag && (
+                        <p className="text-xs text-stone-500">{hoveredNode.strengthTag}</p>
+                    )}
                 </motion.div>
             )}
 

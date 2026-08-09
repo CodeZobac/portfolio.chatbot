@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Skill } from "@/lib/types";
+import { PresentedSkill } from "@/lib/types";
 import { FrontendCard } from "./skills-cards/FrontendCard";
 import { BackendCard } from "./skills-cards/BackendCard";
 import { AICard } from "./skills-cards/AICard";
@@ -9,7 +9,7 @@ import { InfrastructureCard } from "./skills-cards/InfrastructureCard";
 import { SoftSkillsCard } from "./skills-cards/SoftSkillsCard";
 
 export interface SkillsBentoProps {
-  skills: Skill[];
+  skills: PresentedSkill[];
   category?: string;
   enableSpotlight?: boolean;
   spotlightRadius?: number;
@@ -22,7 +22,7 @@ const PRIORITY_RANK: Record<string, number> = {
   emerging: 2,
 };
 
-export const byPriority = (a: Skill, b: Skill) =>
+export const byPriority = (a: PresentedSkill, b: PresentedSkill) =>
   (PRIORITY_RANK[a.priority ?? "supporting"] ?? 1) -
   (PRIORITY_RANK[b.priority ?? "supporting"] ?? 1);
 
@@ -39,7 +39,7 @@ const SkillsBento: React.FC<SkillsBentoProps> = ({ skills, category }) => {
         acc[skill.category].push(skill);
         return acc;
       },
-      {} as Record<string, Skill[]>,
+      {} as Record<string, PresentedSkill[]>,
     );
   }, [skills, category]);
 

@@ -2,12 +2,12 @@
 
 import React from "react";
 import { Layers } from "lucide-react";
-import { Skill } from "@/lib/types";
+import { PresentedSkill } from "@/lib/types";
 import { skillIconMap } from "../skillIconMap";
 import { byPriority } from "../SkillsBento";
 
 interface SkillCardProps {
-  skills: Skill[];
+  skills: PresentedSkill[];
   title: string;
   index?: string;
   className?: string;

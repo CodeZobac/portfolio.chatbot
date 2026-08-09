@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   Experience,
   Education,
-  Skill,
+  PresentedSkill,
   Project,
   PersonalInfo,
 } from "@/lib/types";
@@ -19,7 +19,7 @@ interface CVCardProps {
     personal: PersonalInfo;
     experience: Experience[];
     education: Education;
-    skills: Skill[];
+    skills: PresentedSkill[];
     projects: Project[];
   };
   onModalOpen?: (isOpen: boolean) => void;
