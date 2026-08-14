@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { ArrowDownToLine, FileText } from "lucide-react";
 
 interface DramaticResumeCardProps {
   data: {
@@ -9,102 +9,128 @@ interface DramaticResumeCardProps {
   };
 }
 
+/**
+ * CV Dossier — file-cover card in the portfolio's Field Manual language.
+ * Reads like the front sheet of a stamped personnel file: ruled header,
+ * dot-leader file plate, and a single confident download action.
+ * Motion contract: transforms + opacity only (repo perf rule).
+ */
 export default function DramaticResumeCard({ data }: DramaticResumeCardProps) {
   const { url } = data;
-  const [isHovered, setIsHovered] = useState(false);
+  const filename = url.split("/").pop() || "CV.pdf";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.5, type: "spring" }}
-      className="relative w-full overflow-hidden rounded-2xl p-1"
+    <motion.article
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      aria-label="Download curriculum vitae"
+      className="cv-dossier relative w-full overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-paper)] shadow-[0_0.75rem_2rem_-1.5rem_var(--color-accent-strong)]"
     >
-      {/* Animated Gradient Border */}
-      <div className="absolute inset-0 animate-spin-slow bg-[conic-gradient(from_0deg,transparent_0deg,#f59e0b_90deg,#fb923c_170deg,#f97316_240deg,#ef4444_310deg,transparent_360deg)] opacity-70 blur-xl" />
+      <style>
+        {`
+          /* Hallmark · component: cv dossier · genre: editorial dossier · theme: portfolio amber */
+          .cv-dossier .cvd-folio {
+            position: absolute;
+            right: 0;
+            bottom: 0.1em;
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            font-weight: 800;
+            line-height: 0.78;
+            letter-spacing: -0.04em;
+            color: var(--color-accent);
+            opacity: 0.18;
+            pointer-events: none;
+            user-select: none;
+          }
+          .cv-dossier .cvd-leader {
+            flex: 1 1 auto;
+            min-width: 1.5rem;
+            border-bottom: 1px dashed var(--color-rule-strong);
+            opacity: 0.6;
+            transform: translateY(-0.3em);
+          }
+          .cv-dossier .cvd-stamp {
+            position: absolute;
+            top: 1.1rem;
+            right: 1.1rem;
+            transform: rotate(6deg);
+            border: 2px solid var(--color-accent-strong);
+            border-radius: var(--radius-sm);
+            padding: 0.2rem 0.55rem;
+            font-size: 0.625rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--color-accent-strong);
+            opacity: 0.55;
+            pointer-events: none;
+            user-select: none;
+          }
+        `}
+      </style>
 
-      <div className="relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-xl bg-white/90 p-8 text-center backdrop-blur-3xl md:p-12">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-[url('/grain.webp')] opacity-20" />
-        <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-amber-300/25 blur-[100px]" />
-        <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-orange-300/25 blur-[100px]" />
+      {/* Accent spine — the file's edge binding */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-1.5 bg-[var(--color-accent)]"
+      />
 
-        {/* Content */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="relative z-10 space-y-2"
-        >
-          <h2 className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-3xl font-black text-transparent md:text-5xl">
-            YOUR SEARCH ENDS HERE
-          </h2>
-          <p className="text-lg font-medium text-stone-600 md:text-xl">
-            Ready to bring this expertise to your team?
+      <div className="relative p-6 pl-8 sm:p-8 sm:pl-10">
+        <span aria-hidden="true" className="cvd-stamp">
+          Hire-ready
+        </span>
+
+        {/* Ruled header */}
+        <div className="relative border-b-2 border-[var(--color-ink)] pb-3 pr-16 sm:pr-20">
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--color-accent-strong)]">
+            Dossier &middot; Curriculum Vitae
           </p>
-        </motion.div>
+          <h2 className="mt-2 text-2xl font-extrabold uppercase leading-[1.05] tracking-[0.02em] text-[var(--color-ink)] md:text-4xl">
+            Your search
+            <br />
+            ends here
+          </h2>
+          <span aria-hidden="true" className="cvd-folio">
+            CV
+          </span>
+        </div>
 
-        {/* Dramatic Button */}
+        <p className="mt-4 max-w-prose text-base font-medium text-[var(--color-muted)] md:text-lg">
+          Ready to bring this expertise to your team?
+        </p>
+
+        {/* File plate — dot-leader row, like a manifest entry */}
+        <div className="mt-6 flex items-baseline gap-3 border-b border-[var(--color-rule)] pb-3">
+          <FileText
+            aria-hidden="true"
+            className="h-4 w-4 shrink-0 translate-y-0.5 text-[var(--color-accent-strong)]"
+          />
+          <span className="min-w-0 truncate font-mono text-sm text-[var(--color-ink-soft)]">
+            {filename}
+          </span>
+          <span aria-hidden="true" className="cvd-leader" />
+          <span className="shrink-0 font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-neutral)]">
+            PDF &middot; 1 file
+          </span>
+        </div>
+
+        {/* Download action */}
         <motion.a
           href={url}
           download
-          onHoverStart={() => setIsHovered(true)}
-          onHoverEnd={() => setIsHovered(false)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="group relative z-10 flex items-center gap-3 rounded-full bg-amber-50 px-8 py-4 text-lg font-bold text-stone-900 shadow-[0_0_40px_-10px_rgba(232,168,56,0.25)] ring-1 ring-inset ring-amber-200/60 transition-all hover:bg-white hover:shadow-[0_0_60px_-10px_rgba(232,168,56,0.35)]"
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          className="group mt-6 inline-flex items-center gap-3 rounded-[var(--radius-md)] bg-[var(--color-ink)] px-7 py-3.5 text-sm font-extrabold uppercase tracking-[0.14em] text-[var(--color-paper)] transition-colors duration-200 hover:bg-[var(--color-accent-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
-          <span className="relative z-10">DOWNLOAD CV</span>
-          <motion.svg
-            animate={{ x: isHovered ? 5 : 0 }}
-            className="relative z-10 h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </motion.svg>
-
-          {/* Button Glow Effect */}
-          <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-red-400 opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-50" />
+          Download CV
+          <ArrowDownToLine
+            aria-hidden="true"
+            className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5"
+          />
         </motion.a>
-
-        {/* Floating Particles/Decorations */}
-        <motion.div
-          animate={{
-            y: [0, -10, 0],
-            rotate: [0, 5, -5, 0],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-10 left-10 text-4xl opacity-20"
-        >
-          ✨
-        </motion.div>
-        <motion.div
-          animate={{
-            y: [0, 15, 0],
-            rotate: [0, -10, 10, 0],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-          className="absolute bottom-10 right-10 text-4xl opacity-20"
-        >
-          🚀
-        </motion.div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
