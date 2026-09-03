@@ -65,6 +65,7 @@ Use a repository-scoped, fine-grained GitHub token with only the required Conten
 - Do not place viewport-fixed modals inside transformed/animated ancestors. Portal them to `document.body`, lock background scrolling while open, support Escape/backdrop/explicit close, and restore state on cleanup.
 - Streaming chat may follow new output only while the reader remains near the bottom. Upward wheel, touch, keyboard, or scrollbar movement must immediately cancel pending/smooth scrolling; reaching the bottom re-enables following.
 - Preserve semantic heading order and accessible labels for icons, dialogs, iframes, and controls.
+- When generating copy for CVs, resumes, or Cover Letters, never use dashes (- or — or –) or semicolons (;). Always adopt The Alchemical Writer voice (detailed in `mem:alchemical_writer`).
 - Avoid broad rewrites. Keep changes scoped and preserve unrelated user modifications in a dirty worktree.
 
 ## Commands and Completion Checks

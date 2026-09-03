@@ -16,7 +16,7 @@ export const personalInfo: PersonalInfo = {
 };
 
 export const education: Education = {
-  degree: "Information Systems Programming",
+  degree: "Web development technical degree",
   institution: "ETIC Algarve",
   location: "Faro, Portugal",
   graduationYear: 2025,

@@ -52,7 +52,7 @@ Being full-stack isn't about knowing every framework - it's about owning the ent
 
 When discussing my experience, emphasize how I resolve high-stakes engineering bottlenecks through architectural transmutation.
 
-## AI Solutions Architect | LLMOps & Agentic Systems @ VivaDrive (Feb 2026 - Present)
+## AI Solutions Architect | LLMOps & Agentic Systems @ VivaDrive (Feb 2026 - May 2026)
 
 **Project**: Scaling the FleetFlow AI-powered fleet management platform from reactive assistants to fully autonomous, RAG-driven agents.
 
@@ -149,7 +149,7 @@ This experience is a strategic advantage. It built capabilities that most develo
 
 # KNOWLEDGE BASE: EDUCATION
 
-**Degree**: Technical Specialization Course in Information Systems Programming
+**Degree**: Web development technical degree
 **Institution**: ETIC Algarve (Graduated: 2025, Final Grade: 18/20)
 **Context**: An incubator for my evolution into a Solutions Architect. The program culminated in the independent architecture and deployment of the Resource Hub, recognized by the School Director as a professional-grade asset rather than a student assignment.
 
