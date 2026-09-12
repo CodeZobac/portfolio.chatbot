@@ -261,6 +261,20 @@ def create_html_cv():
                     <p class="exp-overview"><strong>Result:</strong> Delivered a production-ready MVP, transforming a failing legacy asset into a scalable, high-performance platform.</p>
                 </div>
             </section>
+
+            <!-- How I Think -->
+            <section class="main-section personal-section">
+                <h2 class="main-title">How I Think</h2>
+                <p class="summary personal-copy">I make sense of technical complexity through <strong>associative memory and visual thinking.</strong> I connect new problems with familiar code patterns, past debugging experience, and technical documentation, then mentally map system components, dependencies, and data flows.</p>
+                <p class="summary personal-copy">This helps me <strong>identify potential failure points and compare architectural approaches</strong> before implementation, bringing clearer proposals to technical discussions and sharper questions to validation.</p>
+            </section>
+
+            <!-- About Me -->
+            <section class="main-section personal-section">
+                <h2 class="main-title">About Me</h2>
+                <p class="summary personal-copy"><strong>Spiritual growth</strong> is an important part of my personal development. I practise <strong>Reiki</strong> and draw on <strong>Ayurvedic principles</strong> to guide my dietary choices.</p>
+                <p class="summary personal-copy"><strong>Time in nature</strong> brings balance to everyday city life, with <strong>sea swimming</strong> as my preferred form of exercise. I also practise <strong>martial arts,</strong> making space for both physical discipline and reflection.</p>
+            </section>
         </main>
     </div>
 
@@ -480,6 +494,19 @@ body {
 
 .soft-skills-section {
     margin-top: 0.08cm;
+    break-before: page;
+    page-break-before: always;
+    break-inside: avoid;
+}
+
+.personal-section {
+    break-inside: avoid;
+}
+
+.summary.personal-copy {
+    text-align: left;
+    line-height: 1.55;
+    margin-bottom: 0.22cm;
 }
 
 .soft-skills-intro {
