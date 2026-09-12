@@ -10,6 +10,8 @@ Generate a beautiful, professional PDF CV from markdown content.
 Combines the simplicity of curriculo.md with the comprehensive info from cv.md.
 """
 
+import json
+from html import escape
 from pathlib import Path
 
 from weasyprint import CSS, HTML
@@ -20,8 +22,22 @@ def create_html_cv():
     """Create the HTML content for the CV."""
 
     # Resolve banner image path for weasyprint file:// URI
-    banner_path = Path(__file__).parent / "banner.jpg"
+    base_path = Path(__file__).parent
+    banner_path = base_path / "banner.jpg"
     banner_uri = banner_path.as_uri()
+
+    portfolio_content = json.loads(
+        (base_path / "content" / "portfolio-content.json").read_text(encoding="utf-8")
+    )
+    soft_skills_html = "\n".join(
+        f"""\
+                <div class="soft-skill-item">
+                    <h3 class="soft-skill-name">{escape(skill["name"])}</h3>
+                    <p class="soft-skill-caption">{escape(skill.get("strengthTag") or "")}</p>
+                </div>"""
+        for skill in portfolio_content["skills"]
+        if skill["category"] == "soft-skills"
+    )
 
     html_content = f"""
 <!DOCTYPE html>
@@ -48,8 +64,6 @@ def create_html_cv():
                 <a href="https://github.com/CodeZobac" class="contact-link">github.com/CodeZobac</a>
                 <span class="separator">|</span>
                 <a href="https://www.codezobac.com" class="contact-link">codezobac.com</a>
-                <span class="separator">|</span>
-                <span class="contact-link">Faro, Portugal</span>
             </div>
         </div>
     </header>
@@ -107,10 +121,17 @@ def create_html_cv():
             <!-- Education -->
             <section class="sidebar-section">
                 <h2 class="sidebar-title">EDUCATION</h2>
-                <h3 class="edu-degree">Information Systems Programming</h3>
+                <h3 class="edu-degree">Web development technical degree</h3>
                 <p class="edu-school">ETIC Algarve</p>
                 <p class="edu-meta">2025 &bull; Final grade: 18/20</p>
                 <p class="edu-desc">An incubator for my evolution into a Solutions Architect. I applied engineering rigor to institutional challenges, culminating in the independent architecture and deployment of a resource management system still in active use. Recognized by the School Director as a professional-grade asset rather than a student assignment, this project transformed the institution's infrastructure, bridging the gap between academic study and production-ready utility.</p>
+            </section>
+
+            <!-- Soft Skills -->
+            <section class="sidebar-section soft-skills-section">
+                <h2 class="sidebar-title">SOFT SKILLS</h2>
+                <p class="soft-skills-intro">Forged in high-pressure hospitality environments and refined through complex technical work, these strengths shape how I collaborate, decide, and support teams.</p>
+{soft_skills_html}
             </section>
         </aside>
 
@@ -124,12 +145,31 @@ def create_html_cv():
                 <strong>Methodology:</strong> A dual-core engine of 𝗬𝗶𝗻 (𝗗𝗲𝗲𝗽 𝗥𝗲𝘀𝗲𝗮𝗿𝗰𝗵/𝗨𝗫 𝗠𝗮𝗽𝗽𝗶𝗻𝗴) and 𝗬𝗮𝗻𝗴 (𝗔𝗜-𝗔𝘂𝗴𝗺𝗲𝗻𝘁𝗲𝗱 𝗘𝘅𝗲𝗰𝘂𝘁𝗶𝗼𝗻) to balance architectural integrity with high-velocity deployment.
             </p>
             <p class="summary">
+                <strong>AI-Driven Development:</strong> I structure AI-assisted delivery through project-specific AGENTS.md instructions and Serena MCP for codebase understanding and durable documentation. I select Codex for daily development and Claude Code for heavier requirements, then use pre-commit checks and CodeRabbit review as quality gates before changes move forward.
+            </p>
+            <p class="summary">
                 <strong>Objective:</strong> Transforming complex technical requirements into resilient, production-ready architectures.
             </p>
 
             <!-- Selected Projects -->
             <section class="main-section">
                 <h2 class="main-title">Selected Projects</h2>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">CyberCompass: Agentic Cyber-Ethics Learning Platform</h3>
+                    </div>
+                    <p class="project-role">My role. Full-Stack AI Solutions Architect</p>
+                    <p class="project-desc">Engineered a bilingual cyber-ethics platform delivering adaptive training across disinformation, deepfake detection, cyberbullying, and online identity safety. Architected a three-service system with a <strong>Next.js 15/React 19</strong> frontend and dedicated <strong>Rust/Axum</strong> database and AI orchestration services. Implemented real-time agentic simulations over <strong>WebSockets</strong> with pluggable LLM providers, structured prompting, safety classification, deterministic scoring and fallbacks, plus multi-layer <strong>Langfuse/OpenTelemetry</strong> observability for quality, cost, and risk attribution.</p>
+                    <p class="skills-label">Skills and deliverables</p>
+                    <div class="project-tags">
+                        <span class="ptag">RUST</span>
+                        <span class="ptag">AGENTIC AI &amp; LLM ORCHESTRATION</span>
+                        <span class="ptag">PROMPT ENGINEERING &amp; AI SAFETY</span>
+                        <span class="ptag">WEBSOCKETS &amp; REAL-TIME</span>
+                        <span class="ptag">LANGFUSE OBSERVABILITY</span>
+                    </div>
+                </div>
 
                 <div class="project">
                     <div class="project-header">
@@ -190,7 +230,7 @@ def create_html_cv():
                             <h3 class="exp-role">AI Solutions Architect | LLMOps &amp; Agentic Systems</h3>
                             <p class="exp-company">VivaDrive</p>
                         </div>
-                        <span class="exp-date">Feb 2026 &ndash; Present</span>
+                        <span class="exp-date">Feb 2026 &ndash; May 2026</span>
                     </div>
                     <p class="exp-overview"><strong>Project Overview:</strong> Scaling the FleetFlow AI-powered fleet management platform from reactive assistants to fully autonomous, RAG-driven agents.</p>
                     <p class="exp-sublabel">Key Interventions:</p>
@@ -436,6 +476,37 @@ body {
     color: #555;
     line-height: 1.45;
     margin-top: 0.12cm;
+}
+
+.soft-skills-section {
+    margin-top: 0.08cm;
+}
+
+.soft-skills-intro {
+    font-size: 6.5pt;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 0.22cm;
+}
+
+.soft-skill-item {
+    margin-bottom: 0.2cm;
+    break-inside: avoid;
+}
+
+.soft-skill-name {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.25;
+}
+
+.soft-skill-caption {
+    font-size: 6.5pt;
+    font-style: italic;
+    color: #777;
+    line-height: 1.3;
+    margin-top: 0.03cm;
 }
 
 /* ── RIGHT CONTENT ── */
