@@ -139,16 +139,23 @@ def create_html_cv():
         <main class="content">
             <!-- Professional Summary -->
             <p class="summary">
-                𝗜 𝗲𝗻𝗴𝗶𝗻𝗲𝗲𝗿 𝘀𝗰𝗮𝗹𝗮𝗯𝗹𝗲, 𝗼𝗯𝘀𝗲𝗿𝘃𝗮𝗯𝗹𝗲, 𝗮𝗻𝗱 𝗰𝗼𝘀𝘁-𝗼𝗽𝘁𝗶𝗺𝗶𝘇𝗲𝗱 𝗽𝗿𝗼𝗱𝘂𝗰𝘁𝗶𝗼𝗻 𝗲𝗻𝘃𝗶𝗿𝗼𝗻𝗺𝗲𝗻𝘁𝘀 𝗳𝗼𝗿 𝗔𝗜-𝗱𝗿𝗶𝘃𝗲𝗻 𝗮𝗽𝗽𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻𝘀.
+                <strong>I engineer scalable, observable, and cost-optimized production environments for AI-driven applications.</strong>
             </p>
             <p class="summary">
-                <strong>Methodology:</strong> A dual-core engine of 𝗬𝗶𝗻 (𝗗𝗲𝗲𝗽 𝗥𝗲𝘀𝗲𝗮𝗿𝗰𝗵/𝗨𝗫 𝗠𝗮𝗽𝗽𝗶𝗻𝗴) and 𝗬𝗮𝗻𝗴 (𝗔𝗜-𝗔𝘂𝗴𝗺𝗲𝗻𝘁𝗲𝗱 𝗘𝘅𝗲𝗰𝘂𝘁𝗶𝗼𝗻) to balance architectural integrity with high-velocity deployment.
+                I make sense of technical complexity through <strong>associative memory and visual thinking.</strong> I connect new problems with familiar code patterns, past debugging experience, and technical documentation, then mentally map system components, dependencies, and data flows. This helps me identify <strong>potential failure points and compare architectural approaches</strong> before implementation, bringing clearer proposals to technical discussions and sharper questions to validation.
             </p>
             <p class="summary">
-                <strong>AI-Driven Development:</strong> I structure AI-assisted delivery through project-specific AGENTS.md instructions and Serena MCP for codebase understanding and durable documentation. I select Codex for daily development and Claude Code for heavier requirements, then use pre-commit checks and CodeRabbit review as quality gates before changes move forward.
+                <strong>Methodology:</strong> A balance between <strong>Deep Research/UX Mapping</strong> and <strong>AI-Augmented Execution</strong> to guarantee architectural integrity with high-velocity deployment.
             </p>
             <p class="summary">
-                <strong>Objective:</strong> Transforming complex technical requirements into resilient, production-ready architectures.
+                <strong>AI-Driven Development:</strong> I structure AI-assisted delivery through project-specific AGENTS.md instructions and Serena MCP for codebase understanding and durable documentation. I select Codex for daily development and Claude Code for heavier requirements, then use pre-commit checks and CodeRabbit review as quality gates before changes move forward.<br/>
+                <strong>Objective:</strong> Transforming complex technical requirements into resilient, client-ready architectures.
+            </p>
+            <p class="summary">
+                <strong>Spiritual growth</strong> is an important part of my personal development. I practise <strong>Reiki</strong> and draw on <strong>Ayurvedic principles</strong> to guide my dietary choices.
+            </p>
+            <p class="summary">
+                <strong>Time in nature</strong> brings balance to everyday city life, with <strong>sea swimming</strong> as my preferred form of exercise. I also practise <strong>martial arts</strong>, making space for both physical discipline and reflection.
             </p>
 
             <!-- Selected Projects -->
@@ -260,20 +267,6 @@ def create_html_cv():
                     </ul>
                     <p class="exp-overview"><strong>Result:</strong> Delivered a production-ready MVP, transforming a failing legacy asset into a scalable, high-performance platform.</p>
                 </div>
-            </section>
-
-            <!-- How I Think -->
-            <section class="main-section personal-section">
-                <h2 class="main-title">How I Think</h2>
-                <p class="summary personal-copy">I make sense of technical complexity through <strong>associative memory and visual thinking.</strong> I connect new problems with familiar code patterns, past debugging experience, and technical documentation, then mentally map system components, dependencies, and data flows.</p>
-                <p class="summary personal-copy">This helps me <strong>identify potential failure points and compare architectural approaches</strong> before implementation, bringing clearer proposals to technical discussions and sharper questions to validation.</p>
-            </section>
-
-            <!-- About Me -->
-            <section class="main-section personal-section">
-                <h2 class="main-title">About Me</h2>
-                <p class="summary personal-copy"><strong>Spiritual growth</strong> is an important part of my personal development. I practise <strong>Reiki</strong> and draw on <strong>Ayurvedic principles</strong> to guide my dietary choices.</p>
-                <p class="summary personal-copy"><strong>Time in nature</strong> brings balance to everyday city life, with <strong>sea swimming</strong> as my preferred form of exercise. I also practise <strong>martial arts,</strong> making space for both physical discipline and reflection.</p>
             </section>
         </main>
     </div>
