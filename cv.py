@@ -162,19 +162,21 @@ def create_html_cv():
             <section class="main-section">
                 <h2 class="main-title">Selected Projects</h2>
 
+                <p class="project-group-label">Client Projects</p>
+
                 <div class="project">
                     <div class="project-header">
-                        <h3 class="project-name">CyberCompass: Agentic Cyber-Ethics Learning Platform</h3>
+                        <h3 class="project-name">ETIC_Algarve Resource Hub: Unified Institutional Management System</h3>
                     </div>
-                    <p class="project-role">My role. Full-Stack AI Solutions Architect</p>
-                    <p class="project-desc">Engineered a bilingual cyber-ethics platform delivering adaptive training across disinformation, deepfake detection, cyberbullying, and online identity safety. Architected a three-service system with a <strong>Next.js 15/React 19</strong> frontend and dedicated <strong>Rust/Axum</strong> database and AI orchestration services. Implemented real-time agentic simulations over <strong>WebSockets</strong> with pluggable LLM providers, structured prompting, safety classification, deterministic scoring and fallbacks, plus multi-layer <strong>Langfuse/OpenTelemetry</strong> observability for quality, cost, and risk attribution.</p>
+                    <p class="project-role">My role. Solutions Architect &amp; Lead Engineer</p>
+                    <p class="project-desc">Engineered a high-performance ecosystem to unify fragmented institutional resources. The architecture features advanced search with intelligent autocomplete and secure identity management via <strong>Supabase/Google OAuth (RBAC)</strong>. To ensure operational integrity, I implemented automated communication via <strong>Resend API</strong> and validated system stability through <strong>k6 load testing</strong> (50+ concurrent users). Deployment is fully automated using <strong>Terraform</strong>, <strong>Docker Compose</strong>, and a <strong>Makefile</strong>-based CI/CD pipeline with <strong>Nginx SSL</strong> termination.</p>
                     <p class="skills-label">Skills and deliverables</p>
                     <div class="project-tags">
-                        <span class="ptag">RUST</span>
-                        <span class="ptag">AGENTIC AI &amp; LLM ORCHESTRATION</span>
-                        <span class="ptag">PROMPT ENGINEERING &amp; AI SAFETY</span>
-                        <span class="ptag">WEBSOCKETS &amp; REAL-TIME</span>
-                        <span class="ptag">LANGFUSE OBSERVABILITY</span>
+                        <span class="ptag">CI/CD</span>
+                        <span class="ptag">PERFORMANCE TESTING</span>
+                        <span class="ptag">LOAD TESTING</span>
+                        <span class="ptag">TERRAFORM</span>
+                        <span class="ptag">DOCKER</span>
                     </div>
                 </div>
 
@@ -194,6 +196,24 @@ def create_html_cv():
                     </div>
                 </div>
 
+                <p class="project-group-label subsequent">Personal Projects</p>
+
+                <div class="project">
+                    <div class="project-header">
+                        <h3 class="project-name">CyberCompass: Agentic Cyber-Ethics Learning Platform</h3>
+                    </div>
+                    <p class="project-role">My role. Full-Stack AI Solutions Architect</p>
+                    <p class="project-desc">Engineered a bilingual cyber-ethics platform delivering adaptive training across disinformation, deepfake detection, cyberbullying, and online identity safety. Architected a three-service system with a <strong>Next.js 15/React 19</strong> frontend and dedicated <strong>Rust/Axum</strong> database and AI orchestration services. Implemented real-time agentic simulations over <strong>WebSockets</strong> with pluggable LLM providers, structured prompting, safety classification, deterministic scoring and fallbacks, plus multi-layer <strong>Langfuse/OpenTelemetry</strong> observability for quality, cost, and risk attribution.</p>
+                    <p class="skills-label">Skills and deliverables</p>
+                    <div class="project-tags">
+                        <span class="ptag">RUST</span>
+                        <span class="ptag">AGENTIC AI &amp; LLM ORCHESTRATION</span>
+                        <span class="ptag">PROMPT ENGINEERING &amp; AI SAFETY</span>
+                        <span class="ptag">WEBSOCKETS &amp; REAL-TIME</span>
+                        <span class="ptag">LANGFUSE OBSERVABILITY</span>
+                    </div>
+                </div>
+
                 <div class="project">
                     <div class="project-header">
                         <h3 class="project-name">IN Sintonia: Agentic Ayurvedic Nutrition Platform</h3>
@@ -207,22 +227,6 @@ def create_html_cv():
                         <span class="ptag">RUST</span>
                         <span class="ptag">LANGCHAIN</span>
                         <span class="ptag">AI COMPLIANCE</span>
-                    </div>
-                </div>
-
-                <div class="project">
-                    <div class="project-header">
-                        <h3 class="project-name">ETIC_Algarve Resource Hub: Unified Institutional Management System</h3>
-                    </div>
-                    <p class="project-role">My role. Solutions Architect &amp; Lead Engineer</p>
-                    <p class="project-desc">Engineered a high-performance ecosystem to unify fragmented institutional resources. The architecture features advanced search with intelligent autocomplete and secure identity management via <strong>Supabase/Google OAuth (RBAC)</strong>. To ensure operational integrity, I implemented automated communication via <strong>Resend API</strong> and validated system stability through <strong>k6 load testing</strong> (50+ concurrent users). Deployment is fully automated using <strong>Terraform</strong>, <strong>Docker Compose</strong>, and a <strong>Makefile</strong>-based CI/CD pipeline with <strong>Nginx SSL</strong> termination.</p>
-                    <p class="skills-label">Skills and deliverables</p>
-                    <div class="project-tags">
-                        <span class="ptag">CI/CD</span>
-                        <span class="ptag">PERFORMANCE TESTING</span>
-                        <span class="ptag">LOAD TESTING</span>
-                        <span class="ptag">TERRAFORM</span>
-                        <span class="ptag">DOCKER</span>
                     </div>
                 </div>
             </section>
@@ -537,7 +541,7 @@ body {
 }
 
 .summary {
-    font-size: 7pt;
+    font-size: 8.5pt;
     line-height: 1.45;
     color: #444;
     margin-bottom: 0.2cm;
@@ -553,6 +557,23 @@ body {
     margin-bottom: 0.28cm;
     margin-top: 0.3cm;
     break-after: avoid;
+}
+
+.project-group-label {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #E8A838;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding-bottom: 0.06cm;
+    margin-bottom: 0.2cm;
+    border-bottom: 1px solid #eee;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+.project-group-label.subsequent {
+    margin-top: 0.34cm;
 }
 
 /* ── Projects ── */
@@ -591,7 +612,7 @@ body {
 }
 
 .skills-label {
-    font-size: 6.5pt;
+    font-size: 7pt;
     font-weight: 700;
     color: #888;
     text-transform: uppercase;
@@ -601,7 +622,7 @@ body {
 }
 
 .project-desc {
-    font-size: 7pt;
+    font-size: 8.5pt;
     color: #555;
     line-height: 1.5;
     margin-bottom: 0.1cm;
@@ -614,7 +635,7 @@ body {
 }
 
 .project-bullets li {
-    font-size: 7pt;
+    font-size: 8.5pt;
     line-height: 1.35;
     margin-bottom: 0.04cm;
     color: #444;
@@ -631,7 +652,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 3px;
     padding: 0.03cm 0.15cm;
-    font-size: 6pt;
+    font-size: 6.5pt;
     color: #666;
     text-transform: uppercase;
     letter-spacing: 0.3px;
@@ -676,7 +697,7 @@ body {
 }
 
 .exp-overview {
-    font-size: 7pt;
+    font-size: 8.5pt;
     color: #444;
     line-height: 1.45;
     margin-bottom: 0.1cm;
@@ -685,7 +706,7 @@ body {
 }
 
 .exp-sublabel {
-    font-size: 7pt;
+    font-size: 8.5pt;
     font-weight: 700;
     color: #555;
     margin-left: 0.3cm;
@@ -698,7 +719,7 @@ body {
 }
 
 .exp-bullets li {
-    font-size: 7pt;
+    font-size: 8.5pt;
     line-height: 1.45;
     margin-bottom: 0.1cm;
     color: #444;
