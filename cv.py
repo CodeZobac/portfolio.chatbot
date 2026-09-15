@@ -555,7 +555,7 @@ body {
     border-bottom: 2px solid #E8A838;
     padding-bottom: 0.06cm;
     margin-bottom: 0.28cm;
-    margin-top: 0.3cm;
+    margin-top: 0.16cm;
     break-after: avoid;
 }
 
@@ -578,7 +578,7 @@ body {
 
 /* ── Projects ── */
 .project {
-    margin-bottom: 0.35cm;
+    margin-bottom: 0.2cm;
     break-inside: avoid;
     page-break-inside: avoid;
 }
@@ -624,7 +624,7 @@ body {
 .project-desc {
     font-size: 8.5pt;
     color: #555;
-    line-height: 1.5;
+    line-height: 1.42;
     margin-bottom: 0.1cm;
     text-align: justify;
 }
@@ -660,7 +660,7 @@ body {
 
 /* ── Experience ── */
 .experience {
-    margin-bottom: 0.4cm;
+    margin-bottom: 0.22cm;
     break-inside: avoid;
     page-break-inside: avoid;
 }
@@ -699,7 +699,7 @@ body {
 .exp-overview {
     font-size: 8.5pt;
     color: #444;
-    line-height: 1.45;
+    line-height: 1.4;
     margin-bottom: 0.1cm;
     margin-left: 0.3cm;
     text-align: justify;
@@ -721,7 +721,7 @@ body {
 .exp-bullets li {
     font-size: 8.5pt;
     line-height: 1.45;
-    margin-bottom: 0.1cm;
+    margin-bottom: 0.05cm;
     color: #444;
 }
 
