@@ -1,7 +1,8 @@
 import { streamText, convertToCoreMessages, stepCountIs } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
-import { tools } from "@/lib/ai/tools";
+import { latestUserText, resolveToolIntent } from "@/lib/ai/tool-intent";
+import { createToolPolicy } from "@/lib/ai/tool-policy";
 
 const manifest = createOpenAI({
   baseURL: "https://app.manifest.build/v1",
@@ -54,14 +55,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const intent = resolveToolIntent(latestUserText(messages));
+    const policy = createToolPolicy(intent);
     const result = streamText({
       model: manifest.chat("auto"),
       system: SYSTEM_PROMPT,
       messages: convertToCoreMessages(messages),
-      tools,
+      tools: policy.tools,
+      prepareStep: policy.prepareStep,
       // Portfolio answers should stay concise; this also bounds client DOM growth.
       maxOutputTokens: 4000,
-      stopWhen: stepCountIs(3),
+      stopWhen: stepCountIs(policy.maxSteps),
     });
 
     return result.toUIMessageStreamResponse();

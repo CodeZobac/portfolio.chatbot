@@ -12,6 +12,7 @@
   --color-accent: oklch(67% 0.17 62);
   --color-accent-strong: oklch(52% 0.16 55);
   --color-accent-ink: oklch(18% 0.025 55);
+  --color-sun-surface: oklch(80% 0.17 75);
   --color-focus: oklch(45% 0.17 52);
   --color-error: oklch(53% 0.19 27);
   --color-error-paper: oklch(95% 0.025 27);

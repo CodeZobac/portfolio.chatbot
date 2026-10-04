@@ -1,14 +1,15 @@
 "use client";
 
+import { useId } from "react";
 import {
   motion,
   useAnimationFrame,
   useMotionValue,
+  useReducedMotion,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 
-import { Icons } from "@/components/icons";
 import { TECH_STACK, type TechIcon } from "@/components/intro/tech-icons";
 import { cn } from "@/lib/utils";
 
@@ -186,39 +187,62 @@ function OrbitTrack({
 }
 
 function CenterEmblem() {
+  const id = useId();
+  const reducedMotion = useReducedMotion();
+  const surfaceId = `${id}-surface`;
+  const textureId = `${id}-texture`;
+  const rimId = `${id}-rim`;
+
   return (
-    <div className="relative z-10 flex items-center justify-center">
-      {/* Slow-rotating conic halo */}
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none relative z-10 flex h-28 w-28 shrink-0 items-center justify-center"
+      animate={reducedMotion ? { y: 0 } : { y: [-4, 4, -4] }}
+      transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+    >
+      {/* A broad corona stays behind the sharply defined spherical surface. */}
       <motion.div
-        className="absolute h-44 w-44 rounded-full opacity-60"
+        className="absolute h-44 w-44 rounded-full"
         style={{
           background:
-            "conic-gradient(from 0deg, rgba(251,191,36,0) 0%, rgba(251,146,60,0.35) 25%, rgba(244,63,94,0.25) 50%, rgba(251,191,36,0) 75%)",
-          filter: "blur(18px)",
+            "radial-gradient(circle, var(--color-sun-surface) 15%, color-mix(in oklch, var(--color-sun-surface) 45%, transparent) 40%, transparent 70%)",
+          filter: "blur(10px)",
         }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 12, ease: "linear", repeat: Infinity }}
-      />
-      {/* Breathing glow */}
-      <motion.div
-        className="absolute h-32 w-32 rounded-full bg-amber-400/30"
-        style={{ filter: "blur(24px)" }}
-        animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0.9, 0.5] }}
+        animate={reducedMotion ? { scale: 1, opacity: 0.65 } : { scale: [1, 1.12, 1], opacity: [0.55, 0.8, 0.55] }}
         transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity }}
       />
-      <motion.div
-        animate={{ y: [-4, 4, -4] }}
-        transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+      <svg
+        viewBox="0 0 112 112"
+        focusable="false"
+        className="relative h-28 w-28 overflow-visible"
+        style={{ filter: "drop-shadow(0 0 8px color-mix(in oklch, var(--color-sun-surface) 65%, transparent))" }}
       >
-        <Icons.logo
-          className="h-28 w-28 rounded-full bg-linear-to-br from-amber-400 via-orange-400 to-rose-400 p-7 text-white"
-          style={{
-            boxShadow:
-              "0 0 40px 12px rgba(232, 168, 56, 0.35), 0 0 90px 30px rgba(249, 115, 22, 0.18), inset 0 1px 0 rgba(255,255,255,0.5)",
-          }}
-        />
-      </motion.div>
-    </div>
+        <defs>
+          <radialGradient id={surfaceId} cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stopColor="var(--color-paper)" />
+            <stop offset="23%" stopColor="color-mix(in oklch, var(--color-paper) 65%, var(--color-sun-surface))" />
+            <stop offset="58%" stopColor="var(--color-sun-surface)" />
+            <stop offset="88%" stopColor="var(--color-accent-strong)" />
+            <stop offset="100%" stopColor="color-mix(in oklch, var(--color-accent-strong) 80%, var(--color-accent-ink))" />
+          </radialGradient>
+          <radialGradient id={rimId}>
+            <stop offset="87%" stopColor="var(--color-paper)" stopOpacity="0" />
+            <stop offset="98%" stopColor="var(--color-paper)" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="var(--color-paper)" stopOpacity="0.65" />
+          </radialGradient>
+          {/* Static, deterministic granulation, clipped to the sphere's alpha. */}
+          <filter id={textureId} x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.17" numOctaves="3" seed="8" />
+            <feColorMatrix type="saturate" values="0" />
+            <feComposite in2="SourceGraphic" operator="in" />
+            <feBlend in2="SourceGraphic" mode="soft-light" />
+          </filter>
+        </defs>
+        <circle cx="56" cy="56" r="55" fill={`url(#${surfaceId})`} />
+        <circle cx="56" cy="56" r="55" fill={`url(#${surfaceId})`} filter={`url(#${textureId})`} opacity="0.32" />
+        <circle cx="56" cy="56" r="55" fill={`url(#${rimId})`} />
+      </svg>
+    </motion.div>
   );
 }
 

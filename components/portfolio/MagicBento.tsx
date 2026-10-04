@@ -19,6 +19,7 @@ export interface BentoCardProps {
 
 export interface BentoProps {
   projects: Project[];
+  showcase?: boolean;
   textAutoHide?: boolean;
   enableStars?: boolean;
   enableSpotlight?: boolean;
@@ -521,9 +522,10 @@ export const GlobalSpotlight: React.FC<{
 export const BentoCardGrid: React.FC<{
   children: React.ReactNode;
   gridRef?: React.RefObject<HTMLDivElement | null>;
-}> = ({ children, gridRef }) => (
+  showcase?: boolean;
+}> = ({ children, gridRef, showcase = false }) => (
   <div
-    className="bento-section grid gap-2 p-3 max-w-[54rem] select-none relative mx-auto"
+    className={`bento-section grid gap-2 select-none relative mx-auto ${showcase ? "w-full min-w-0" : "p-3 max-w-[54rem]"}`}
     style={{ fontSize: "clamp(1rem, 0.9rem + 0.5vw, 1.5rem)" }}
     ref={gridRef}
   >
@@ -549,6 +551,7 @@ export const useMobileDetection = () => {
 
 const MagicBento: React.FC<BentoProps> = ({
   projects,
+  showcase = false,
   textAutoHide = true,
   enableStars = true,
   enableSpotlight = true,
@@ -568,6 +571,10 @@ const MagicBento: React.FC<BentoProps> = ({
   const shouldDisableAnimations = disableAnimations || isMobile;
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [zoomingCardId, setZoomingCardId] = useState<string | null>(null);
+  const ProjectHeading = "h3";
+  const imageSizes = showcase
+    ? "(max-width: 896px) 80vw, 717px"
+    : "(max-width: 768px) 100vw, 50vw";
 
   const handleZoomChange = useCallback(
     (id: string | null) => {
@@ -702,8 +709,11 @@ const MagicBento: React.FC<BentoProps> = ({
         />
       )}
 
-      <BentoCardGrid gridRef={gridRef}>
-        <div className="card-responsive grid gap-4">
+      <BentoCardGrid gridRef={gridRef} showcase={showcase}>
+        <div
+          className="card-responsive grid gap-4"
+          style={showcase ? { gridTemplateColumns: "minmax(0, 1fr)", padding: 0 } : undefined}
+        >
           {projects.map((project, index) => {
             const baseClassName = `card flex flex-col justify-between relative h-full w-full max-w-full rounded-[24px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl bg-white ${
               enableBorderGlow ? "card--border-glow" : ""
@@ -742,9 +752,9 @@ const MagicBento: React.FC<BentoProps> = ({
                 >
                   {/* Header - Title and Category */}
                   <div className="flex justify-between items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 z-10 relative pointer-events-none">
-                    <h3 className="card__title font-bold text-base sm:text-lg text-[#E37100] leading-tight truncate">
+                    <ProjectHeading className="card__title font-bold text-base sm:text-lg text-[#E37100] leading-tight truncate">
                       {project.name.split(":")[0]}
-                    </h3>
+                    </ProjectHeading>
                     <span className="card__label text-[9px] font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md flex-shrink-0">
                       {project.category}
                     </span>
@@ -767,7 +777,7 @@ const MagicBento: React.FC<BentoProps> = ({
                           fill
                           className="object-cover object-center opacity-100"
                           priority={index < 4}
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          sizes={imageSizes}
                         />
                       </Lens>
                     </div>
@@ -907,9 +917,9 @@ const MagicBento: React.FC<BentoProps> = ({
               >
                 {/* Header - Title and Category */}
                 <div className="flex justify-between items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 z-10 relative pointer-events-none">
-                  <h3 className="card__title font-bold text-base sm:text-lg text-[#E37100] leading-tight truncate">
+                  <ProjectHeading className="card__title font-bold text-base sm:text-lg text-[#E37100] leading-tight truncate">
                     {project.name.split(":")[0]}
-                  </h3>
+                  </ProjectHeading>
                   <span className="card__label text-[9px] font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md flex-shrink-0">
                     {project.category}
                   </span>
@@ -932,7 +942,7 @@ const MagicBento: React.FC<BentoProps> = ({
                         fill
                         className="object-cover object-center opacity-100"
                         priority={index < 4}
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes={imageSizes}
                       />
                     </Lens>
                   </div>

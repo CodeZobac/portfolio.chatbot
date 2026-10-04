@@ -355,6 +355,19 @@
       "id": "mental-visualization"
     },
     {
+      "name": "Associative Memory",
+      "proficiency": 92,
+      "category": "soft-skills",
+      "yearsOfExperience": 5,
+      "strengthTag": "Pattern recognition & synthesis",
+      "priority": "core",
+      "appliedIn": [
+        "System architecture",
+        "Root cause analysis"
+      ],
+      "id": "associative-memory"
+    },
+    {
       "name": "Present Attitude",
       "proficiency": 92,
       "category": "soft-skills",

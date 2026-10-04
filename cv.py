@@ -148,7 +148,7 @@ def create_html_cv():
                 <strong>Methodology:</strong> A balance between <strong>Deep Research/UX Mapping</strong> and <strong>AI-Augmented Execution</strong> to guarantee architectural integrity with high-velocity deployment.
             </p>
             <p class="summary">
-                <strong>AI-Driven Development:</strong> I structure AI-assisted delivery through project-specific AGENTS.md instructions and Serena MCP for codebase understanding and durable documentation. I select Codex for daily development and Claude Code for heavier requirements, then use pre-commit checks and CodeRabbit review as quality gates before changes move forward.<br/>
+                <strong>AI-Driven Development:</strong> I structure AI-assisted delivery through project-specific agent instructions and Serena MCP for codebase understanding and durable documentation. I select Codex for daily development and Claude Code for heavier requirements, then use pre-commit checks and CodeRabbit review as quality gates before changes move forward.<br/>
                 <strong>Objective:</strong> Transforming complex technical requirements into resilient, client-ready architectures.
             </p>
             <p class="summary">

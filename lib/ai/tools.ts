@@ -17,31 +17,18 @@ export const withoutProficiencyScores = (skillList: Skill[]) =>
  * Displays Afonso's work experience with optional highlighting
  */
 export const showExperience = tool({
-  description: `Use this tool when the user asks about Afonso's work experience, professional background, roles, or career history. 
-  Examples: "Tell me about your experience", "What have you worked on?", "Show me your work history", "Tell me about ETIC"`,
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user asks about Afonso's work experience, professional background, roles, or career history.
+  Examples: "Tell me about your experience", "What have you worked on?", "Show me your work history", "Tell me about your role at ETIC"`,
   inputSchema: z.object({
     highlight: z
       .string()
       .optional()
       .describe('Optional: specific role, company, or keyword to highlight in the experience display'),
   }),
-  execute: async ({ highlight }) => {
-    return {
-      type: 'cv' as const,
-      data: {
-        personal: personalInfo,
-        experience: experiences,
-        education,
-        skills: withoutProficiencyScores(skills.filter(s => [
-          'React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind CSS',
-          'Python', 'FastAPI', 'CrewAI', 'PostgreSQL', 'Docker',
-          'Terraform', 'AWS', 'Kubernetes', 'Git',
-          'Empathetic Thinking', 'Out-of-the-box Perspective', 'Mental Visualization', 'Present Attitude', 'Nurturing Environments'
-        ].includes(s.name))),
-        projects: projects.filter(p => p.featured),
-      },
-    };
-  },
+  execute: async ({ highlight }) => ({
+    type: 'experience' as const,
+    data: { roles: experiences, highlight },
+  }),
 });
 
 /**
@@ -49,9 +36,10 @@ export const showExperience = tool({
  * Displays Afonso's portfolio projects with filtering options
  */
 export const showProjects = tool({
-  description: `Use this tool when the user asks about Afonso's projects, portfolio work, or things he has built.
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user asks about Afonso's projects, portfolio work, or things he has built.
   Examples: "Show me your projects", "What have you built?", "Tell me about your portfolio", "Show me web projects", "What are your featured projects?"`,
   inputSchema: z.object({
+    projectIds: z.array(z.string().refine(id => projects.some(project => project.id === id), 'Unknown project ID')).min(1).optional().describe('Only these canonical project IDs, when specific projects were requested'),
     category: z
       .enum(['web', 'mobile', 'ai', 'all'])
       .optional()
@@ -62,8 +50,8 @@ export const showProjects = tool({
       .optional()
       .describe('If true, only show featured projects'),
   }),
-  execute: async ({ category = 'all', featured }) => {
-    let filteredProjects = projects;
+  execute: async ({ category = 'all', featured, projectIds }) => {
+    let filteredProjects = projectIds ? projects.filter(project => projectIds.includes(project.id)) : projects;
 
     // Filter by category if not 'all'
     if (category !== 'all') {
@@ -91,17 +79,18 @@ export const showProjects = tool({
  * Displays Afonso's technical skills without arbitrary percentage scores
  */
 export const showSkills = tool({
-  description: `Use this tool when the user asks about Afonso's technical skills, expertise, proficiency, or technologies he knows.
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user asks about Afonso's technical skills, expertise, proficiency, or technologies he knows.
   Examples: "What are your skills?", "Tell me about your technical expertise", "What technologies do you know?", "Show me your frontend skills"`,
   inputSchema: z.object({
+    skillIds: z.array(z.string().refine(id => skills.some(skill => skill.id === id), 'Unknown skill ID')).min(1).optional().describe('Only these canonical skill IDs, when specific skills were requested'),
     category: z
       .enum(['frontend', 'backend', 'infrastructure', 'ai-data', 'soft-skills', 'all'])
       .optional()
       .default('all')
       .describe('Filter skills by category: frontend, backend, infrastructure, ai-data, soft-skills, or all'),
   }),
-  execute: async ({ category = 'all' }) => {
-    let filteredSkills = skills;
+  execute: async ({ category = 'all', skillIds }) => {
+    let filteredSkills = skillIds ? skills.filter(skill => skillIds.includes(skill.id)) : skills;
 
     // Filter by category if not 'all'
     if (category !== 'all') {
@@ -123,7 +112,7 @@ export const showSkills = tool({
  * Displays Afonso's education and certifications
  */
 export const showEducation = tool({
-  description: `Use this tool when the user asks about Afonso's education, degree, certifications, or academic background.
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user asks about Afonso's education, degree, certifications, or academic background.
   Examples: "What's your education?", "Tell me about your degree", "Do you have any certifications?", "Where did you study?"`,
   inputSchema: z.object({}),
   execute: async () => {
@@ -141,8 +130,8 @@ export const showEducation = tool({
  * Displays Afonso's contact information and social links
  */
 export const showContact = tool({
-  description: `Use this tool when the user asks about how to contact Afonso, reach out, get in touch, or asks for contact information.
-  Examples: "How can I contact you?", "What's your email?", "How do I reach you?", "Show me your contact info", "Are you available?"`,
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user asks about how to contact Afonso, reach out, get in touch, or asks for contact information.
+  Examples: "How can I contact you?", "What's your email?", "How do I reach you?", "Show me your contact info", "What is your phone number?"`,
   inputSchema: z.object({}),
   execute: async () => {
     return {
@@ -159,8 +148,8 @@ export const showContact = tool({
  * Displays a comprehensive overview of Afonso's CV with all key information
  */
 export const showCV = tool({
-  description: `Use this tool when the user asks to see Afonso's CV, resume, or full professional overview.
-  Examples: "Show me your CV", "Can I see your resume?", "Tell me about your background", "Show me your full profile"`,
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user asks to see Afonso's CV, resume, or full professional overview.
+  Examples: "Show me your CV", "Can I see your resume?", "Show me your complete professional overview", "Show me your full profile"`,
   inputSchema: z.object({}),
   execute: async () => {
     return {
@@ -186,7 +175,7 @@ export const showCV = tool({
  * Provides a link to download Afonso's resume
  */
 export const downloadResume = tool({
-  description: `Use this tool when the user explicitly asks to download the PDF resume.
+  description: `Render only when this section is requested in the current user message. Never add it merely because related subjects occur in your answer. Use this tool when the user explicitly asks to download the PDF resume.
   Examples: "Download resume", "Get PDF", "I want the PDF version"`,
   inputSchema: z.object({}),
   execute: async () => {
