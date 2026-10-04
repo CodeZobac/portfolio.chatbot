@@ -46,7 +46,6 @@ export interface Skill {
     | "soft-skills";
   yearsOfExperience?: number;
   appliedIn?: string[];
-  strengthTag?: string;
   priority?: "core" | "supporting" | "emerging";
 }
 

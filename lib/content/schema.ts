@@ -27,7 +27,6 @@ export const skillSchema = z.object({
   category: z.enum(["frontend", "backend", "infrastructure", "ai-data", "soft-skills"]),
   yearsOfExperience: z.number().min(0).max(80).optional(),
   appliedIn: optionalList,
-  strengthTag: z.string().trim().min(1).max(120).optional(),
   priority: z.enum(["core", "supporting", "emerging"]).optional(),
 });
 

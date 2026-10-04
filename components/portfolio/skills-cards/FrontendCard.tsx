@@ -13,11 +13,6 @@ interface SkillCardProps {
   className?: string;
 }
 
-/**
- * 01 · Frontend — type-specimen sheet.
- * Core skills are set large in display type; the type scale itself carries
- * the hierarchy. Hover reveals the qualitative strengthTag as a margin note.
- */
 export const FrontendCard: React.FC<SkillCardProps> = ({
   skills,
   title,
@@ -65,11 +60,6 @@ export const FrontendCard: React.FC<SkillCardProps> = ({
               </span>
               {isEmerging && <span className="fm-stamp">Emerging</span>}
               <span aria-hidden="true" className="fm-leader" />
-              {skill.strengthTag && (
-                <span className="fm-note fm-reveal shrink-0 text-xs text-[var(--color-accent-strong)] sm:text-sm">
-                  {skill.strengthTag}
-                </span>
-              )}
             </li>
           );
         })}

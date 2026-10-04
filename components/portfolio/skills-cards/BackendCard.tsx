@@ -13,12 +13,6 @@ interface SkillCardProps {
   className?: string;
 }
 
-/**
- * 02 · Backend — warm ledger column.
- * Same paper family as the rest of the manual (deepest warm tone), read as a
- * tall typeset ledger: amber diamond ticks, dashed rules, qualitative
- * strengthTag sub-lines. No numbers.
- */
 export const BackendCard: React.FC<SkillCardProps> = ({
   skills,
   title,
@@ -70,11 +64,6 @@ export const BackendCard: React.FC<SkillCardProps> = ({
                 </span>
                 {isEmerging && <span className="fm-stamp">Emerging</span>}
               </div>
-              {skill.strengthTag && (
-                <p className="fm-note mt-1 pl-9 text-xs text-[var(--color-neutral)]">
-                  {skill.strengthTag}
-                </p>
-              )}
             </li>
           );
         })}

@@ -181,9 +181,6 @@ export default function CreativeSkillsGraph({ skills, showAllLabels = false }: C
                     }}
                 >
                     <p className="text-sm font-bold text-amber-600">{hoveredNode.name}</p>
-                    {hoveredNode.strengthTag && (
-                        <p className="text-xs text-stone-500">{hoveredNode.strengthTag}</p>
-                    )}
                 </motion.div>
             )}
 

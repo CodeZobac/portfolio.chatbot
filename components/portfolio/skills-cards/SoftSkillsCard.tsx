@@ -11,11 +11,6 @@ interface SkillCardProps {
   className?: string;
 }
 
-/**
- * 05 · Soft Skills — ticket-stub strip.
- * Five tilted paper stubs pinned in a row, each with an amber pin and its
- * strengthTag set as a caption. Hover straightens the stub.
- */
 export const SoftSkillsCard: React.FC<SkillCardProps> = ({
   skills,
   title,
@@ -58,11 +53,6 @@ export const SoftSkillsCard: React.FC<SkillCardProps> = ({
           <span className="skill-name block text-sm font-bold text-[var(--color-ink)]">
             {skill.name}
           </span>
-          {skill.strengthTag && (
-            <span className="fm-note mt-1 block text-xs text-[var(--color-neutral)]">
-              {skill.strengthTag}
-            </span>
-          )}
         </li>
       ))}
     </ul>

@@ -13,12 +13,6 @@ interface SkillCardProps {
   className?: string;
 }
 
-/**
- * 03 · AI & Data — punch-card grid.
- * The densest section: skills sit in tiles; core tiles carry an amber corner
- * notch and their strengthTag as a permanent caption. Emerging tiles are
- * dashed with a stamp. Purely qualitative.
- */
 export const AICard: React.FC<SkillCardProps> = ({
   skills,
   title,
@@ -81,14 +75,8 @@ export const AICard: React.FC<SkillCardProps> = ({
                   {skill.name}
                 </span>
               </div>
-              {isEmerging ? (
+              {isEmerging && (
                 <span className="fm-stamp mt-1.5">Emerging</span>
-              ) : (
-                skill.strengthTag && (
-                  <p className="fm-note mt-1 truncate text-[0.6875rem] text-[var(--color-neutral)]">
-                    {skill.strengthTag}
-                  </p>
-                )
               )}
             </li>
           );

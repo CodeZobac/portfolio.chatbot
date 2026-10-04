@@ -332,7 +332,6 @@ function SkillEditor({ skill, onChange }: { skill: Skill; onChange: (skill: Skil
     <Field label="Proficiency" value={skill.proficiency} type="number" min={0} max={100} onChange={(value) => set("proficiency", Number(value))} required helper="0–100" />
     <SelectField label="Category" value={skill.category} onChange={(value) => set("category", value as Skill["category"])} options={[["frontend","Frontend"],["backend","Backend"],["infrastructure","Infrastructure"],["ai-data","AI & data"],["soft-skills","Soft skills"]]} />
     <Field label="Years of experience" value={skill.yearsOfExperience ?? ""} type="number" min={0} max={80} step={0.5} onChange={(value) => set("yearsOfExperience", value === "" ? undefined : Number(value))} />
-    <Field label="Strength tag" value={skill.strengthTag ?? ""} onChange={(value) => set("strengthTag", value || undefined)} />
     <SelectField label="Priority" value={skill.priority ?? "supporting"} onChange={(value) => set("priority", value as Skill["priority"])} options={[["core","Core"],["supporting","Supporting"],["emerging","Emerging"]]} />
     <div className="admin-form-wide"><ListField label="Applied projects" values={skill.appliedIn ?? []} onChange={(value) => set("appliedIn", value)} placeholder="Project name" /></div>
   </div>;

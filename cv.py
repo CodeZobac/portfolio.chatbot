@@ -33,7 +33,6 @@ def create_html_cv():
         f"""\
                 <div class="soft-skill-item">
                     <h3 class="soft-skill-name">{escape(skill["name"])}</h3>
-                    <p class="soft-skill-caption">{escape(skill.get("strengthTag") or "")}</p>
                 </div>"""
         for skill in portfolio_content["skills"]
         if skill["category"] == "soft-skills"
@@ -525,13 +524,6 @@ body {
     line-height: 1.25;
 }
 
-.soft-skill-caption {
-    font-size: 6.5pt;
-    font-style: italic;
-    color: #777;
-    line-height: 1.3;
-    margin-top: 0.03cm;
-}
 
 /* ── RIGHT CONTENT ── */
 .content {

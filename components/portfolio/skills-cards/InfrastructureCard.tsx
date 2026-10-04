@@ -13,11 +13,6 @@ interface SkillCardProps {
   className?: string;
 }
 
-/**
- * 04 · Infrastructure — supply line.
- * Skills read as stations on a route: amber node, name, dashed connector to
- * the next station. Hover reveals the strengthTag beneath the node.
- */
 export const InfrastructureCard: React.FC<SkillCardProps> = ({
   skills,
   title,
@@ -73,11 +68,6 @@ export const InfrastructureCard: React.FC<SkillCardProps> = ({
                     {skill.name}
                   </span>
                 </div>
-                {skill.strengthTag && (
-                  <p className="fm-note fm-reveal mt-1 pl-10 text-xs text-[var(--color-accent-strong)]">
-                    {skill.strengthTag}
-                  </p>
-                )}
               </div>
               {!isLast && (
                 <span
