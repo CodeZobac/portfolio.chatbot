@@ -16,6 +16,8 @@ import EducationCard from "@/components/portfolio/EducationCard";
 import ContactCard from "@/components/portfolio/ContactCard";
 import ProfileCard from "@/components/ProfileCard";
 import IntroAnimation from "@/components/intro/intro-animation";
+import ChatMascot from "@/components/ChatMascot";
+import mascotStyles from "@/components/ChatMascot.module.css";
 import MarkdownMessage from "@/components/MarkdownMessage";
 import { Message, MessageContent } from "@/components/ai-elements/message";
 import type { ToolOutput } from "@/lib/types";
@@ -532,7 +534,8 @@ export default function PortfolioChat({
         {/* Input Form */}
         {isInputVisible && (
           <div className="fixed bottom-6 left-0 right-0 z-[100] px-4 animate-slideUp">
-            <div className="mx-auto max-w-3xl">
+            <div className={mascotStyles.dock}>
+              <ChatMascot busy={isLoading} />
               <form
                 ref={formRef}
                 onSubmit={(e) => {
@@ -552,15 +555,17 @@ export default function PortfolioChat({
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   disabled={isLoading}
+                  aria-label="Your message"
                   placeholder="Ask me anything..."
-                  className="relative w-full bg-transparent px-6 py-4 text-base text-stone-800 placeholder-stone-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="relative min-w-0 w-full bg-transparent px-3 py-4 text-base text-stone-800 placeholder-stone-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:px-6"
                 />
 
                 <div className="relative pr-2">
                   <button
                     type="submit"
+                    aria-label={isLoading ? "Sending message" : "Send message"}
                     disabled={isLoading || !input.trim()}
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg transition-all hover:scale-105 hover:shadow-amber-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+                    className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg transition-all hover:scale-105 hover:shadow-amber-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                   >
                     {isLoading ? (
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
