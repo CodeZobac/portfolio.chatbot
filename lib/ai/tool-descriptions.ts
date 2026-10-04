@@ -41,7 +41,7 @@ export const toolDescriptions: Record<string, ToolMetadata> = {
         name: 'highlight',
         type: 'string',
         required: false,
-        description: 'Optional parameter to highlight a specific role or company. Use when the recruiter asks about a specific position or organization (e.g., "ETIC Algarve", "hospitality", "Full-Stack Developer").'
+        description: 'Optional parameter to highlight a specific role or company. Use when the recruiter asks about a specific position or organization (e.g., "ETIC Algarve", "VivaDrive", "Full-Stack Developer").'
       }
     ],
     usageGuidelines: [
@@ -49,12 +49,12 @@ export const toolDescriptions: Record<string, ToolMetadata> = {
       'Use the highlight parameter when the recruiter asks about a specific role or company',
       'Combine with text explanation of strategic decisions and achievements',
       'Don\'t use if the recruiter is only asking about a specific project (use showProjects instead)',
-      'Use when discussing the transition from hospitality to tech'
+      'Use for requested professional roles, not personal-life or spiritual-development questions'
     ],
     examples: [
       'Q: "Tell me about your experience" → Call showExperience() with no parameters',
       'Q: "What did you do at ETIC?" → Call showExperience({ highlight: "ETIC Algarve" })',
-      'Q: "Tell me about your hospitality background" → Call showExperience({ highlight: "hospitality" })',
+      'Q: "Tell me about your VivaDrive experience" → Call showExperience({ highlight: "VivaDrive" })',
       'Q: "Walk me through your career" → Call showExperience() with no parameters'
     ]
   },
@@ -136,7 +136,7 @@ export const toolDescriptions: Record<string, ToolMetadata> = {
       'Use category filter when recruiter asks about specific skill areas',
       'Always provide context about how skills have been applied, not just proficiency numbers',
       'Connect skills to projects and real-world applications',
-      'Emphasize soft skills as strategic advantages from hospitality background',
+      'Explain soft skills through associative memory, visual thinking, and documented experience; include relevant personal context such as Reiki and spiritual growth in accompanying prose, following the system prompt',
       'Don\'t just list technologies - explain when and why they\'re used'
     ],
     examples: [
