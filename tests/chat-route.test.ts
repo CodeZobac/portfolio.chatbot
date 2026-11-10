@@ -18,7 +18,7 @@ describe("chat route tool restrictions", () => {
     ["Download CV", ["downloadResume"]],
     ["Tell me more", []],
   ])("selects tools for the current request: %s", async (prompt, expectedTools) => {
-    vi.stubEnv("MANIFEST_API_KEY", "test-key");
+    vi.stubEnv("DEEPSEEK_API_KEY", "test-key");
     const messages = [
       { role: "user", parts: [{ type: "text", text: "Show CV and skills" }] },
       { role: "assistant", parts: [{ type: "text", text: "Here is my CV. Want education too?" }] },

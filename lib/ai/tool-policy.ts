@@ -2,6 +2,7 @@ import type { PrepareStepFunction } from "ai";
 import { tools } from "./tools";
 import { SYSTEM_PROMPT } from "./system-prompt";
 import type { ToolIntent } from "./tool-intent";
+import { traceOperation } from "../observability/trace-tool";
 
 /** Request-scoped definitions prevent unselected tools from executing. */
 export function createToolPolicy(intent: ToolIntent) {
@@ -24,14 +25,20 @@ export function createToolPolicy(intent: ToolIntent) {
         }, options),
     },
   };
-  const selectedTools = Object.fromEntries(intent.selectedTools.map(name => [name, scopedTools[name]])) as Partial<typeof scopedTools>;
+  // Layer 3 (operation.unit): each selected tool call is traced.
+  const traced = (name: keyof typeof scopedTools) => {
+    const original = scopedTools[name];
+    const execute = original.execute as (input: unknown, options: unknown) => Promise<unknown>;
+    return { ...original, execute: (input: unknown, options: unknown) => traceOperation(name, (value: unknown) => execute(value, options))(input) };
+  };
+  const selectedTools = Object.fromEntries(intent.selectedTools.map(name => [name, traced(name)])) as Partial<typeof scopedTools>;
   const prepareStep: PrepareStepFunction<typeof selectedTools> = ({ steps }) => {
     const attempted = new Set(steps.flatMap(step => step.toolCalls.flatMap(call => call ? [call.toolName] : [])));
     const remaining = intent.selectedTools.filter(name => !attempted.has(name));
     // Retire attempted calls too: malformed calls must not cause repeated cards or loops.
     return {
       activeTools: remaining,
-      // Manifest can route to thinking models that reject required/named choices.
+      // Thinking models reject required/named choices, so keep "auto".
       // The scoped tool map and activeTools enforce the allowed set independently.
       toolChoice: remaining.length === 0 ? "none" : "auto",
       system: `${SYSTEM_PROMPT}\n\n# CURRENT TURN TOOL SELECTION\n${remaining.length

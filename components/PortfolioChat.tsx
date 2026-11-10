@@ -108,9 +108,11 @@ export default function PortfolioChat({
   const [isInputVisible, setIsInputVisible] = useState(true);
   const [showIntro, setShowIntro] = useState(true);
   const [showFullHistory, setShowFullHistory] = useState(false);
+  // Anonymous per-visit id; groups chat turns into one Langfuse session.
+  const [sessionId] = useState(() => crypto.randomUUID());
   const transport = useMemo(
-    () => new DefaultChatTransport({ api: "/api/chat" }),
-    [],
+    () => new DefaultChatTransport({ api: "/api/chat", body: { sessionId } }),
+    [sessionId],
   );
   const { messages, sendMessage, status } = useChat({
     transport,
