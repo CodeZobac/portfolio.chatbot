@@ -10,7 +10,7 @@ Treat portfolio facts as user-owned data. Do not invent experience, metrics, lin
 
 - Next.js 16 App Router, React 19, and strict TypeScript.
 - Tailwind CSS 4 through `app/globals.css`, with shared semantic tokens in `tokens.css`.
-- Vercel AI SDK 5 with an OpenAI-compatible Manifest endpoint.
+- Vercel AI SDK 5 with the DeepSeek provider (`@ai-sdk/deepseek`, pinned to the `ai-v5` tag) and Langfuse tracing over OpenTelemetry.
 - Framer Motion and GSAP for intentional motion; Lucide for interface icons.
 - Zod for runtime content validation.
 - Vitest for unit tests and ESLint for static checks.
@@ -19,7 +19,7 @@ Treat portfolio facts as user-owned data. Do not invent experience, metrics, lin
 ## Application Map
 
 - `app/page.tsx`: main conversational portfolio, streaming chat state, tool-result routing, and lazy-loaded portfolio surfaces.
-- `app/api/chat/route.ts`: streaming chat endpoint. It uses `MANIFEST_API_KEY`, the portfolio system prompt, and the tools exported from `lib/ai/tools.ts`.
+- `app/api/chat/route.ts`: streaming chat endpoint. It uses `DEEPSEEK_API_KEY`, the portfolio system prompt, and the tools exported from `lib/ai/tools.ts`.
 - `app/admin/`: password-protected owner workbench for editing and publishing portfolio content.
 - `app/api/admin/`: admin session, content retrieval, and GitHub publishing endpoints.
 - `components/ai-elements/`: reusable chat, message, reasoning, source, conversation, and prompt primitives.
@@ -28,7 +28,7 @@ Treat portfolio facts as user-owned data. Do not invent experience, metrics, lin
 - `components/ui/`: reusable low-level UI primitives.
 - `content/portfolio-content.json`: canonical published portfolio content.
 - `lib/content/`: content loading, validation, and YouTube helpers.
-- `lib/ai/`: system prompt, tool descriptions, and tool implementations.
+- `lib/ai/`: system prompt, tool descriptions, and tool implementations. `knowledge.ts` generates the experience, projects, and skills sections of the prompt from the content JSON, so admin edits reach the assistant on the next build. Voice and rules stay hand-written in `system-prompt.ts`.
 - `lib/admin/`: admin authentication and GitHub Contents API publishing.
 - `lib/types.ts`: shared application and tool-output contracts.
 - `public/projects/`: managed project artwork. Admin uploads belong under `public/projects/admin/`.
@@ -38,7 +38,7 @@ Treat portfolio facts as user-owned data. Do not invent experience, metrics, lin
 ## Runtime and Data Flow
 
 1. `app/page.tsx` sends UI messages to `/api/chat` through `DefaultChatTransport`.
-2. The chat route streams a response from Manifest and exposes bounded portfolio tools.
+2. The chat route streams a response from DeepSeek (`deepseek-chat`) and exposes bounded portfolio tools.
 3. Tool results use the discriminated unions in `lib/types.ts`.
 4. `ToolOutputRenderer` maps those results to pre-built portfolio components.
 5. Portfolio data is loaded from the validated JSON content layer; tool-facing skills deliberately omit arbitrary proficiency percentages.
@@ -48,11 +48,20 @@ Treat portfolio facts as user-owned data. Do not invent experience, metrics, lin
 
 Never expose or commit secrets. Relevant server-side variables include:
 
-- `MANIFEST_API_KEY` for portfolio chat.
+- `DEEPSEEK_API_KEY` for portfolio chat.
+- `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_BASE_URL` (`https://cloud.langfuse.com`) for tracing. Tracing is off when the keys are missing.
 - `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` for the owner workbench.
 - `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`, and `GITHUB_BRANCH` for admin publishing.
 
 Use a repository-scoped, fine-grained GitHub token with only the required Contents permission.
+
+## Observability (Langfuse)
+
+- `instrumentation.ts` registers the Langfuse span processor; `lib/observability/` holds layer names and the tool wrapper.
+- Four layers, names in `LAYERS`: `interaction.session` (root, one per chat turn, `sessionId` from the client), `orchestration.flow` (intent and tool policy), `operation.unit` (each tool call, output summarized), `model.inference` (AI SDK telemetry generations).
+- Golden rule: trace only what explains behavior, cost, or risk. No per-token or per-render spans. No user PII. Keep layer names stable.
+- The root observation ends in `onFinish`, `onError`, or `onAbort`, never when the handler returns.
+- The Langfuse agent skill lives in `.agents/skills/langfuse`.
 
 ## Design and Implementation Conventions
 
