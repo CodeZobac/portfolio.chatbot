@@ -2,368 +2,368 @@
   "version": 1,
   "skills": [
     {
+      "id": "rag-pipelines",
       "name": "RAG Pipelines",
       "proficiency": 88,
       "category": "ai-data",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow",
         "IN Sintonia"
       ],
-      "id": "rag-pipelines"
+      "priority": "core"
     },
     {
+      "id": "crewai",
       "name": "CrewAI",
       "proficiency": 82,
       "category": "ai-data",
       "yearsOfExperience": 2,
-      "priority": "supporting",
       "appliedIn": [
         "FleetFlow",
         "IN Sintonia"
       ],
-      "id": "crewai"
+      "priority": "supporting"
     },
     {
+      "id": "langfuse",
       "name": "Langfuse",
       "proficiency": 85,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "langfuse"
+      "priority": "core"
     },
     {
+      "id": "litellm",
       "name": "LiteLLM",
       "proficiency": 80,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "supporting",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "litellm"
+      "priority": "supporting"
     },
     {
+      "id": "llm-observability",
       "name": "LLM Observability",
       "proficiency": 83,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "supporting",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "llm-observability"
+      "priority": "supporting"
     },
     {
+      "id": "ai-agent-development",
       "name": "AI Agent Development",
       "proficiency": 85,
       "category": "ai-data",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow",
         "IN Sintonia"
       ],
-      "id": "ai-agent-development"
+      "priority": "core"
     },
     {
+      "id": "predictive-analytics",
       "name": "Predictive Analytics",
       "proficiency": 75,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "emerging",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "predictive-analytics"
+      "priority": "emerging"
     },
     {
+      "id": "observability",
       "name": "Observability",
       "proficiency": 85,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "observability"
+      "priority": "core"
     },
     {
+      "id": "cost-management",
       "name": "Cost Management",
       "proficiency": 82,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "cost-management"
+      "priority": "core"
     },
     {
+      "id": "prompt-engineering",
       "name": "Prompt Engineering",
       "proficiency": 83,
       "category": "ai-data",
       "yearsOfExperience": 1,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow"
       ],
-      "id": "prompt-engineering"
+      "priority": "core"
     },
     {
+      "id": "python",
       "name": "Python",
       "proficiency": 88,
       "category": "backend",
       "yearsOfExperience": 3,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow",
         "ETIC Resource Hub"
       ],
-      "id": "python"
+      "priority": "core"
     },
     {
+      "id": "fastapi",
       "name": "FastAPI",
       "proficiency": 85,
       "category": "backend",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "FleetFlow",
         "ETIC Resource Hub"
       ],
-      "id": "fastapi"
+      "priority": "core"
     },
     {
+      "id": "django",
       "name": "Django",
       "proficiency": 75,
       "category": "backend",
       "yearsOfExperience": 2,
-      "priority": "supporting",
-      "id": "django"
+      "priority": "supporting"
     },
     {
+      "id": "rust",
       "name": "Rust",
       "proficiency": 72,
       "category": "backend",
       "yearsOfExperience": 1,
-      "priority": "emerging",
       "appliedIn": [
         "IN Sintonia"
       ],
-      "id": "rust"
+      "priority": "emerging"
     },
     {
+      "id": "axum",
       "name": "Axum",
       "proficiency": 70,
       "category": "backend",
       "yearsOfExperience": 1,
-      "priority": "emerging",
       "appliedIn": [
         "IN Sintonia"
       ],
-      "id": "axum"
+      "priority": "emerging"
     },
     {
+      "id": "postgresql",
       "name": "PostgreSQL",
       "proficiency": 85,
       "category": "backend",
       "yearsOfExperience": 3,
-      "priority": "core",
       "appliedIn": [
         "ETIC Resource Hub"
       ],
-      "id": "postgresql"
+      "priority": "core"
     },
     {
+      "id": "next-js",
       "name": "Next.js",
       "proficiency": 90,
       "category": "frontend",
       "yearsOfExperience": 3,
-      "priority": "core",
       "appliedIn": [
         "IN Sintonia",
         "ETIC Resource Hub"
       ],
-      "id": "next-js"
+      "priority": "core"
     },
     {
+      "id": "typescript",
       "name": "TypeScript",
       "proficiency": 90,
       "category": "frontend",
       "yearsOfExperience": 3,
-      "priority": "core",
       "appliedIn": [
         "IN Sintonia",
         "ETIC Resource Hub"
       ],
-      "id": "typescript"
+      "priority": "core"
     },
     {
+      "id": "tailwind-css",
       "name": "Tailwind CSS",
       "proficiency": 88,
       "category": "frontend",
       "yearsOfExperience": 3,
-      "priority": "core",
       "appliedIn": [
         "IN Sintonia",
         "Portfolio Chatbot"
       ],
-      "id": "tailwind-css"
+      "priority": "core"
     },
     {
+      "id": "react",
       "name": "React",
       "proficiency": 88,
       "category": "frontend",
       "yearsOfExperience": 3,
-      "priority": "core",
       "appliedIn": [
         "IN Sintonia",
         "ETIC Resource Hub",
         "Portfolio Chatbot"
       ],
-      "id": "react"
+      "priority": "core"
     },
     {
+      "id": "vite",
       "name": "Vite",
       "proficiency": 80,
       "category": "frontend",
       "yearsOfExperience": 2,
-      "priority": "supporting",
-      "id": "vite"
+      "priority": "supporting"
     },
     {
+      "id": "docker",
       "name": "Docker",
       "proficiency": 82,
       "category": "infrastructure",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "ETIC Resource Hub",
         "FleetFlow"
       ],
-      "id": "docker"
+      "priority": "core"
     },
     {
+      "id": "terraform",
       "name": "Terraform",
       "proficiency": 78,
       "category": "infrastructure",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "ETIC Resource Hub"
       ],
-      "id": "terraform"
+      "priority": "core"
     },
     {
+      "id": "ci-cd",
       "name": "CI/CD",
       "proficiency": 80,
       "category": "infrastructure",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "ETIC Resource Hub",
         "FleetFlow"
       ],
-      "id": "ci-cd"
+      "priority": "core"
     },
     {
+      "id": "supabase",
       "name": "Supabase",
       "proficiency": 85,
       "category": "infrastructure",
       "yearsOfExperience": 2,
-      "priority": "core",
       "appliedIn": [
         "ETIC Resource Hub"
       ],
-      "id": "supabase"
+      "priority": "core"
     },
     {
+      "id": "nginx",
       "name": "Nginx",
       "proficiency": 75,
       "category": "infrastructure",
       "yearsOfExperience": 1,
-      "priority": "supporting",
       "appliedIn": [
         "ETIC Resource Hub"
       ],
-      "id": "nginx"
+      "priority": "supporting"
     },
     {
+      "id": "empathetic-thinking",
       "name": "Empathetic Thinking",
       "proficiency": 92,
       "category": "soft-skills",
       "yearsOfExperience": 5,
-      "priority": "core",
       "appliedIn": [
         "UX Design",
         "Stakeholder relations"
       ],
-      "id": "empathetic-thinking"
+      "priority": "core"
     },
     {
+      "id": "out-of-the-box-perspective",
       "name": "Out-of-the-box Perspective",
       "proficiency": 90,
       "category": "soft-skills",
       "yearsOfExperience": 7,
-      "priority": "core",
       "appliedIn": [
         "Architecture",
         "System design"
       ],
-      "id": "out-of-the-box-perspective"
+      "priority": "core"
     },
     {
+      "id": "mental-visualization",
       "name": "Mental Visualization",
       "proficiency": 88,
       "category": "soft-skills",
       "yearsOfExperience": 5,
-      "priority": "core",
       "appliedIn": [
         "Database design",
         "System mapping"
       ],
-      "id": "mental-visualization"
+      "priority": "core"
     },
     {
+      "id": "associative-memory",
       "name": "Associative Memory",
       "proficiency": 92,
       "category": "soft-skills",
       "yearsOfExperience": 5,
-      "priority": "core",
       "appliedIn": [
         "System architecture",
         "Root cause analysis"
       ],
-      "id": "associative-memory"
+      "priority": "core"
     },
     {
+      "id": "present-attitude",
       "name": "Present Attitude",
       "proficiency": 92,
       "category": "soft-skills",
       "yearsOfExperience": 5,
-      "priority": "core",
       "appliedIn": [
         "Operations",
         "Incident response"
       ],
-      "id": "present-attitude"
+      "priority": "core"
     },
     {
+      "id": "nurturing-environments",
       "name": "Nurturing Environments",
       "proficiency": 92,
       "category": "soft-skills",
       "yearsOfExperience": 7,
-      "priority": "core",
       "appliedIn": [
         "Mentorship",
         "Team dynamics"
       ],
-      "id": "nurturing-environments"
+      "priority": "core"
     }
   ],
   "projects": [
@@ -540,6 +540,17 @@
         "k6",
         "Resend API"
       ]
+    },
+    {
+      "id": "experience-mwb70let",
+      "title": "Fullstack Developer",
+      "company": "Afina Studio",
+      "period": "Oct 2026 - Present",
+      "location": "Remote",
+      "type": "tech",
+      "achievements": [],
+      "responsibilities": [],
+      "technologies": []
     }
   ]
 }
