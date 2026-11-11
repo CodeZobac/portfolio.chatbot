@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Education } from "@/lib/types";
 
 interface EducationCardProps {
@@ -18,6 +19,15 @@ export default function EducationCard({ data }: EducationCardProps) {
         <div className="relative pl-6 border-l-2 border-amber-400/50">
           <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-amber-500 bg-white" />
 
+          {education.logo && (
+            <Image
+              src={education.logo}
+              alt={`${education.institution} logo`}
+              width={160}
+              height={48}
+              className="mb-3 h-10 w-auto"
+            />
+          )}
           <h4 className="text-lg font-semibold text-stone-800">
             {education.degree}
           </h4>
