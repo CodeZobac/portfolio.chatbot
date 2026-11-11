@@ -11,6 +11,7 @@ Combines the simplicity of curriculo.md with the comprehensive info from cv.md.
 """
 
 import json
+import sys
 from html import escape
 from pathlib import Path
 
@@ -759,9 +760,14 @@ def generate_pdf():
     css = CSS(string=css_content, font_config=font_config)
 
     # Generate PDF
-    output_dir = Path.home() / "Documents"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / "Afonso_Caboz_CV.pdf"
+    # Optional CLI arg: explicit output path (used by scripts/build-cv.sh).
+    if len(sys.argv) > 1:
+        output_path = Path(sys.argv[1])
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+    else:
+        output_dir = Path.home() / "Documents"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / "Afonso_Caboz_CV.pdf"
     html.write_pdf(target=str(output_path), stylesheets=[css], font_config=font_config)
 
     print(f"✅ PDF generated successfully: {output_path}")
