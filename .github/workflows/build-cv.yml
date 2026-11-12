@@ -3,6 +3,13 @@ name: Build CV PDF
 on:
   push:
     branches: [main]
+    paths:
+      - cv.py
+      - requirements-cv.txt
+      - banner.jpg
+      - content/portfolio-content.json
+      - public/resume/logos/**
+      - .github/workflows/build-cv.yml
   workflow_dispatch:
 
 permissions:
@@ -56,9 +63,3 @@ jobs:
           git add public/resume/afonso-caboz-resume.pdf
           git commit -m "chore(cv): regenerate resume PDF"
           git push origin HEAD:main
-
-      - name: Trigger Vercel production deploy
-        if: always() && !cancelled()
-        env:
-          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: curl -fsS -X POST "$HOOK"
