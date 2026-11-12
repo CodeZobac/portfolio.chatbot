@@ -409,7 +409,7 @@ export default function PortfolioChat({
                       <Message
                         key={partIndex}
                         role={message.role}
-                        className="gap-3"
+                        className="flex-col gap-2 sm:flex-row sm:gap-3"
                       >
                         {message.role === "assistant" && (
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-amber-50">
@@ -426,8 +426,8 @@ export default function PortfolioChat({
                         <MessageContent
                           className={
                             message.role === "user"
-                              ? "bg-gradient-to-br from-amber-500 to-orange-500 text-white rounded-2xl rounded-tr-sm shadow-md border border-amber-400/20"
-                              : "bg-white/95 border border-amber-100 text-stone-800 rounded-2xl rounded-tl-sm shadow-sm"
+                              ? "max-w-[88%] sm:max-w-[80%] bg-gradient-to-br from-amber-500 to-orange-500 text-white rounded-2xl rounded-tr-sm shadow-md border border-amber-400/20"
+                              : "max-w-full px-4 py-3 sm:max-w-[80%] sm:px-5 sm:py-2.5 bg-white/95 border border-amber-100 text-stone-800 rounded-2xl rounded-tl-sm shadow-sm"
                           }
                         >
                           {message.role === "user" ? (
@@ -535,7 +535,7 @@ export default function PortfolioChat({
 
         {/* Input Form */}
         {isInputVisible && (
-          <div className="fixed bottom-6 left-0 right-0 z-[100] px-4 animate-slideUp">
+          <div className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-0 right-0 z-[100] px-4 animate-slideUp">
             <div className={mascotStyles.dock}>
               <ChatMascot busy={isLoading} />
               <form

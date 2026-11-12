@@ -40,7 +40,7 @@ const extractText = (children: React.ReactNode): string => {
 
 const MarkdownMessage = memo(({ content, onButtonClick, className, transparent = false, isStreaming = false }: MarkdownMessageProps) => {
   const containerClasses = transparent
-    ? `prose max-w-none ${className || ''}`
+    ? `prose max-w-none break-words ${className || ''}`
     : `prose max-w-none bg-white/95 p-6 sm:p-8 rounded-2xl shadow-sm border border-stone-100 ${className || ''}`;
 
   const deferredContent = useDeferredValue(content);
@@ -51,7 +51,7 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
       <ReactMarkdown
         components={{
           p: ({ children }) => (
-            <p className="text-[16px] leading-[1.8] text-black tracking-wide font-normal mb-3 last:mb-0">
+            <p className="text-[15px] leading-[1.65] sm:text-[16px] sm:leading-[1.8] text-black tracking-normal sm:tracking-wide font-normal mb-3 last:mb-0">
               {children}
             </p>
           ),
@@ -65,7 +65,7 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
               return (
                 <button
                   onClick={() => onButtonClick(text)}
-                  className="group inline-flex items-center gap-1 mx-1 px-2 py-0.5 text-[15px] font-medium text-white bg-[#E37100] rounded-md shadow-sm hover:bg-[#ff8000] active:scale-[0.97] transition-all duration-150 ease-out align-baseline select-none relative overflow-hidden will-change-transform"
+                  className="group inline-flex items-center gap-1 mx-0.5 px-2.5 py-1 text-sm sm:text-[15px] font-medium text-white bg-[#E37100] rounded-md shadow-sm hover:bg-[#ff8000] active:scale-[0.97] transition-all duration-150 ease-out align-baseline select-none relative will-change-transform before:absolute before:-inset-y-2 before:inset-x-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
                 >
                   <Icon className="w-3 h-3 text-white/90" />
                   <span className="relative z-10">
@@ -88,39 +88,39 @@ const MarkdownMessage = memo(({ content, onButtonClick, className, transparent =
             </em>
           ),
           h1: ({ children }) => (
-            <h1 className="text-3xl font-bold mb-6 mt-2 text-black tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 mt-2 text-black tracking-tight leading-tight">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-xl font-bold mb-4 mt-8 text-black flex items-center gap-2 leading-tight">
+            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 mt-6 sm:mt-8 text-black flex items-center gap-2 leading-tight">
               <span className="h-2 w-2 rounded-full bg-amber-500"></span>
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-lg font-semibold mb-3 mt-6 text-stone-900 leading-snug">
+            <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 mt-5 sm:mt-6 text-stone-900 leading-snug">
               {children}
             </h3>
           ),
           ul: ({ children }) => (
-            <ul className="space-y-1.5 mb-4 pl-5 my-3 list-disc marker:text-amber-500">{children}</ul>
+            <ul className="space-y-1.5 mb-4 pl-4 sm:pl-5 my-3 list-disc marker:text-amber-500">{children}</ul>
           ),
           ol: ({ children }) => (
-            <ol className="space-y-1.5 mb-4 pl-5 my-3 list-decimal marker:text-amber-500 marker:font-medium">{children}</ol>
+            <ol className="space-y-1.5 mb-4 pl-4 sm:pl-5 my-3 list-decimal marker:text-amber-500 marker:font-medium">{children}</ol>
           ),
           li: ({ children }) => (
-            <li className="leading-[1.7] text-black pl-1">
+            <li className="leading-[1.6] sm:leading-[1.7] text-black pl-1">
               {children}
             </li>
           ),
           code: ({ children }) => (
-            <code className="bg-stone-100 text-stone-900 px-1.5 py-0.5 rounded text-[14px] font-mono border border-stone-200 font-medium">
+            <code className="bg-stone-100 text-stone-900 px-1.5 py-0.5 rounded text-[13px] sm:text-[14px] break-words font-mono border border-stone-200 font-medium">
               {children}
             </code>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-amber-500 pl-4 py-2 my-6 italic text-stone-700 bg-amber-50/50 rounded-r leading-relaxed">
+            <blockquote className="border-l-4 border-amber-500 pl-3 sm:pl-4 py-2 my-4 sm:my-6 italic text-stone-700 bg-amber-50/50 rounded-r leading-relaxed">
               {children}
             </blockquote>
           ),
