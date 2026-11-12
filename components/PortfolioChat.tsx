@@ -418,15 +418,18 @@ export default function PortfolioChat({
                         className="flex-col gap-2 sm:flex-row sm:gap-3"
                       >
                         {message.role === "assistant" && (
-                          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-amber-50">
-                            <Image
-                              src="/always_solving_something.jpg"
-                              alt="Assistant"
-                              width={32}
-                              height={32}
-                              sizes="32px"
-                              className="h-full w-full object-cover"
-                            />
+                          <div className="flex items-center gap-2 sm:block">
+                            <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full bg-amber-50 sm:h-8 sm:w-8">
+                              <Image
+                                src="/always_solving_something.jpg"
+                                alt="Assistant"
+                                width={32}
+                                height={32}
+                                sizes="32px"
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                            <span className="text-xs font-medium text-stone-500 sm:hidden">Afonso</span>
                           </div>
                         )}
                         <MessageContent
