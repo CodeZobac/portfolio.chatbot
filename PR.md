@@ -1,16 +1,12 @@
-# ci: build CV PDF in GitHub Actions, drop Vercel prebuild hook
+# ci: build the CV PDF on main
 
 ## Summary
-Vercel cannot run WeasyPrint, so the PDF is now built in GitHub Actions and committed back to `main`.
+The workflow regenerates the CV PDF on pushes to `main` that touch CV inputs and commits it back. Vercel builds the original push and then rebuilds on the PDF commit, so the live CV is current after the second build. Vercel settings are untouched.
 
 ## Changes
-1. Remove the `prebuild` hook from `package.json`.
-2. Add `.github/workflows/build-cv.yml` (build, check 2 pages, commit PDF).
-3. Add education logos in `public/resume/logos/` that `cv.py` reads.
-4. `cv.py` writes the PDF to `public/resume/`.
-5. Show the ETIC Algarve logo in the chatbot education card (`Education.logo`).
+1. Trigger on push to `main` (CV input paths) and `workflow_dispatch`.
+2. Commit the PDF to `main` without `[skip ci]`, so Vercel redeploys.
+3. No deploy hook step.
 
 ## Verification
-- `cv.py` compiles (`py_compile`).
-- `tsc --noEmit`, ESLint on changed files, and `npm test` (98 tests) pass.
-- Workflow not yet run. Trigger it with `workflow_dispatch` after merge.
+- Workflow not yet run.
