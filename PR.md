@@ -1,13 +1,16 @@
-# ci: build the CV PDF on pull requests, not on main
+# ci: build the CV PDF on main, then trigger the Vercel deploy
 
 ## Summary
-The CV workflow now runs on pull requests that touch CV inputs and commits the regenerated PDF to the PR branch. The Vercel preview shows it before merge, and merging brings it to `main`. Nothing runs on `main`.
+Vercel's own Git build of `main` is disabled. The workflow regenerates the CV PDF on every push to `main`, commits it if it changed, then calls a Vercel Deploy Hook, so Vercel always builds a commit that already has the new PDF.
 
 ## Changes
-1. Trigger on `pull_request` instead of `push` to `main`, and drop `workflow_dispatch`.
-2. Check out and push to the PR head branch.
-3. Commit message no longer contains `[skip ci]`, so Vercel redeploys the preview.
+1. Trigger on push to `main` (all paths) and `workflow_dispatch`.
+2. Commit the PDF to `main` without `[skip ci]`.
+3. Final step posts to the `VERCEL_DEPLOY_HOOK` secret.
+
+## Required setup (outside the repo)
+- Vercel, Settings, Git: create a Deploy Hook for `main` and add it as the `VERCEL_DEPLOY_HOOK` repository secret.
+- Vercel, Settings, Git, Ignored Build Step: `[ "$VERCEL_GIT_COMMIT_REF" = "main" ] && exit 0 || exit 1` (skips main, keeps previews).
 
 ## Verification
-- Workflow not yet run. This PR touches the workflow file, so it triggers it.
-- Same-repo PRs only: forks cannot push back.
+- Workflow not yet run.
