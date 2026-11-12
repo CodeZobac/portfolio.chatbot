@@ -55,6 +55,11 @@ Never expose or commit secrets. Relevant server-side variables include:
 
 Use a repository-scoped, fine-grained GitHub token with only the required Contents permission.
 
+## SEO and LLM Discoverability
+
+- Canonical domain is `https://www.codezobac.com`. `lib/seo.ts` is the single source for metadata, JSON-LD, `app/robots.ts`, `app/sitemap.ts`, `/llms.txt` and `/llms-full.txt`.
+- `components/AboutSection.tsx` is the server-rendered crawlable summary below the chat (Portuguese headings). Crawlable copy must derive from `content/portfolio-content.json`; never invent claims or add hidden text.
+
 ## Observability (Langfuse)
 
 - `instrumentation.ts` registers the Langfuse span processor; `lib/observability/` holds layer names and the tool wrapper.

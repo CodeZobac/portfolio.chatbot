@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne } from "next/font/google";
 
+import { DESCRIPTION, SITE_URL, TITLE, jsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const syne = Syne({
@@ -19,27 +20,26 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Afonso Caboz - Full-Stack Solutions Architect",
-  description:
-    "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills. Chat with AI to explore my work in web development, mobile apps, and AI solutions.",
+  title: TITLE,
+  description: DESCRIPTION,
   keywords: [
-    "Full-Stack Developer",
-    "Solutions Architect",
-    "React",
+    "especialista em IA Algarve",
+    "programador full-stack Algarve",
+    "programador web Faro",
+    "criação de websites Faro",
+    "chatbot para empresas",
+    "AI engineer Portugal",
+    "Full-Stack Developer Faro",
     "Next.js",
     "TypeScript",
-    "Node.js",
-    "AI Development",
-    "Web Development",
-    "Mobile Development",
+    "LLM",
     "Afonso Caboz",
-    "Portfolio",
-    "Software Engineer",
   ],
   authors: [{ name: "Afonso Caboz" }],
   creator: "Afonso Caboz",
   publisher: "Afonso Caboz",
-  metadataBase: new URL("https://afonsocaboz.com"),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
@@ -53,26 +53,18 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://afonsocaboz.com",
+    locale: "pt_PT",
+    alternateLocale: ["en_US"],
+    url: SITE_URL,
     siteName: "Afonso Caboz Portfolio",
-    title: "Afonso Caboz - Full-Stack Solutions Architect",
-    description:
-      "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills. Chat with AI to explore my work.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Afonso Caboz - Full-Stack Solutions Architect",
-      },
-    ],
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: TITLE }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Afonso Caboz - Full-Stack Solutions Architect",
-    description:
-      "Interactive AI-powered portfolio showcasing full-stack development experience, projects, and technical skills.",
+    title: TITLE,
+    description: DESCRIPTION,
     images: ["/og-image.png"],
   },
   icons: {
@@ -88,42 +80,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Afonso Caboz",
-    jobTitle: "Full-Stack Solutions Architect",
-    description:
-      "Full-Stack Solutions Architect specializing in React, Next.js, TypeScript, and AI-powered applications. Experience in web development, mobile apps, and system architecture.",
-    url: "https://afonsocaboz.com",
-    sameAs: [
-      "https://www.linkedin.com/in/afonsocaboz",
-      "https://github.com/afonsocaboz",
-    ],
-    knowsAbout: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "Python",
-      "AI Development",
-      "Full-Stack Development",
-      "System Architecture",
-      "Web Development",
-      "Mobile Development",
-    ],
-    alumniOf: {
-      "@type": "EducationalOrganization",
-      name: "ETIC Algarve",
-    },
-  };
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className={`${syne.variable} antialiased`}>

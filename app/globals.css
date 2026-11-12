@@ -305,3 +305,8 @@ body {
         transition-duration: 0ms;
     }
 }
+
+/* About section is crawlable HTML; hide it for users once the chat has started. */
+[data-chat-started] #sobre-wrapper {
+    display: none;
+}

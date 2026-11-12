@@ -265,6 +265,12 @@ export default function PortfolioChat({
   );
   const handleSuggestedMessage = sendAndFollow;
 
+  // Hides the server-rendered About section (SEO copy) once the conversation starts; see globals.css.
+  const chatStarted = messages.length > 0;
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-chat-started", chatStarted);
+  }, [chatStarted]);
+
   useEffect(() => {
     if (!initialPrompt || showIntro || initialPromptSentRef.current) return;
 
