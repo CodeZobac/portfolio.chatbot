@@ -66,6 +66,7 @@ export interface Education {
   location: string;
   graduationYear: number;
   level: string;
+  logo?: string;
   description?: string;
   certifications?: string[];
 }

@@ -19,6 +19,7 @@ export const education: Education = {
   degree: "Web development technical degree",
   institution: "ETIC Algarve",
   location: "Faro, Portugal",
+  logo: "/resume/logos/etic-algarve.webp",
   graduationYear: 2025,
   level: "Professional Degree (Final grade: 18/20)",
   description:

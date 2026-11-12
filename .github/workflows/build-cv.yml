@@ -1,0 +1,65 @@
+name: Build CV PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cv.py
+      - requirements-cv.txt
+      - banner.jpg
+      - content/portfolio-content.json
+      - public/resume/logos/**
+      - .github/workflows/build-cv.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-cv
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-cv.txt
+
+      - name: Install WeasyPrint system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libpango-1.0-0 libpangoft2-1.0-0 fontconfig
+
+      - name: Install Python dependencies
+        run: pip install -r requirements-cv.txt
+
+      - name: Generate PDF
+        run: python cv.py
+
+      - name: Check PDF is 2 pages
+        run: |
+          pip install pypdf
+          python - <<'PY'
+          from pypdf import PdfReader
+          p = "public/resume/afonso-caboz-resume.pdf"
+          n = len(PdfReader(p).pages)
+          print(f"{p}: {n} pages")
+          raise SystemExit(0 if n == 2 else f"Expected 2 pages, got {n}")
+          PY
+
+      - name: Commit PDF
+        run: |
+          if git diff --quiet -- public/resume/afonso-caboz-resume.pdf; then
+            echo "PDF unchanged"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/resume/afonso-caboz-resume.pdf
+          git commit -m "chore(cv): regenerate resume PDF [skip ci]"
+          git push origin HEAD:main

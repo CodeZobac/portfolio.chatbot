@@ -11,7 +11,6 @@ Combines the simplicity of curriculo.md with the comprehensive info from cv.md.
 """
 
 import json
-import sys
 from html import escape
 from pathlib import Path
 
@@ -23,9 +22,12 @@ def create_html_cv():
     """Create the HTML content for the CV."""
 
     # Resolve banner image path for weasyprint file:// URI
-    base_path = Path(__file__).parent
+    base_path = Path(__file__).resolve().parent
     banner_path = base_path / "banner.jpg"
     banner_uri = banner_path.as_uri()
+    education_logos = base_path / "public" / "resume" / "logos"
+    etic_logo_uri = (education_logos / "etic-algarve.webp").as_uri()
+    teesside_logo_uri = (education_logos / "teesside.png").as_uri()
 
     portfolio_content = json.loads(
         (base_path / "content" / "portfolio-content.json").read_text(encoding="utf-8")
@@ -121,10 +123,17 @@ def create_html_cv():
             <!-- Education -->
             <section class="sidebar-section">
                 <h2 class="sidebar-title">EDUCATION</h2>
-                <h3 class="edu-degree">Web development technical degree</h3>
-                <p class="edu-school">ETIC Algarve</p>
-                <p class="edu-meta">2025 &bull; Final grade: 18/20</p>
-                <p class="edu-desc">An incubator for my evolution into a Solutions Architect. I applied engineering rigor to institutional challenges, culminating in the independent architecture and deployment of a resource management system still in active use. Recognized by the School Director as a professional-grade asset rather than a student assignment, this project transformed the institution's infrastructure, bridging the gap between academic study and production-ready utility.</p>
+                <div class="edu-entry">
+                    <img class="edu-logo" src="{teesside_logo_uri}" alt="Teesside University" />
+                    <h3 class="edu-degree">Bachelor in Software Engineering</h3>
+                    <p class="edu-school">Top up year</p>
+                    <p class="edu-meta">2026 to 2027 &bull; Ongoing</p>
+                </div>
+                <div class="edu-entry">
+                    <img class="edu-logo" src="{etic_logo_uri}" alt="ETIC_Algarve" />
+                    <h3 class="edu-degree">Web development technical degree</h3>
+                    <p class="edu-meta">2025 &bull; Final grade: 18/20</p>
+                </div>
             </section>
 
             <!-- Soft Skills -->
@@ -139,23 +148,22 @@ def create_html_cv():
         <main class="content">
             <!-- Professional Summary -->
             <p class="summary">
-                <strong>I engineer scalable, observable, and cost-optimized production environments for AI-driven applications.</strong>
+                <strong>I help teams make AI applications reliable, traceable, and economical to operate.</strong> My work addresses unreliable agent outputs, rising API costs, and software that has become difficult to maintain.
             </p>
             <p class="summary">
-                I make sense of technical complexity through <strong>associative memory and visual thinking.</strong> I connect new problems with familiar code patterns, past debugging experience, and technical documentation, then mentally map system components, dependencies, and data flows. This helps me identify <strong>potential failure points and compare architectural approaches</strong> before implementation, bringing clearer proposals to technical discussions and sharper questions to validation.
+                In <strong>FleetFlow,</strong> I combined Langfuse and LiteLLM observability with automated testing and LLM as a Judge evaluations to assess response quality, investigate failures, and control costs. At <strong>ETIC Algarve</strong>, I audited a struggling legacy system and delivered a rebuilt MVP, starting with a working prototype within 48 hours.
             </p>
             <p class="summary">
-                <strong>Methodology:</strong> A balance between <strong>Deep Research/UX Mapping</strong> and <strong>AI-Augmented Execution</strong> to guarantee architectural integrity with high-velocity deployment.
+                <strong>I make technical complexity easier to navigate.</strong> By mapping system dependencies and data flows, I identify potential failure points and compare architectural approaches before implementation. This gives teams clearer proposals and a concrete basis for technical decisions.
             </p>
             <p class="summary">
-                <strong>AI-Driven Development:</strong> I structure AI-assisted delivery through project-specific agent instructions and Serena MCP for codebase understanding and durable documentation. I select Codex for daily development and Claude Code for heavier requirements, then use pre-commit checks and CodeRabbit review as quality gates before changes move forward.<br/>
-                <strong>Objective:</strong> Transforming complex technical requirements into resilient, client-ready architectures.
+                <strong>I ground AI compliance in observable evidence.</strong> Using Langfuse, I trace prompts, context, tool interactions, and outputs to make agent behaviour inspectable. Combined with systematic evaluation, these records support traceability, risk assessment, and human oversight.
             </p>
             <p class="summary">
-                <strong>Spiritual growth</strong> is an important part of my personal development. I practise <strong>Reiki</strong> and draw on <strong>Ayurvedic principles</strong> to guide my dietary choices.
+                I work with <strong>Python, Next.js, TypeScript, and Rust</strong>, connecting AI orchestration, backend services, and user interfaces into applications teams can operate and maintain.
             </p>
             <p class="summary">
-                <strong>Time in nature</strong> brings balance to everyday city life, with <strong>sea swimming</strong> as my preferred form of exercise. I also practise <strong>martial arts</strong>, making space for both physical discipline and reflection.
+                <strong>My personal development centres on awareness, reflection, and deliberate practice.</strong> Spiritual growth is part of that process: I practise Reiki and use Ayurvedic principles to guide my dietary choices. These practices give me space to examine my habits and bring greater intention to how I live, learn, and relate to others.
             </p>
 
             <!-- Selected Projects -->
@@ -481,12 +489,22 @@ body {
     color: #888;
 }
 
-.edu-desc {
-    font-size: 6.5pt;
-    font-weight: 700;
-    color: #555;
-    line-height: 1.45;
-    margin-top: 0.12cm;
+.edu-entry {
+    break-inside: avoid;
+    margin-bottom: 0.3cm;
+}
+
+.edu-entry:last-child {
+    margin-bottom: 0;
+}
+
+.edu-logo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 3.4cm;
+    max-height: 0.85cm;
+    margin-bottom: 0.16cm;
 }
 
 .soft-skills-section {
@@ -760,15 +778,19 @@ def generate_pdf():
     css = CSS(string=css_content, font_config=font_config)
 
     # Generate PDF
-    # Optional CLI arg: explicit output path (used by scripts/build-cv.sh).
-    if len(sys.argv) > 1:
-        output_path = Path(sys.argv[1])
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-    else:
-        output_dir = Path.home() / "Documents"
-        output_dir.mkdir(parents=True, exist_ok=True)
-        output_path = output_dir / "Afonso_Caboz_CV.pdf"
-    html.write_pdf(target=str(output_path), stylesheets=[css], font_config=font_config)
+    output_dir = Path(__file__).resolve().parent / "public" / "resume"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / "afonso-caboz-resume.pdf"
+    pdf_bytes = html.write_pdf(stylesheets=[css], font_config=font_config)
+    export_paths = dict.fromkeys([
+        output_path,
+        Path.cwd() / "Afonso_Caboz_CV.pdf",
+        Path.home() / "Documents" / "Afonso_Caboz_CV.pdf",
+    ])
+    for export_path in export_paths:
+        export_path.parent.mkdir(parents=True, exist_ok=True)
+        export_path.write_bytes(pdf_bytes)
+        print(f"✅ PDF saved: {export_path}")
 
     print(f"✅ PDF generated successfully: {output_path}")
     print(f"📄 File size: {output_path.stat().st_size / 1024:.1f} KB")
