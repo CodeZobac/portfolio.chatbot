@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -16,11 +16,15 @@ import {
   Trash2,
   Undo2,
   Wrench,
+  Eye,
+  Pencil,
 } from "lucide-react";
 import { portfolioContentSchema } from "@/lib/content/schema";
 import { parseYouTubeId, youtubeUrl } from "@/lib/content/youtube";
 import type { Experience, PortfolioContent, Project, Skill } from "@/lib/types";
 import type { MediaUpload } from "@/lib/admin/github";
+import { buildPreviewContent, diffContent, orderChanged } from "@/lib/admin/draft";
+import { PreviewPane, ReviewDialog } from "./AdminPreview";
 
 type Section = "skills" | "projects" | "experiences";
 type Status = { tone: "error" | "success" | "neutral"; message: string; href?: string } | null;
@@ -108,6 +112,8 @@ function Dashboard() {
   const [status, setStatus] = useState<Status>(null);
   const [undo, setUndo] = useState<{ section: Section; index: number; record: Skill | Project | Experience } | null>(null);
   const [draftRecovered, setDraftRecovered] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
+  const [pane, setPane] = useState<"edit" | "preview">("edit");
 
   const load = useCallback(async () => {
     setLoading(true); setStatus(null);
@@ -145,6 +151,8 @@ function Dashboard() {
   });
   const selected = records.find((record) => record.id === selectedId);
   const dirty = !!content && !!published && (!same(content, published) || uploads.length > 0);
+
+  const previewContent = useMemo(() => (content ? buildPreviewContent(content, uploads) : null), [content, uploads]);
 
   function switchSection(next: Section) {
     setSection(next); setQuery("");
@@ -210,10 +218,11 @@ function Dashboard() {
       const result = await requestJson<{ commitSha: string; commitUrl: string }>("/api/admin/publish", {
         method: "POST", body: JSON.stringify({ content: parsed.data, baseCommitSha, uploads }),
       });
-      setBaseCommitSha(result.commitSha); setPublished(clone(parsed.data) as PortfolioContent); setUploads([]);
+      setBaseCommitSha(result.commitSha); setPublished(clone(parsed.data) as PortfolioContent); setUploads([]); setReviewing(false);
       localStorage.removeItem(DRAFT_KEY); setDraftRecovered(false);
       setStatus({ tone: "success", message: "Published to GitHub. Vercel is rebuilding the portfolio.", href: result.commitUrl });
     } catch (reason) {
+      setReviewing(false);
       setStatus({ tone: "error", message: reason instanceof Error ? reason.message : "Publishing failed." });
     } finally { setPublishing(false); }
   }
@@ -251,7 +260,12 @@ function Dashboard() {
         </div>
       )}
 
-      <div className="admin-workbench">
+      <div className="admin-pane-toggle" role="group" aria-label="Editor or preview">
+        <button className={pane === "edit" ? "is-active" : ""} onClick={() => setPane("edit")}><Pencil size={16} /> Edit</button>
+        <button className={pane === "preview" ? "is-active" : ""} onClick={() => setPane("preview")}><Eye size={16} /> Preview</button>
+      </div>
+
+      <div className="admin-workbench" data-pane={pane}>
         <aside className="admin-index">
           <div className="admin-index-tools">
             <label className="admin-search"><Search size={17} /><span className="sr-only">Search records</span>
@@ -285,17 +299,27 @@ function Dashboard() {
             {section === "experiences" && <ExperienceEditor experience={selected as Experience} onChange={updateRecord} />}
           </> : <div className="admin-empty editor"><p>This section has no records.</p><button onClick={addRecord}>Add a record</button></div>}
         </section>
+
+        <section className="admin-preview" aria-label="Live preview">
+          <div className="admin-preview-label"><Eye size={15} /> Live preview · unpublished draft</div>
+          {previewContent && <PreviewPane section={section} content={previewContent} />}
+        </section>
       </div>
 
       <footer className="admin-publish-bar">
         <div><strong>{dirty ? "Changes are saved as a browser draft." : "Published content is loaded."}</strong><span>Publishing commits content and managed images to {baseCommitSha.slice(0, 7)}.</span></div>
         <div>
           <button className="admin-button" disabled={!dirty || publishing} onClick={() => { setContent(clone(published)); setUploads([]); localStorage.removeItem(DRAFT_KEY); }}><RefreshCcw size={16} /> Reset</button>
-          <button className="admin-button admin-button-primary" disabled={!dirty || publishing} onClick={publish} data-loading={publishing}>
-            {publishing ? <><Spinner /> Publishing…</> : <><Save size={17} /> Publish</>}
+          <button className="admin-button admin-button-primary" disabled={!dirty || publishing} onClick={() => setReviewing(true)}>
+            <Save size={17} /> Review &amp; publish
           </button>
         </div>
       </footer>
+
+      {reviewing && content && published && (
+        <ReviewDialog diff={diffContent(published, content)} orderChanged={orderChanged(published, content)} newImages={uploads.length}
+          publishing={publishing} onConfirm={publish} onClose={() => setReviewing(false)} />
+      )}
 
       {undo && <div className="admin-undo" role="status"><span>Record removed from this draft.</span><button onClick={restoreDeleted}><Undo2 size={16} /> Undo</button></div>}
     </main>

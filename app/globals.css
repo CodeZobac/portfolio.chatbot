@@ -7,11 +7,6 @@
     --background: #ffffff;
     --foreground: #1c1917; /* Stone 900 */
 
-    /* Warm Amber/Gold Palette */
-    --color-primary: #e8a838; /* Warm Amber/Gold */
-    --color-secondary: #f97316; /* Orange 500 */
-    --color-accent: #ef4444; /* Red 400 */
-
     /* Animata spring easing */
     --ease-minor-spring: cubic-bezier(0.18, 0.89, 0.82, 1.04);
 }

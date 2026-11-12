@@ -159,3 +159,56 @@
 @media (prefers-reduced-motion: reduce) {
   .admin-shell *, .admin-shell *::before, .admin-shell *::after { animation-duration: 150ms !important; animation-iteration-count: 1 !important; transition-duration: 150ms !important; }
 }
+
+/* Amber pass: warm the workbench to match the chat app */
+.admin-shell,
+.admin-login-shell,
+.admin-loading { background: linear-gradient(180deg, color-mix(in oklch, var(--color-sun-surface) 14%, var(--color-paper)) 0, var(--color-paper) 22rem); }
+.admin-header { background: linear-gradient(90deg, color-mix(in oklch, var(--color-sun-surface) 32%, var(--color-paper)), var(--color-paper)); border-block-end-color: var(--color-accent); }
+.admin-header h1 { background: linear-gradient(90deg, var(--color-accent-strong), var(--color-accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.admin-tabs button.is-active { border-color: var(--color-accent); background: color-mix(in oklch, var(--color-sun-surface) 35%, var(--color-paper)); }
+.admin-tabs button.is-active strong { background: var(--color-accent); color: var(--color-accent-ink); }
+.admin-index { background: color-mix(in oklch, var(--color-sun-surface) 10%, var(--color-paper-2)); }
+.admin-records > button.is-active { border-color: var(--color-accent); background: color-mix(in oklch, var(--color-sun-surface) 22%, var(--color-paper)); }
+.admin-button-primary { background: linear-gradient(135deg, var(--color-sun-surface), var(--color-accent)); }
+.admin-publish-bar { background: color-mix(in oklch, var(--color-sun-surface) 14%, var(--color-paper)); border-block-start-color: var(--color-accent); }
+.admin-login-panel { border-block-start-width: 6px; }
+
+/* Preview pane: stacked below 80rem behind the Edit/Preview toggle, third column above */
+.admin-pane-toggle { display: flex; gap: var(--space-2xs); padding: var(--space-sm) clamp(var(--space-md), 4vw, var(--space-xl)); }
+.admin-pane-toggle button { min-height: 44px; display: inline-flex; align-items: center; gap: var(--space-xs); border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-md); background: var(--color-paper); color: var(--color-muted); font: inherit; cursor: pointer; }
+.admin-pane-toggle button.is-active { border-color: var(--color-accent); background: color-mix(in oklch, var(--color-sun-surface) 35%, var(--color-paper)); color: var(--color-ink); }
+.admin-pane-toggle button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.admin-preview { min-width: 0; padding: var(--space-lg) clamp(var(--space-md), 4vw, var(--space-xl)); background: color-mix(in oklch, var(--color-sun-surface) 8%, var(--color-paper)); }
+.admin-preview-label { display: flex; align-items: center; gap: var(--space-xs); margin-block-end: var(--space-md); color: var(--color-accent-strong); font: 700 var(--text-xs)/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.admin-preview-body { min-width: 0; }
+.admin-workbench[data-pane="edit"] .admin-preview,
+.admin-workbench[data-pane="preview"] .admin-index,
+.admin-workbench[data-pane="preview"] .admin-editor { display: none; }
+
+.admin-review-backdrop { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: var(--space-md); background: color-mix(in oklch, var(--color-ink) 55%, transparent); }
+.admin-review { width: min(100%, 36rem); max-height: 85dvh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; border: var(--rule-thin) solid var(--color-accent); border-radius: var(--radius-md, var(--radius-sm)); background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); }
+.admin-review header,
+.admin-review footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: var(--space-md); }
+.admin-review header { border-block-end: var(--rule-thin) solid var(--color-rule); }
+.admin-review footer { justify-content: flex-end; border-block-start: var(--rule-thin) solid var(--color-rule); }
+.admin-review h2 { margin: 0; font: 800 var(--text-lg, 1.25rem)/1.2 var(--font-display); }
+.admin-review ul { margin: 0; padding: var(--space-sm) var(--space-md); list-style: none; overflow-y: auto; }
+.admin-review li { display: flex; align-items: baseline; gap: var(--space-sm); padding-block: var(--space-xs); border-block-end: var(--rule-thin) solid var(--color-rule); }
+.admin-review li span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.admin-review li small { color: var(--color-neutral); }
+.admin-review li b { min-width: 5rem; font: 700 var(--text-xs)/1 var(--font-mono); text-transform: uppercase; color: var(--color-accent-strong); }
+.admin-review li b[data-tag="Removed"] { color: var(--color-error); }
+.admin-review li b[data-tag="Added"] { color: var(--color-success); }
+.admin-review .admin-button:focus-visible,
+.admin-review .admin-icon-button:focus-visible { outline-color: var(--color-focus); }
+
+@media (min-width: 80rem) {
+  .admin-pane-toggle { display: none; }
+  .admin-workbench,
+  .admin-workbench[data-pane] { grid-template-columns: minmax(17rem, 20rem) minmax(0, 1fr) minmax(0, 1fr); }
+  .admin-workbench[data-pane] .admin-preview,
+  .admin-workbench[data-pane] .admin-index,
+  .admin-workbench[data-pane] .admin-editor { display: block; }
+  .admin-preview { border-inline-start: var(--rule-thin) solid var(--color-rule); overflow-y: auto; max-height: calc(100dvh - 10rem); position: sticky; top: 0; }
+}

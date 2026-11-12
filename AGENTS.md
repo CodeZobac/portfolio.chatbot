@@ -42,7 +42,7 @@ Treat portfolio facts as user-owned data. Do not invent experience, metrics, lin
 3. Tool results use the discriminated unions in `lib/types.ts`.
 4. `ToolOutputRenderer` maps those results to pre-built portfolio components.
 5. Portfolio data is loaded from the validated JSON content layer; tool-facing skills deliberately omit arbitrary proficiency percentages.
-6. The admin workbench validates edits and publishes the content file plus approved project media to the configured GitHub branch.
+6. The admin workbench validates edits and publishes the content file plus approved project media to the configured GitHub branch. Publishing is preview-first: the workbench renders the draft with the real portfolio cards (`lib/admin/draft.ts`, `app/admin/AdminPreview.tsx`) and Publish only runs from the review dialog after the owner confirms the change summary.
 
 ## Environment
 
